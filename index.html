@@ -1,0 +1,2181 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Atelier — Interior Design Studio</title>
+
+  <!-- Elegant title font + clean interface font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+
+    :root {
+      --black: #242220;
+      --gray: #77736d;
+      --light-gray: #e9e7e3;
+      --very-light: #f8f7f5;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: var(--black);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    /* --------------------------------
+       TYPOGRAPHY
+    -------------------------------- */
+
+    h1,
+    h2,
+    h3,
+    .elegant-title {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+    }
+
+    /* --------------------------------
+       MAIN PAGE
+    -------------------------------- */
+
+    #main-view {
+      min-height: 100vh;
+      background: #ffffff;
+    }
+
+    .main-header {
+      text-align: center;
+      padding-top: 70px;
+      margin-bottom: 45px;
+    }
+
+    .logo {
+      font-family: "DM Sans", sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #242220;
+      margin-bottom: 24px;
+    }
+
+    .main-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(48px, 7vw, 72px);
+      line-height: 0.95;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      margin: 0;
+    }
+
+    .main-subtitle {
+      margin-top: 13px;
+      font-size: 13px;
+      color: var(--gray);
+      letter-spacing: 0.04em;
+    }
+
+    /* --------------------------------
+       NEW PROJECT BUTTON
+    -------------------------------- */
+
+    .new-project-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 55px;
+    }
+
+    .new-project-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+
+      background: #242220;
+      color: white;
+
+      border: none;
+      border-radius: 999px;
+
+      padding: 14px 27px;
+
+      font-size: 13px;
+      font-weight: 500;
+
+      transition: all .2s ease;
+    }
+
+    .new-project-button:hover {
+      background: #3c3935;
+      transform: translateY(-1px);
+    }
+
+    /* --------------------------------
+       ADD PROJECT FORM
+    -------------------------------- */
+
+    .add-project-form {
+      max-width: 420px;
+      margin: 0 auto 45px;
+    }
+
+    .add-project-form input {
+      width: 100%;
+      border: 1px solid var(--light-gray);
+      border-radius: 10px;
+      padding: 13px 15px;
+      outline: none;
+      font-size: 13px;
+      background: white;
+    }
+
+    .add-project-form input:focus {
+      border-color: #aaa69f;
+    }
+
+    /* --------------------------------
+       PROJECT GRID
+    -------------------------------- */
+
+    #projects-grid {
+      padding-bottom: 100px;
+    }
+
+    .project-card {
+      position: relative;
+      background: white;
+      border: 1px solid var(--light-gray);
+      border-radius: 15px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+
+    .project-card:hover {
+      border-color: #d0cdc7;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0,0,0,.06);
+    }
+
+    .project-cover {
+      width: 100%;
+      height: 230px;
+      background: #f3f2ef;
+      overflow: hidden;
+    }
+
+    .project-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease;
+    }
+
+    .project-card:hover .project-cover img {
+      transform: scale(1.03);
+    }
+
+    .project-card-content {
+      padding: 20px;
+    }
+
+    .project-card-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 25px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .project-card-info {
+      color: #88847d;
+      font-size: 12px;
+    }
+
+    .project-card-status {
+      display: inline-block;
+      margin-top: 13px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #f4f2ef;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #6e6a64;
+    }
+
+    /* --------------------------------
+       DETAIL VIEW
+    -------------------------------- */
+
+    #detail-view {
+      min-height: 100vh;
+      background: white;
+    }
+
+    .detail-header {
+      padding: 35px 0 45px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #77736d;
+      font-size: 12px;
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin-bottom: 30px;
+    }
+
+    .back-button:hover {
+      color: #242220;
+    }
+
+    .detail-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(42px, 6vw, 64px);
+      line-height: 1;
+      margin: 0;
+    }
+
+    .detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      margin-top: 17px;
+      color: #817d76;
+      font-size: 12px;
+    }
+
+    .detail-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 28px;
+    }
+
+    .action-button {
+      border: 1px solid var(--light-gray);
+      background: white;
+      border-radius: 999px;
+      padding: 9px 15px;
+      font-size: 12px;
+      color: #44413d;
+      transition: .2s;
+    }
+
+    .action-button:hover {
+      background: #f7f6f3;
+    }
+
+    .action-button.dark {
+      background: #242220;
+      color: white;
+      border-color: #242220;
+    }
+
+    /* --------------------------------
+       SECTION
+    -------------------------------- */
+
+    .project-section {
+      padding: 60px 0;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .section-number {
+      font-size: 10px;
+      color: #99958e;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 34px;
+      margin: 0 0 22px;
+    }
+
+    .section-description {
+      color: #77736d;
+      font-size: 13px;
+      line-height: 1.8;
+      max-width: 700px;
+    }
+
+    /* --------------------------------
+       ADD CONTENT
+    -------------------------------- */
+
+    .add-content-button {
+      width: 58px;
+      height: 58px;
+      border-radius: 14px;
+      border: 1px dashed #c9c6c0;
+      background: white;
+      color: #85817a;
+      font-size: 26px;
+      font-weight: 300;
+      transition: .2s;
+    }
+
+    .add-content-button:hover {
+      border-color: #77736d;
+      color: #242220;
+      background: #faf9f7;
+    }
+
+    /* --------------------------------
+       IMAGE GRID
+    -------------------------------- */
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .photo-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5f4f1;
+      aspect-ratio: 1;
+      cursor: pointer;
+    }
+
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-item:hover img {
+      transform: scale(1.04);
+    }
+
+    .photo-item img {
+      transition: transform .3s ease;
+    }
+
+    .remove-photo {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+
+      width: 25px;
+      height: 25px;
+
+      border-radius: 50%;
+      border: none;
+
+      background: rgba(20,20,20,.75);
+      color: white;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 12px;
+    }
+
+    .photo-item:hover .remove-photo {
+      display: flex;
+    }
+
+    /* --------------------------------
+       PALETTE
+    -------------------------------- */
+
+    .palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .color-item {
+      text-align: center;
+      width: 85px;
+    }
+
+    .color-circle {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,.08);
+    }
+
+    .color-name {
+      font-size: 11px;
+      color: #5f5b55;
+    }
+
+    .color-code {
+      font-size: 9px;
+      color: #aaa69f;
+      margin-top: 3px;
+    }
+
+    /* --------------------------------
+       MATERIAL CARDS
+    -------------------------------- */
+
+    .material-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .material-card {
+      border: 1px solid var(--light-gray);
+      border-radius: 14px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .material-image {
+      height: 180px;
+      background: #f3f2ef;
+    }
+
+    .material-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .material-content {
+      padding: 15px;
+    }
+
+    .material-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 21px;
+    }
+
+    .material-info {
+      color: #89857e;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    /* --------------------------------
+       MODAL
+    -------------------------------- */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(25,23,21,.45);
+
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(560px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+
+      background: white;
+      border-radius: 18px;
+
+      padding: 28px;
+
+      box-shadow: 0 25px 80px rgba(0,0,0,.15);
+    }
+
+    .modal-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 31px;
+      margin-bottom: 22px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #85817a;
+      margin-bottom: 7px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      border: 1px solid var(--light-gray);
+      border-radius: 9px;
+      padding: 11px 12px;
+      font-size: 13px;
+      outline: none;
+      background: white;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #aaa69f;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    /* --------------------------------
+       TOAST
+    -------------------------------- */
+
+    #toast {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+
+      background: #242220;
+      color: white;
+
+      padding: 11px 17px;
+      border-radius: 999px;
+
+      font-size: 12px;
+
+      opacity: 0;
+      transform: translateY(10px);
+
+      pointer-events: none;
+
+      transition: .25s;
+
+      z-index: 200;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --------------------------------
+       MOBILE
+    -------------------------------- */
+
+    @media(max-width: 700px) {
+
+      .main-header {
+        padding-top: 45px;
+      }
+
+      .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .material-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-meta {
+        gap: 12px;
+      }
+
+      .project-section {
+        padding: 45px 0;
+      }
+
+      .project-cover {
+        height: 210px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<div id="main-view">
+
+  <main class="max-w-5xl mx-auto px-6">
+
+    <header class="main-header">
+
+      <div class="logo">
+        ATELIER
+      </div>
+
+      <h1 class="main-title">
+        My Projects
+      </h1>
+
+      <p class="main-subtitle">
+        Interior Design Studio
+      </p>
+
+    </header>
+
+    <div class="new-project-wrapper">
+
+      <button
+        class="new-project-button"
+        onclick="showAddProject()"
+      >
+        <span style="font-size:18px;">+</span>
+        New Project
+      </button>
+
+    </div>
+
+    <div
+      id="add-project-form"
+      class="add-project-form hidden"
+    >
+
+      <div class="flex gap-2">
+
+        <input
+          id="new-project-name"
+          type="text"
+          placeholder="Nume proiect..."
+          onkeydown="if(event.key==='Enter') createProject()"
+        >
+
+        <button
+          onclick="createProject()"
+          class="action-button dark"
+        >
+          Create
+        </button>
+
+        <button
+          onclick="hideAddProject()"
+          class="action-button"
+        >
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+
+    <div
+      id="projects-grid"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 pb-24"
+    ></div>
+
+  </main>
+
+</div>
+
+
+<!-- =====================================================
+     DETAIL / PROJECT EDITOR
+===================================================== -->
+
+<div
+  id="detail-view"
+  class="hidden"
+>
+
+  <main class="max-w-5xl mx-auto px-6">
+
+    <header class="detail-header">
+
+      <button
+        onclick="goBack()"
+        class="back-button"
+      >
+        <i data-lucide="arrow-left"></i>
+        Back to projects
+      </button>
+
+      <h1
+        id="detail-project-name"
+        class="detail-title"
+      ></h1>
+
+      <div
+        id="detail-meta"
+        class="detail-meta"
+      ></div>
+
+      <div class="detail-actions">
+
+        <button
+          onclick="saveLocal()"
+          class="action-button"
+        >
+          Save
+        </button>
+
+        <button
+          onclick="openProjectEdit()"
+          class="action-button"
+        >
+          Edit Project
+        </button>
+
+        <button
+          onclick="previewClient()"
+          class="action-button"
+        >
+          Preview Client
+        </button>
+
+        <button
+          onclick="exportHTML()"
+          class="action-button dark"
+        >
+          Export Interactive HTML
+        </button>
+
+        <button
+          onclick="exportJSON()"
+          class="action-button"
+        >
+          Export JSON
+        </button>
+
+      </div>
+
+    </header>
+
+    <div
+      id="sections-container"
+    ></div>
+
+  </main>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+  id="modal"
+  class="modal"
+  onclick="closeModalOutside(event)"
+>
+
+  <div
+    id="modal-box"
+    class="modal-box"
+  ></div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+  /* =====================================================
+     PROJECT STRUCTURE
+  ===================================================== */
+
+  const STORAGE_KEY = "atelier-interior-projects";
+
+  const SECTION_TYPES = [
+    "Moodboard",
+    "Sketch",
+    "Reference",
+    "Texture",
+    "Palette Color",
+    "Materials",
+    "Furniture",
+    "Dimensions",
+    "Lighting",
+    "Technical Drawings",
+    "Notes"
+  ];
+
+  let projects =
+    JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+  let currentProject = null;
+
+
+  /* =====================================================
+     DEMO PROJECT
+  ===================================================== */
+
+  if (projects.length === 0) {
+
+    projects.push({
+
+      id: Date.now(),
+
+      name: "Apartment Popescu",
+
+      client: "Andreea & Mihai Popescu",
+
+      location: "Timișoara, Romania",
+
+      area: "78 m²",
+
+      type: "Apartment Renovation",
+
+      status: "Concept",
+
+      description:
+        "Warm contemporary apartment with natural materials, soft neutral tones and custom furniture.",
+
+      cover:
+        "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85",
+
+      sections: {
+
+        "Moodboard": [
+          "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=85",
+          "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=85"
+        ],
+
+        "Sketch": [],
+
+        "Reference": [
+          "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85"
+        ],
+
+        "Texture": [
+          "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=85"
+        ],
+
+        "Palette Color": [],
+
+        "Materials": [
+          "https://images.unsplash.com/photo-1615529162924-f8605388461d?auto=format&fit=crop&w=1000&q=85"
+        ],
+
+        "Furniture": [
+          "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=85"
+        ],
+
+        "Dimensions": [],
+
+        "Lighting": [],
+
+        "Technical Drawings": [],
+
+        "Notes": []
+
+      }
+
+    });
+
+    saveLocalStorage();
+
+  }
+
+
+  /* =====================================================
+     STORAGE
+  ===================================================== */
+
+  function saveLocalStorage() {
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(projects)
+    );
+
+  }
+
+
+  function saveLocal() {
+
+    saveLocalStorage();
+
+    showToast("Project saved ✓");
+
+  }
+
+
+  /* =====================================================
+     HOME
+  ===================================================== */
+
+  function renderProjects() {
+
+    const grid =
+      document.getElementById("projects-grid");
+
+    grid.innerHTML = "";
+
+    projects.forEach((project, index) => {
+
+      const card =
+        document.createElement("article");
+
+      card.className = "project-card";
+
+      card.onclick = () =>
+        openProject(index);
+
+      const totalImages =
+        Object.values(project.sections || {})
+          .reduce(
+            (total, arr) =>
+              total + arr.length,
+            0
+          );
+
+      card.innerHTML = `
+
+        <div class="project-cover">
+
+          <img
+            src="${project.cover || placeholderImage()}"
+            alt="${escapeHTML(project.name)}"
+          >
+
+        </div>
+
+        <div class="project-card-content">
+
+          <div class="project-card-title">
+            ${escapeHTML(project.name)}
+          </div>
+
+          <div class="project-card-info">
+            ${escapeHTML(project.client || "Client")}
+          </div>
+
+          <div class="project-card-info">
+            ${escapeHTML(project.location || "")}
+            ${project.area ? " · " + escapeHTML(project.area) : ""}
+          </div>
+
+          <div class="project-card-status">
+            ${escapeHTML(project.status || "Concept")}
+          </div>
+
+        </div>
+
+      `;
+
+      grid.appendChild(card);
+
+    });
+
+  }
+
+
+  /* =====================================================
+     NEW PROJECT
+  ===================================================== */
+
+  function showAddProject() {
+
+    document
+      .getElementById("add-project-form")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("new-project-name")
+      .focus();
+
+  }
+
+
+  function hideAddProject() {
+
+    document
+      .getElementById("add-project-form")
+      .classList.add("hidden");
+
+  }
+
+
+  function createProject() {
+
+    const input =
+      document.getElementById("new-project-name");
+
+    const name =
+      input.value.trim();
+
+    if (!name) return;
+
+    const sections = {};
+
+    SECTION_TYPES.forEach(section => {
+
+      sections[section] = [];
+
+    });
+
+    projects.push({
+
+      id: Date.now(),
+
+      name,
+
+      client: "",
+
+      location: "",
+
+      area: "",
+
+      type: "Interior Design",
+
+      status: "Concept",
+
+      description: "",
+
+      cover: "",
+
+      sections
+
+    });
+
+    saveLocalStorage();
+
+    input.value = "";
+
+    hideAddProject();
+
+    renderProjects();
+
+  }
+
+
+  /* =====================================================
+     OPEN PROJECT
+  ===================================================== */
+
+  function openProject(index) {
+
+    currentProject = index;
+
+    const project =
+      projects[index];
+
+    document
+      .getElementById("main-view")
+      .classList.add("hidden");
+
+    document
+      .getElementById("detail-view")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("detail-project-name")
+      .textContent =
+      project.name;
+
+    document
+      .getElementById("detail-meta")
+      .innerHTML = `
+
+        <span>
+          ${escapeHTML(project.client || "No client")}
+        </span>
+
+        <span>
+          ${escapeHTML(project.location || "No location")}
+        </span>
+
+        <span>
+          ${escapeHTML(project.area || "No area")}
+        </span>
+
+        <span>
+          ${escapeHTML(project.status || "Concept")}
+        </span>
+
+      `;
+
+    renderSections();
+
+    window.scrollTo(0, 0);
+
+    lucide.createIcons();
+
+  }
+
+
+  function goBack() {
+
+    document
+      .getElementById("detail-view")
+      .classList.add("hidden");
+
+    document
+      .getElementById("main-view")
+      .classList.remove("hidden");
+
+    currentProject = null;
+
+    renderProjects();
+
+    window.scrollTo(0, 0);
+
+  }
+
+
+  /* =====================================================
+     PROJECT SECTIONS
+  ===================================================== */
+
+  function renderSections() {
+
+    const container =
+      document.getElementById("sections-container");
+
+    container.innerHTML = "";
+
+    const project =
+      projects[currentProject];
+
+    SECTION_TYPES.forEach((section, index) => {
+
+      const sectionElement =
+        document.createElement("section");
+
+      sectionElement.className =
+        "project-section";
+
+      const images =
+        project.sections[section] || [];
+
+      sectionElement.innerHTML = `
+
+        <div class="section-number">
+          ${String(index + 1).padStart(2, "0")} /
+          ${section}
+        </div>
+
+        <h2 class="section-title">
+          ${section}
+        </h2>
+
+        <div
+          class="photo-grid"
+          id="grid-${index}"
+        >
+
+          ${
+            images.map((image, imageIndex) => `
+
+              <div
+                class="photo-item"
+                onclick="openImage('${escapeAttribute(image)}')"
+              >
+
+                <img
+                  src="${escapeAttribute(image)}"
+                  alt="${escapeAttribute(section)}"
+                >
+
+                <button
+                  class="remove-photo"
+                  onclick="event.stopPropagation(); removePhoto(${index}, ${imageIndex})"
+                >
+                  ×
+                </button>
+
+              </div>
+
+            `).join("")
+          }
+
+        </div>
+
+        <div>
+
+          <button
+            class="add-content-button"
+            onclick="openAddContent(${index})"
+            title="Add content"
+          >
+            +
+          </button>
+
+        </div>
+
+      `;
+
+      container.appendChild(sectionElement);
+
+    });
+
+  }
+
+
+  /* =====================================================
+     ADD IMAGE / CONTENT
+  ===================================================== */
+
+  function openAddContent(sectionIndex) {
+
+    const section =
+      SECTION_TYPES[sectionIndex];
+
+    document
+      .getElementById("modal-box")
+      .innerHTML = `
+
+        <div class="modal-title">
+          Add to ${section}
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Image URL
+          </label>
+
+          <input
+            id="content-url"
+            type="text"
+            placeholder="https://..."
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Or choose an image
+          </label>
+
+          <input
+            id="content-file"
+            type="file"
+            accept="image/*"
+          >
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button
+            onclick="closeModal()"
+            class="action-button"
+          >
+            Cancel
+          </button>
+
+          <button
+            onclick="addContent(${sectionIndex})"
+            class="action-button dark"
+          >
+            Add
+          </button>
+
+        </div>
+
+      `;
+
+    document
+      .getElementById("modal")
+      .classList.add("active");
+
+  }
+
+
+  function addContent(sectionIndex) {
+
+    const url =
+      document
+        .getElementById("content-url")
+        .value
+        .trim();
+
+    const file =
+      document
+        .getElementById("content-file")
+        .files[0];
+
+    if (file) {
+
+      const reader =
+        new FileReader();
+
+      reader.onload = function(event) {
+
+        projects[currentProject]
+          .sections[SECTION_TYPES[sectionIndex]]
+          .push(event.target.result);
+
+        saveLocalStorage();
+
+        closeModal();
+
+        renderSections();
+
+        showToast("Image added ✓");
+
+      };
+
+      reader.readAsDataURL(file);
+
+      return;
+
+    }
+
+    if (url) {
+
+      projects[currentProject]
+        .sections[SECTION_TYPES[sectionIndex]]
+        .push(url);
+
+      saveLocalStorage();
+
+      closeModal();
+
+      renderSections();
+
+      showToast("Image added ✓");
+
+    }
+
+  }
+
+
+  function removePhoto(sectionIndex, imageIndex) {
+
+    const section =
+      SECTION_TYPES[sectionIndex];
+
+    projects[currentProject]
+      .sections[section]
+      .splice(imageIndex, 1);
+
+    saveLocalStorage();
+
+    renderSections();
+
+  }
+
+
+  /* =====================================================
+     EDIT PROJECT
+  ===================================================== */
+
+  function openProjectEdit() {
+
+    const p =
+      projects[currentProject];
+
+    document
+      .getElementById("modal-box")
+      .innerHTML = `
+
+        <div class="modal-title">
+          Edit Project
+        </div>
+
+        ${formField("Project name", "edit-name", p.name)}
+
+        ${formField("Client", "edit-client", p.client)}
+
+        ${formField("Location", "edit-location", p.location)}
+
+        ${formField("Surface", "edit-area", p.area)}
+
+        ${formField("Project type", "edit-type", p.type)}
+
+        ${formField("Status", "edit-status", p.status)}
+
+        ${formField("Cover image URL", "edit-cover", p.cover)}
+
+        <div class="form-group">
+
+          <label>
+            Description
+          </label>
+
+          <textarea
+            id="edit-description"
+          >${escapeHTML(p.description || "")}</textarea>
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button
+            onclick="closeModal()"
+            class="action-button"
+          >
+            Cancel
+          </button>
+
+          <button
+            onclick="saveProjectEdit()"
+            class="action-button dark"
+          >
+            Save
+          </button>
+
+        </div>
+
+      `;
+
+    document
+      .getElementById("modal")
+      .classList.add("active");
+
+  }
+
+
+  function formField(label, id, value) {
+
+    return `
+
+      <div class="form-group">
+
+        <label>${label}</label>
+
+        <input
+          id="${id}"
+          value="${escapeAttribute(value || "")}"
+        >
+
+      </div>
+
+    `;
+
+  }
+
+
+  function saveProjectEdit() {
+
+    const p =
+      projects[currentProject];
+
+    p.name =
+      document.getElementById("edit-name").value;
+
+    p.client =
+      document.getElementById("edit-client").value;
+
+    p.location =
+      document.getElementById("edit-location").value;
+
+    p.area =
+      document.getElementById("edit-area").value;
+
+    p.type =
+      document.getElementById("edit-type").value;
+
+    p.status =
+      document.getElementById("edit-status").value;
+
+    p.cover =
+      document.getElementById("edit-cover").value;
+
+    p.description =
+      document.getElementById("edit-description").value;
+
+    saveLocalStorage();
+
+    closeModal();
+
+    openProject(currentProject);
+
+    showToast("Project updated ✓");
+
+  }
+
+
+  /* =====================================================
+     CLIENT PREVIEW
+  ===================================================== */
+
+  function previewClient() {
+
+    const p =
+      projects[currentProject];
+
+    const html =
+      createClientHTML(p);
+
+    const win =
+      window.open();
+
+    win.document.open();
+
+    win.document.write(html);
+
+    win.document.close();
+
+  }
+
+
+  /* =====================================================
+     EXPORT INTERACTIVE HTML
+  ===================================================== */
+
+  function exportHTML() {
+
+    const p =
+      projects[currentProject];
+
+    const html =
+      createClientHTML(p);
+
+    const blob =
+      new Blob(
+        [html],
+        { type: "text/html;charset=utf-8" }
+      );
+
+    const url =
+      URL.createObjectURL(blob);
+
+    const a =
+      document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+      safeFilename(p.name) +
+      ".html";
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
+
+    URL.revokeObjectURL(url);
+
+    showToast(
+      "Interactive HTML exported ✓"
+    );
+
+  }
+
+
+  /* =====================================================
+     CREATE CLIENT HTML
+  ===================================================== */
+
+  function createClientHTML(p) {
+
+    let sectionsHTML = "";
+
+    SECTION_TYPES.forEach((section, index) => {
+
+      const images =
+        p.sections[section] || [];
+
+      if (
+        images.length === 0 &&
+        section !== "Notes"
+      ) {
+        return;
+      }
+
+      sectionsHTML += `
+
+        <section class="section">
+
+          <div class="number">
+            ${String(index + 1).padStart(2,"0")}
+            /
+            ${escapeHTML(section)}
+          </div>
+
+          <h2>
+            ${escapeHTML(section)}
+          </h2>
+
+          ${
+            images.length
+            ? `
+              <div class="gallery">
+
+                ${images.map(image => `
+
+                  <div
+                    class="image"
+                    onclick="openImage(this.querySelector('img').src)"
+                  >
+
+                    <img
+                      src="${escapeAttribute(image)}"
+                    >
+
+                  </div>
+
+                `).join("")}
+
+              </div>
+            `
+            : `
+              <p class="empty">
+                Project notes and information.
+              </p>
+            `
+          }
+
+        </section>
+
+      `;
+
+    });
+
+    return `
+
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+${escapeHTML(p.name)}
+</title>
+
+<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com"
+>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+
+* {
+  box-sizing:border-box;
+}
+
+body {
+  margin:0;
+  background:white;
+  color:#242220;
+  font-family:"DM Sans",sans-serif;
+}
+
+.container {
+  max-width:1000px;
+  margin:auto;
+  padding:0 25px;
+}
+
+header {
+  text-align:center;
+  padding:75px 0 70px;
+  border-bottom:1px solid #e9e7e3;
+}
+
+.logo {
+  font-size:10px;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  margin-bottom:25px;
+}
+
+h1 {
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(50px,8vw,82px);
+  font-weight:500;
+  line-height:.95;
+  margin:0;
+}
+
+.meta {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:20px;
+  color:#817d76;
+  font-size:12px;
+  margin-top:20px;
+}
+
+.description {
+  max-width:650px;
+  margin:30px auto 0;
+  color:#77736d;
+  font-size:14px;
+  line-height:1.8;
+}
+
+.section {
+  padding:70px 0;
+  border-bottom:1px solid #e9e7e3;
+}
+
+.number {
+  font-size:10px;
+  color:#99958e;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+h2 {
+  font-family:"Cormorant Garamond",serif;
+  font-size:40px;
+  font-weight:500;
+  margin:8px 0 28px;
+}
+
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.image {
+  aspect-ratio:1;
+  overflow:hidden;
+  border-radius:14px;
+  cursor:pointer;
+  background:#f5f4f1;
+}
+
+.image img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.3s;
+}
+
+.image:hover img {
+  transform:scale(1.04);
+}
+
+.empty {
+  color:#88847d;
+  font-size:13px;
+}
+
+.lightbox {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:30px;
+  z-index:10;
+}
+
+.lightbox.active {
+  display:flex;
+}
+
+.lightbox img {
+  max-width:95vw;
+  max-height:90vh;
+  object-fit:contain;
+}
+
+.close {
+  position:fixed;
+  top:25px;
+  right:30px;
+  color:white;
+  font-size:30px;
+  cursor:pointer;
+}
+
+@media(max-width:700px) {
+
+  .gallery {
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  header {
+    padding-top:50px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+  <div class="logo">
+    ATELIER
+  </div>
+
+  <h1>
+    ${escapeHTML(p.name)}
+  </h1>
+
+  <div class="meta">
+
+    <span>
+      ${escapeHTML(p.client || "")}
+    </span>
+
+    <span>
+      ${escapeHTML(p.location || "")}
+    </span>
+
+    <span>
+      ${escapeHTML(p.area || "")}
+    </span>
+
+  </div>
+
+  <p class="description">
+    ${escapeHTML(p.description || "")}
+  </p>
+
+</header>
+
+${sectionsHTML}
+
+</div>
+
+<div
+  class="lightbox"
+  id="lightbox"
+  onclick="closeImage()"
+>
+
+  <div class="close">
+    ×
+  </div>
+
+  <img
+    id="lightbox-img"
+    onclick="event.stopPropagation()"
+  >
+
+</div>
+
+<script>
+
+function openImage(src) {
+
+  document
+    .getElementById("lightbox-img")
+    .src = src;
+
+  document
+    .getElementById("lightbox")
+    .classList.add("active");
+
+}
+
+function closeImage() {
+
+  document
+    .getElementById("lightbox")
+    .classList.remove("active");
+
+}
+
+document.addEventListener(
+  "keydown",
+  function(e) {
+
+    if(e.key === "Escape") {
+      closeImage();
+    }
+
+  }
+);
+
+<\/script>
+
+</body>
+
+</html>
+
+    `;
+
+  }
+
+
+  /* =====================================================
+     EXPORT JSON
+  ===================================================== */
+
+  function exportJSON() {
+
+    const project =
+      projects[currentProject];
+
+    const blob =
+      new Blob(
+        [
+          JSON.stringify(
+            project,
+            null,
+            2
+          )
+        ],
+        {
+          type:"application/json"
+        }
+      );
+
+    const url =
+      URL.createObjectURL(blob);
+
+    const a =
+      document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+      safeFilename(project.name) +
+      ".json";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    showToast(
+      "JSON backup exported ✓"
+    );
+
+  }
+
+
+  /* =====================================================
+     IMAGE LIGHTBOX
+  ===================================================== */
+
+  function openImage(src) {
+
+    const win =
+      window.open();
+
+    if (!win) return;
+
+    win.document.write(`
+
+      <html>
+
+      <head>
+
+        <title>Image</title>
+
+        <style>
+
+          body {
+            margin:0;
+            background:#111;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            min-height:100vh;
+          }
+
+          img {
+            max-width:95vw;
+            max-height:95vh;
+            object-fit:contain;
+          }
+
+        </style>
+
+      </head>
+
+      <body>
+
+        <img src="${escapeAttribute(src)}">
+
+      </body>
+
+      </html>
+
+    `);
+
+    win.document.close();
+
+  }
+
+
+  /* =====================================================
+     MODAL
+  ===================================================== */
+
+  function closeModal() {
+
+    document
+      .getElementById("modal")
+      .classList.remove("active");
+
+  }
+
+
+  function closeModalOutside(event) {
+
+    if (
+      event.target.id === "modal"
+    ) {
+
+      closeModal();
+
+    }
+
+  }
+
+
+  /* =====================================================
+     TOAST
+  ===================================================== */
+
+  function showToast(message) {
+
+    const toast =
+      document.getElementById("toast");
+
+    toast.textContent =
+      message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+      toast.classList.remove("show");
+
+    }, 2200);
+
+  }
+
+
+  /* =====================================================
+     HELPERS
+  ===================================================== */
+
+  function placeholderImage() {
+
+    return `
+      data:image/svg+xml;charset=UTF-8,
+      ${encodeURIComponent(`
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="800"
+          height="500"
+        >
+          <rect width="100%" height="100%" fill="#f3f2ef"/>
+          <text
+            x="50%"
+            y="50%"
+            text-anchor="middle"
+            dominant-baseline="middle"
+            fill="#999"
+            font-family="Arial"
+            font-size="24"
+          >
+            ATELIER
+          </text>
+        </svg>
+      `)}
+    `;
+
+  }
+
+
+  function escapeHTML(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function escapeAttribute(value) {
+
+    return escapeHTML(value);
+
+  }
+
+
+  function safeFilename(value) {
+
+    return String(value || "project")
+      .replace(/[^a-z0-9ăâîșț \-_]/gi, "")
+      .trim()
+      .replace(/\s+/g, "-")
+      .toLowerCase();
+
+  }
+
+
+  /* =====================================================
+     INIT
+  ===================================================== */
+
+  renderProjects();
+
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+
+</script>
+
+</body>
+</html>
