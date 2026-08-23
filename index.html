@@ -6,7 +6,6 @@
 
   <title>Atelier — Interior Design Studio</title>
 
-  <!-- Elegant title font + clean interface font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -44,10 +43,6 @@
       font-family: "DM Sans", sans-serif;
     }
 
-    /* --------------------------------
-       TYPOGRAPHY
-    -------------------------------- */
-
     h1,
     h2,
     h3,
@@ -55,10 +50,6 @@
       font-family: "Cormorant Garamond", serif;
       font-weight: 500;
     }
-
-    /* --------------------------------
-       MAIN PAGE
-    -------------------------------- */
 
     #main-view {
       min-height: 100vh;
@@ -97,10 +88,6 @@
       letter-spacing: 0.04em;
     }
 
-    /* --------------------------------
-       NEW PROJECT BUTTON
-    -------------------------------- */
-
     .new-project-wrapper {
       display: flex;
       justify-content: center;
@@ -111,18 +98,13 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-
       background: #242220;
       color: white;
-
       border: none;
       border-radius: 999px;
-
       padding: 14px 27px;
-
       font-size: 13px;
       font-weight: 500;
-
       transition: all .2s ease;
     }
 
@@ -130,10 +112,6 @@
       background: #3c3935;
       transform: translateY(-1px);
     }
-
-    /* --------------------------------
-       ADD PROJECT FORM
-    -------------------------------- */
 
     .add-project-form {
       max-width: 420px;
@@ -153,10 +131,6 @@
     .add-project-form input:focus {
       border-color: #aaa69f;
     }
-
-    /* --------------------------------
-       PROJECT GRID
-    -------------------------------- */
 
     #projects-grid {
       padding-bottom: 100px;
@@ -224,10 +198,6 @@
       letter-spacing: .08em;
       color: #6e6a64;
     }
-
-    /* --------------------------------
-       DETAIL VIEW
-    -------------------------------- */
 
     #detail-view {
       min-height: 100vh;
@@ -298,10 +268,6 @@
       border-color: #242220;
     }
 
-    /* --------------------------------
-       SECTION
-    -------------------------------- */
-
     .project-section {
       padding: 60px 0;
       border-bottom: 1px solid var(--light-gray);
@@ -328,10 +294,6 @@
       max-width: 700px;
     }
 
-    /* --------------------------------
-       ADD CONTENT
-    -------------------------------- */
-
     .add-content-button {
       width: 58px;
       height: 58px;
@@ -349,10 +311,6 @@
       color: #242220;
       background: #faf9f7;
     }
-
-    /* --------------------------------
-       IMAGE GRID
-    -------------------------------- */
 
     .photo-grid {
       display: grid;
@@ -375,44 +333,33 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform .3s ease;
     }
 
     .photo-item:hover img {
       transform: scale(1.04);
     }
 
-    .photo-item img {
-      transition: transform .3s ease;
-    }
-
     .remove-photo {
       position: absolute;
       top: 7px;
       right: 7px;
-
       width: 25px;
       height: 25px;
-
       border-radius: 50%;
       border: none;
-
       background: rgba(20,20,20,.75);
       color: white;
-
       display: none;
       align-items: center;
       justify-content: center;
-
       font-size: 12px;
+      z-index: 5;
     }
 
     .photo-item:hover .remove-photo {
       display: flex;
     }
-
-    /* --------------------------------
-       PALETTE
-    -------------------------------- */
 
     .palette {
       display: flex;
@@ -443,10 +390,6 @@
       color: #aaa69f;
       margin-top: 3px;
     }
-
-    /* --------------------------------
-       MATERIAL CARDS
-    -------------------------------- */
 
     .material-grid {
       display: grid;
@@ -487,21 +430,14 @@
       margin-top: 4px;
     }
 
-    /* --------------------------------
-       MODAL
-    -------------------------------- */
-
     .modal {
       position: fixed;
       inset: 0;
       z-index: 100;
-
       display: none;
       align-items: center;
       justify-content: center;
-
       background: rgba(25,23,21,.45);
-
       padding: 20px;
     }
 
@@ -513,12 +449,9 @@
       width: min(560px, 100%);
       max-height: 90vh;
       overflow-y: auto;
-
       background: white;
       border-radius: 18px;
-
       padding: 28px;
-
       box-shadow: 0 25px 80px rgba(0,0,0,.15);
     }
 
@@ -570,30 +503,19 @@
       margin-top: 22px;
     }
 
-    /* --------------------------------
-       TOAST
-    -------------------------------- */
-
     #toast {
       position: fixed;
       bottom: 25px;
       right: 25px;
-
       background: #242220;
       color: white;
-
       padding: 11px 17px;
       border-radius: 999px;
-
       font-size: 12px;
-
       opacity: 0;
       transform: translateY(10px);
-
       pointer-events: none;
-
       transition: .25s;
-
       z-index: 200;
     }
 
@@ -601,10 +523,6 @@
       opacity: 1;
       transform: translateY(0);
     }
-
-    /* --------------------------------
-       MOBILE
-    -------------------------------- */
 
     @media(max-width: 700px) {
 
@@ -789,9 +707,7 @@
 
     </header>
 
-    <div
-      id="sections-container"
-    ></div>
+    <div id="sections-container"></div>
 
   </main>
 
@@ -821,163 +737,232 @@
 
 <script>
 
-  /* =====================================================
-     PROJECT STRUCTURE
-  ===================================================== */
+/* =====================================================
+   PROJECT STRUCTURE
+===================================================== */
 
-  const STORAGE_KEY = "atelier-interior-projects";
+const STORAGE_KEY =
+  "atelier-interior-projects";
 
-  const SECTION_TYPES = [
-    "Moodboard",
-    "Sketch",
-    "Reference",
-    "Texture",
-    "Palette Color",
-    "Materials",
-    "Furniture",
-    "Technical Drawings",
-    "Lighting",
-    "Render Drawings",
-    "Notes"
-  ];
+const SECTION_TYPES = [
 
-  let projects =
-    JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  "Moodboard",
+  "Sketch",
+  "Reference",
+  "Texture",
+  "Palette Color",
+  "Materials",
+  "Furniture",
+  "Technical Drawings",
+  "Lighting",
+  "Render Drawings",
+  "Notes"
 
-  let currentProject = null;
+];
+
+let projects =
+  JSON.parse(
+    localStorage.getItem(STORAGE_KEY) || "[]"
+  );
+
+let currentProject = null;
 
 
-  /* =====================================================
-     DEMO PROJECT
-  ===================================================== */
+/* =====================================================
+   MIGRATE OLD PROJECTS
+===================================================== */
 
-  if (projects.length === 0) {
+function ensureProjectSections() {
 
-    projects.push({
+  projects.forEach(project => {
 
-      id: Date.now(),
+    if (!project.sections) {
+      project.sections = {};
+    }
 
-      name: "Apartment Popescu",
+    SECTION_TYPES.forEach(section => {
 
-      client: "Andreea & Mihai Popescu",
+      if (
+        !Array.isArray(
+          project.sections[section]
+        )
+      ) {
 
-      location: "Timișoara, Romania",
-
-      area: "78 m²",
-
-      type: "Apartment Renovation",
-
-      status: "Concept",
-
-      description:
-        "Warm contemporary apartment with natural materials, soft neutral tones and custom furniture.",
-
-      cover:
-        "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85",
-
-      sections: {
-
-        "Moodboard": [
-          "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=85",
-          "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=85"
-        ],
-
-        "Sketch": [],
-
-        "Reference": [
-          "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85"
-        ],
-
-        "Texture": [
-          "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=85"
-        ],
-
-        "Palette Color": [],
-
-        "Materials": [
-          "https://images.unsplash.com/photo-1615529162924-f8605388461d?auto=format&fit=crop&w=1000&q=85"
-        ],
-
-        "Furniture": [
-          "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=85"
-        ],
-
-        "Dimensions": [],
-
-        "Lighting": [],
-
-        "Technical Drawings": [],
-
-        "Notes": []
+        project.sections[section] = [];
 
       }
 
     });
 
-    saveLocalStorage();
+  });
 
-  }
+  saveLocalStorage();
+
+}
+
+ensureProjectSections();
 
 
-  /* =====================================================
-     STORAGE
-  ===================================================== */
+/* =====================================================
+   DEMO PROJECT
+===================================================== */
 
-  function saveLocalStorage() {
+if (projects.length === 0) {
 
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(projects)
+  projects.push({
+
+    id: Date.now(),
+
+    name: "Apartment Popescu",
+
+    client: "Andreea & Mihai Popescu",
+
+    location: "Timișoara, Romania",
+
+    area: "78 m²",
+
+    type: "Apartment Renovation",
+
+    status: "Concept",
+
+    description:
+      "Warm contemporary apartment with natural materials, soft neutral tones and custom furniture.",
+
+    cover:
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85",
+
+    sections: {
+
+      "Moodboard": [
+
+        "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=85",
+
+        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=85"
+
+      ],
+
+      "Sketch": [],
+
+      "Reference": [
+
+        "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85"
+
+      ],
+
+      "Texture": [
+
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=85"
+
+      ],
+
+      "Palette Color": [],
+
+      "Materials": [
+
+        "https://images.unsplash.com/photo-1615529162924-f8605388461d?auto=format&fit=crop&w=1000&q=85"
+
+      ],
+
+      "Furniture": [
+
+        "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=85"
+
+      ],
+
+      "Technical Drawings": [],
+
+      "Lighting": [],
+
+      "Render Drawings": [],
+
+      "Notes": []
+
+    }
+
+  });
+
+  saveLocalStorage();
+
+}
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function saveLocalStorage() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(projects)
+  );
+
+}
+
+
+function saveLocal() {
+
+  saveLocalStorage();
+
+  showToast(
+    "Project saved ✓"
+  );
+
+}
+
+
+/* =====================================================
+   HOME
+===================================================== */
+
+function renderProjects() {
+
+  const grid =
+    document.getElementById(
+      "projects-grid"
     );
 
-  }
+  grid.innerHTML = "";
 
-
-  function saveLocal() {
-
-    saveLocalStorage();
-
-    showToast("Project saved ✓");
-
-  }
-
-
-  /* =====================================================
-     HOME
-  ===================================================== */
-
-  function renderProjects() {
-
-    const grid =
-      document.getElementById("projects-grid");
-
-    grid.innerHTML = "";
-
-    projects.forEach((project, index) => {
+  projects.forEach(
+    (project, index) => {
 
       const card =
-        document.createElement("article");
+        document.createElement(
+          "article"
+        );
 
-      card.className = "project-card";
+      card.className =
+        "project-card";
 
-      card.onclick = () =>
-        openProject(index);
+      card.onclick =
+        () => openProject(index);
 
       const totalImages =
-        Object.values(project.sections || {})
-          .reduce(
-            (total, arr) =>
-              total + arr.length,
-            0
-          );
+        Object.values(
+          project.sections || {}
+        )
+        .reduce(
+          (total, arr) =>
+            total +
+            (Array.isArray(arr)
+              ? arr.length
+              : 0),
+          0
+        );
 
       card.innerHTML = `
 
         <div class="project-cover">
 
           <img
-            src="${project.cover || placeholderImage()}"
-            alt="${escapeHTML(project.name)}"
+            src="${escapeAttribute(
+              project.cover ||
+              placeholderImage()
+            )}"
+            alt="${escapeAttribute(
+              project.name
+            )}"
           >
 
         </div>
@@ -989,16 +974,31 @@
           </div>
 
           <div class="project-card-info">
-            ${escapeHTML(project.client || "Client")}
+            ${escapeHTML(
+              project.client ||
+              "Client"
+            )}
           </div>
 
           <div class="project-card-info">
-            ${escapeHTML(project.location || "")}
-            ${project.area ? " · " + escapeHTML(project.area) : ""}
+            ${escapeHTML(
+              project.location || ""
+            )}
+            ${
+              project.area
+              ? " · " +
+                escapeHTML(
+                  project.area
+                )
+              : ""
+            }
           </div>
 
           <div class="project-card-status">
-            ${escapeHTML(project.status || "Concept")}
+            ${escapeHTML(
+              project.status ||
+              "Concept"
+            )}
           </div>
 
         </div>
@@ -1007,198 +1007,281 @@
 
       grid.appendChild(card);
 
-    });
+    }
+  );
 
-  }
-
-
-  /* =====================================================
-     NEW PROJECT
-  ===================================================== */
-
-  function showAddProject() {
-
-    document
-      .getElementById("add-project-form")
-      .classList.remove("hidden");
-
-    document
-      .getElementById("new-project-name")
-      .focus();
-
-  }
+}
 
 
-  function hideAddProject() {
+/* =====================================================
+   NEW PROJECT
+===================================================== */
 
-    document
-      .getElementById("add-project-form")
-      .classList.add("hidden");
+function showAddProject() {
 
-  }
+  document
+    .getElementById(
+      "add-project-form"
+    )
+    .classList.remove("hidden");
+
+  document
+    .getElementById(
+      "new-project-name"
+    )
+    .focus();
+
+}
 
 
-  function createProject() {
+function hideAddProject() {
 
-    const input =
-      document.getElementById("new-project-name");
+  document
+    .getElementById(
+      "add-project-form"
+    )
+    .classList.add("hidden");
 
-    const name =
-      input.value.trim();
+}
 
-    if (!name) return;
 
-    const sections = {};
+function createProject() {
 
-    SECTION_TYPES.forEach(section => {
+  const input =
+    document.getElementById(
+      "new-project-name"
+    );
+
+  const name =
+    input.value.trim();
+
+  if (!name) return;
+
+  const sections = {};
+
+  SECTION_TYPES.forEach(
+    section => {
 
       sections[section] = [];
 
-    });
+    }
+  );
 
-    projects.push({
+  projects.push({
 
-      id: Date.now(),
+    id: Date.now(),
 
-      name,
+    name,
 
-      client: "",
+    client: "",
 
-      location: "",
+    location: "",
 
-      area: "",
+    area: "",
 
-      type: "Interior Design",
+    type: "Interior Design",
 
-      status: "Concept",
+    status: "Concept",
 
-      description: "",
+    description: "",
 
-      cover: "",
+    cover: "",
 
-      sections
+    sections
 
-    });
+  });
 
-    saveLocalStorage();
+  saveLocalStorage();
 
-    input.value = "";
+  input.value = "";
 
-    hideAddProject();
+  hideAddProject();
 
-    renderProjects();
+  renderProjects();
 
+}
+
+
+/* =====================================================
+   OPEN PROJECT
+===================================================== */
+
+function openProject(index) {
+
+  currentProject = index;
+
+  const project =
+    projects[index];
+
+  if (!project.sections) {
+    project.sections = {};
   }
 
+  SECTION_TYPES.forEach(
+    section => {
 
-  /* =====================================================
-     OPEN PROJECT
-  ===================================================== */
+      if (
+        !Array.isArray(
+          project.sections[section]
+        )
+      ) {
 
-  function openProject(index) {
+        project.sections[section] = [];
 
-    currentProject = index;
+      }
 
-    const project =
-      projects[index];
+    }
+  );
 
-    document
-      .getElementById("main-view")
-      .classList.add("hidden");
+  document
+    .getElementById("main-view")
+    .classList.add("hidden");
 
-    document
-      .getElementById("detail-view")
-      .classList.remove("hidden");
+  document
+    .getElementById("detail-view")
+    .classList.remove("hidden");
 
-    document
-      .getElementById("detail-project-name")
-      .textContent =
-      project.name;
+  document
+    .getElementById(
+      "detail-project-name"
+    )
+    .textContent =
+    project.name;
 
-    document
-      .getElementById("detail-meta")
-      .innerHTML = `
+  document
+    .getElementById(
+      "detail-meta"
+    )
+    .innerHTML = `
 
-        <span>
-          ${escapeHTML(project.client || "No client")}
-        </span>
+      <span>
+        ${escapeHTML(
+          project.client ||
+          "No client"
+        )}
+      </span>
 
-        <span>
-          ${escapeHTML(project.location || "No location")}
-        </span>
+      <span>
+        ${escapeHTML(
+          project.location ||
+          "No location"
+        )}
+      </span>
 
-        <span>
-          ${escapeHTML(project.area || "No area")}
-        </span>
+      <span>
+        ${escapeHTML(
+          project.area ||
+          "No area"
+        )}
+      </span>
 
-        <span>
-          ${escapeHTML(project.status || "Concept")}
-        </span>
+      <span>
+        ${escapeHTML(
+          project.status ||
+          "Concept"
+        )}
+      </span>
 
-      `;
+    `;
 
-    renderSections();
+  renderSections();
 
-    window.scrollTo(0, 0);
+  window.scrollTo(
+    0,
+    0
+  );
 
+  if (window.lucide) {
     lucide.createIcons();
-
   }
 
-
-  function goBack() {
-
-    document
-      .getElementById("detail-view")
-      .classList.add("hidden");
-
-    document
-      .getElementById("main-view")
-      .classList.remove("hidden");
-
-    currentProject = null;
-
-    renderProjects();
-
-    window.scrollTo(0, 0);
-
-  }
+}
 
 
-  /* =====================================================
-     PROJECT SECTIONS
-  ===================================================== */
+function goBack() {
 
-  function renderSections() {
+  document
+    .getElementById(
+      "detail-view"
+    )
+    .classList.add("hidden");
 
-    const container =
-      document.getElementById("sections-container");
+  document
+    .getElementById(
+      "main-view"
+    )
+    .classList.remove("hidden");
 
-    container.innerHTML = "";
+  currentProject = null;
 
-    const project =
-      projects[currentProject];
+  renderProjects();
 
-    SECTION_TYPES.forEach((section, index) => {
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* =====================================================
+   RENDER PROJECT SECTIONS
+===================================================== */
+
+function renderSections() {
+
+  const container =
+    document.getElementById(
+      "sections-container"
+    );
+
+  container.innerHTML = "";
+
+  const project =
+    projects[currentProject];
+
+  SECTION_TYPES.forEach(
+    section => {
+
+      if (
+        !Array.isArray(
+          project.sections[section]
+        )
+      ) {
+
+        project.sections[section] =
+          [];
+
+      }
+
+    }
+  );
+
+  SECTION_TYPES.forEach(
+    (section, index) => {
 
       const sectionElement =
-        document.createElement("section");
+        document.createElement(
+          "section"
+        );
 
       sectionElement.className =
         "project-section";
 
-      const images =
-        project.sections[section] || [];
+      const items =
+        project.sections[section] ||
+        [];
 
       sectionElement.innerHTML = `
 
         <div class="section-number">
-          ${String(index + 1).padStart(2, "0")} /
-          ${section}
+          ${String(index + 1)
+            .padStart(2, "0")} /
+          ${escapeHTML(section)}
         </div>
 
         <h2 class="section-title">
-          ${section}
+          ${escapeHTML(section)}
         </h2>
 
         <div
@@ -1207,28 +1290,223 @@
         >
 
           ${
-            images.map((image, imageIndex) => `
+            items.map(
+              (item, itemIndex) => {
 
-              <div
-                class="photo-item"
-                onclick="openImage('${escapeAttribute(image)}')"
-              >
+                const image =
+                  typeof item === "string"
+                    ? item
+                    : item.image;
 
-                <img
-                  src="${escapeAttribute(image)}"
-                  alt="${escapeAttribute(section)}"
-                >
+                let infoHTML = "";
 
-                <button
-                  class="remove-photo"
-                  onclick="event.stopPropagation(); removePhoto(${index}, ${imageIndex})"
-                >
-                  ×
-                </button>
+                if (
+                  typeof item ===
+                  "object"
+                ) {
 
-              </div>
+                  if (
+                    section ===
+                    "Technical Drawings"
+                  ) {
 
-            `).join("")
+                    infoHTML = `
+
+                      <div style="
+                        padding:10px;
+                        background:white;
+                        border:1px solid #e9e7e3;
+                        border-top:none;
+                        border-radius:0 0 12px 12px;
+                      ">
+
+                        ${
+                          item.name
+                          ? `
+                            <div style="
+                              font-family:'Cormorant Garamond',serif;
+                              font-size:18px;
+                            ">
+                              ${escapeHTML(
+                                item.name
+                              )}
+                            </div>
+                          `
+                          : ""
+                        }
+
+                        ${
+                          item.dimensions
+                          ? `
+                            <div style="
+                              font-size:11px;
+                              color:#77736d;
+                              margin-top:4px;
+                            ">
+                              Dimensions:
+                              ${escapeHTML(
+                                item.dimensions
+                              )}
+                            </div>
+                          `
+                          : ""
+                        }
+
+                        ${
+                          item.scale
+                          ? `
+                            <div style="
+                              font-size:11px;
+                              color:#77736d;
+                              margin-top:3px;
+                            ">
+                              Scale:
+                              ${escapeHTML(
+                                item.scale
+                              )}
+                            </div>
+                          `
+                          : ""
+                        }
+
+                        ${
+                          item.notes
+                          ? `
+                            <div style="
+                              font-size:11px;
+                              color:#77736d;
+                              margin-top:5px;
+                            ">
+                              ${escapeHTML(
+                                item.notes
+                              )}
+                            </div>
+                          `
+                          : ""
+                        }
+
+                      </div>
+
+                    `;
+
+                  }
+
+                  if (
+                    section ===
+                    "Render Drawings"
+                  ) {
+
+                    infoHTML = `
+
+                      <div style="
+                        padding:10px;
+                        background:white;
+                        border:1px solid #e9e7e3;
+                        border-top:none;
+                        border-radius:0 0 12px 12px;
+                      ">
+
+                        ${
+                          item.room
+                          ? `
+                            <div style="
+                              font-family:'Cormorant Garamond',serif;
+                              font-size:18px;
+                            ">
+                              ${escapeHTML(
+                                item.room
+                              )}
+                            </div>
+                          `
+                          : ""
+                        }
+
+                        ${
+                          item.view
+                          ? `
+                            <div style="
+                              font-size:11px;
+                              color:#77736d;
+                              margin-top:4px;
+                            ">
+                              View:
+                              ${escapeHTML(
+                                item.view
+                              )}
+                            </div>
+                          `
+                          : ""
+                        }
+
+                        ${
+                          item.notes
+                          ? `
+                            <div style="
+                              font-size:11px;
+                              color:#77736d;
+                              margin-top:5px;
+                            ">
+                              ${escapeHTML(
+                                item.notes
+                              )}
+                            </div>
+                          `
+                          : ""
+                        }
+
+                      </div>
+
+                    `;
+
+                  }
+
+                }
+
+                return `
+
+                  <div>
+
+                    <div
+                      class="photo-item"
+                      onclick="openImage(
+                        '${escapeAttribute(
+                          image
+                        )}'
+                      )"
+                    >
+
+                      <img
+                        src="${escapeAttribute(
+                          image
+                        )}"
+                        alt="${escapeAttribute(
+                          section
+                        )}"
+                      >
+
+                      <button
+                        class="remove-photo"
+                        onclick="
+                          event.stopPropagation();
+                          removePhoto(
+                            ${index},
+                            ${itemIndex}
+                          )
+                        "
+                      >
+                        ×
+                      </button>
+
+                    </div>
+
+                    ${infoHTML}
+
+                  </div>
+
+                `;
+
+              }
+            ).join("")
           }
 
         </div>
@@ -1237,7 +1515,11 @@
 
           <button
             class="add-content-button"
-            onclick="openAddContent(${index})"
+            onclick="
+              openAddContent(
+                ${index}
+              )
+            "
             title="Add content"
           >
             +
@@ -1247,502 +1529,1284 @@
 
       `;
 
-      container.appendChild(sectionElement);
-
-    });
-
-  }
-
-
-  /* =====================================================
-     ADD IMAGE / CONTENT
-  ===================================================== */
-
-  function openAddContent(sectionIndex) {
-
-    const section =
-      SECTION_TYPES[sectionIndex];
-
-    document
-      .getElementById("modal-box")
-      .innerHTML = `
-
-        <div class="modal-title">
-          Add to ${section}
-        </div>
-
-        <div class="form-group">
-
-          <label>
-            Image URL
-          </label>
-
-          <input
-            id="content-url"
-            type="text"
-            placeholder="https://..."
-          >
-
-        </div>
-
-        <div class="form-group">
-
-          <label>
-            Or choose an image
-          </label>
-
-          <input
-            id="content-file"
-            type="file"
-            accept="image/*"
-          >
-
-        </div>
-
-        <div class="modal-actions">
-
-          <button
-            onclick="closeModal()"
-            class="action-button"
-          >
-            Cancel
-          </button>
-
-          <button
-            onclick="addContent(${sectionIndex})"
-            class="action-button dark"
-          >
-            Add
-          </button>
-
-        </div>
-
-      `;
-
-    document
-      .getElementById("modal")
-      .classList.add("active");
-
-  }
-
-
-  function addContent(sectionIndex) {
-
-    const url =
-      document
-        .getElementById("content-url")
-        .value
-        .trim();
-
-    const file =
-      document
-        .getElementById("content-file")
-        .files[0];
-
-    if (file) {
-
-      const reader =
-        new FileReader();
-
-      reader.onload = function(event) {
-
-        projects[currentProject]
-          .sections[SECTION_TYPES[sectionIndex]]
-          .push(event.target.result);
-
-        saveLocalStorage();
-
-        closeModal();
-
-        renderSections();
-
-        showToast("Image added ✓");
-
-      };
-
-      reader.readAsDataURL(file);
-
-      return;
+      container.appendChild(
+        sectionElement
+      );
 
     }
+  );
 
-    if (url) {
+  saveLocalStorage();
 
-      projects[currentProject]
-        .sections[SECTION_TYPES[sectionIndex]]
-        .push(url);
-
-      saveLocalStorage();
-
-      closeModal();
-
-      renderSections();
-
-      showToast("Image added ✓");
-
-    }
-
-  }
+}
 
 
-  function removePhoto(sectionIndex, imageIndex) {
+/* =====================================================
+   ADD CONTENT MODAL
+===================================================== */
 
-    const section =
-      SECTION_TYPES[sectionIndex];
+function openAddContent(
+  sectionIndex
+) {
 
-    projects[currentProject]
-      .sections[section]
-      .splice(imageIndex, 1);
+  const section =
+    SECTION_TYPES[sectionIndex];
 
-    saveLocalStorage();
+  let specialFields = "";
 
-    renderSections();
+  /*
+   * TECHNICAL DRAWINGS
+   */
 
-  }
+  if (
+    section ===
+    "Technical Drawings"
+  ) {
 
-
-  /* =====================================================
-     EDIT PROJECT
-  ===================================================== */
-
-  function openProjectEdit() {
-
-    const p =
-      projects[currentProject];
-
-    document
-      .getElementById("modal-box")
-      .innerHTML = `
-
-        <div class="modal-title">
-          Edit Project
-        </div>
-
-        ${formField("Project name", "edit-name", p.name)}
-
-        ${formField("Client", "edit-client", p.client)}
-
-        ${formField("Location", "edit-location", p.location)}
-
-        ${formField("Surface", "edit-area", p.area)}
-
-        ${formField("Project type", "edit-type", p.type)}
-
-        ${formField("Status", "edit-status", p.status)}
-
-        <div class="form-group">
-
-  <label>Cover Image</label>
-
-  <input
-    id="edit-cover-file"
-    type="file"
-    accept="image/*"
-    onchange="previewCoverImage(event)"
-  >
-
-  <div
-    id="cover-preview"
-    style="
-      margin-top:10px;
-      width:100%;
-      height:180px;
-      border-radius:12px;
-      overflow:hidden;
-      background:#f5f4f1;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    "
-  >
-    ${
-      p.cover
-      ? `<img
-           src="${escapeAttribute(p.cover)}"
-           style="width:100%;height:100%;object-fit:cover;"
-         >`
-      : `<span style="font-size:12px;color:#999;">
-           No cover image
-         </span>`
-    }
-  </div>
-
-</div>
-
-        <div class="form-group">
-
-          <label>
-            Description
-          </label>
-
-          <textarea
-            id="edit-description"
-          >${escapeHTML(p.description || "")}</textarea>
-
-        </div>
-
-        <div class="modal-actions">
-
-          <button
-            onclick="closeModal()"
-            class="action-button"
-          >
-            Cancel
-          </button>
-
-          <button
-            onclick="saveProjectEdit()"
-            class="action-button dark"
-          >
-            Save
-          </button>
-
-        </div>
-
-      `;
-
-    document
-      .getElementById("modal")
-      .classList.add("active");
-
-  }
-
-
-  function formField(label, id, value) {
-
-    return `
+    specialFields = `
 
       <div class="form-group">
 
-        <label>${label}</label>
+        <label>
+          Drawing Name
+        </label>
 
         <input
-          id="${id}"
-          value="${escapeAttribute(value || "")}"
+          id="drawing-name"
+          type="text"
+          placeholder="e.g. Living Room Plan"
         >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Dimensions
+        </label>
+
+        <input
+          id="drawing-dimensions"
+          type="text"
+          placeholder="e.g. 4.20 m × 5.60 m"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Scale
+        </label>
+
+        <input
+          id="drawing-scale"
+          type="text"
+          placeholder="e.g. 1:50"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Notes
+        </label>
+
+        <textarea
+          id="drawing-notes"
+          placeholder="Additional technical information..."
+        ></textarea>
 
       </div>
 
     `;
 
   }
-  function previewCoverImage(event) {
 
-  const file = event.target.files[0];
+  /*
+   * RENDER DRAWINGS
+   */
 
-  if (!file) return;
+  if (
+    section ===
+    "Render Drawings"
+  ) {
 
-  const reader = new FileReader();
+    specialFields = `
 
-  reader.onload = function(e) {
+      <div class="form-group">
 
-    document.getElementById("cover-preview").innerHTML = `
-      <img
-        src="${e.target.result}"
-        style="
-          width:100%;
-          height:100%;
-          object-fit:cover;
-        "
-      >
+        <label>
+          Room Name
+        </label>
+
+        <input
+          id="render-room"
+          type="text"
+          placeholder="e.g. Living Room"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          View
+        </label>
+
+        <input
+          id="render-view"
+          type="text"
+          placeholder="e.g. Main Perspective"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Notes
+        </label>
+
+        <textarea
+          id="render-notes"
+          placeholder="Additional information..."
+        ></textarea>
+
+      </div>
+
     `;
 
-    document
-      .getElementById("cover-preview")
-      .dataset.image = e.target.result;
+  }
 
-  };
+  document
+    .getElementById(
+      "modal-box"
+    )
+    .innerHTML = `
 
-  reader.readAsDataURL(file);
+      <div class="modal-title">
+        Add to ${escapeHTML(
+          section
+        )}
+      </div>
+
+      ${specialFields}
+
+      <div class="form-group">
+
+        <label>
+          ${
+            section ===
+            "Technical Drawings"
+              ? "Upload Drawing"
+              : section ===
+                "Render Drawings"
+                ? "Upload Render"
+                : "Image"
+          }
+        </label>
+
+        <input
+          id="content-file"
+          type="file"
+          accept="image/*"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Or Image URL
+        </label>
+
+        <input
+          id="content-url"
+          type="text"
+          placeholder="https://..."
+        >
+
+      </div>
+
+      <div class="modal-actions">
+
+        <button
+          onclick="closeModal()"
+          class="action-button"
+        >
+          Cancel
+        </button>
+
+        <button
+          onclick="
+            addContent(
+              ${sectionIndex}
+            )
+          "
+          class="action-button dark"
+        >
+          Save
+        </button>
+
+      </div>
+
+    `;
+
+  document
+    .getElementById(
+      "modal"
+    )
+    .classList.add("active");
+
 }
 
 
-  function saveProjectEdit() {
+/* =====================================================
+   ADD CONTENT
+===================================================== */
+
+function addContent(
+  sectionIndex
+) {
+
+  const section =
+    SECTION_TYPES[sectionIndex];
+
+  const project =
+    projects[currentProject];
+
+  if (!project.sections) {
+    project.sections = {};
+  }
+
+  if (
+    !Array.isArray(
+      project.sections[section]
+    )
+  ) {
+
+    project.sections[section] =
+      [];
+
+  }
+
+  const url =
+    document
+      .getElementById(
+        "content-url"
+      )
+      ?.value
+      .trim() || "";
+
+  const file =
+    document
+      .getElementById(
+        "content-file"
+      )
+      ?.files[0];
+
+
+  function saveItem(image) {
+
+    /*
+     * NORMAL SECTIONS
+     */
+
+    if (
+      section !==
+      "Technical Drawings" &&
+      section !==
+      "Render Drawings"
+    ) {
+
+      project.sections[section]
+        .push(image);
+
+    }
+
+
+    /*
+     * TECHNICAL DRAWINGS
+     */
+
+    else if (
+      section ===
+      "Technical Drawings"
+    ) {
+
+      const item = {
+
+        image: image,
+
+        name:
+          document
+            .getElementById(
+              "drawing-name"
+            )
+            ?.value
+            .trim() || "",
+
+        dimensions:
+          document
+            .getElementById(
+              "drawing-dimensions"
+            )
+            ?.value
+            .trim() || "",
+
+        scale:
+          document
+            .getElementById(
+              "drawing-scale"
+            )
+            ?.value
+            .trim() || "",
+
+        notes:
+          document
+            .getElementById(
+              "drawing-notes"
+            )
+            ?.value
+            .trim() || ""
+
+      };
+
+      project.sections[section]
+        .push(item);
+
+    }
+
+
+    /*
+     * RENDER DRAWINGS
+     */
+
+    else if (
+      section ===
+      "Render Drawings"
+    ) {
+
+      const item = {
+
+        image: image,
+
+        room:
+          document
+            .getElementById(
+              "render-room"
+            )
+            ?.value
+            .trim() || "",
+
+        view:
+          document
+            .getElementById(
+              "render-view"
+            )
+            ?.value
+            .trim() || "",
+
+        notes:
+          document
+            .getElementById(
+              "render-notes"
+            )
+            ?.value
+            .trim() || ""
+
+      };
+
+      project.sections[section]
+        .push(item);
+
+    }
+
+    saveLocalStorage();
+
+    closeModal();
+
+    renderSections();
+
+    showToast(
+      "Saved ✓"
+    );
+
+  }
+
+
+  /*
+   * FILE UPLOAD
+   */
+
+  if (file) {
+
+    const reader =
+      new FileReader();
+
+    reader.onload =
+      function(event) {
+
+        saveItem(
+          event.target.result
+        );
+
+      };
+
+    reader.readAsDataURL(
+      file
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * URL
+   */
+
+  if (url) {
+
+    saveItem(url);
+
+    return;
+
+  }
+
+  showToast(
+    "Please upload an image"
+  );
+
+}
+
+
+/* =====================================================
+   REMOVE CONTENT
+===================================================== */
+
+function removePhoto(
+  sectionIndex,
+  imageIndex
+) {
+
+  const section =
+    SECTION_TYPES[sectionIndex];
+
+  projects[currentProject]
+    .sections[section]
+    .splice(
+      imageIndex,
+      1
+    );
+
+  saveLocalStorage();
+
+  renderSections();
+
+}
+
+
+/* =====================================================
+   EDIT PROJECT
+===================================================== */
+
+function openProjectEdit() {
+
+  const p =
+    projects[currentProject];
+
+  document
+    .getElementById(
+      "modal-box"
+    )
+    .innerHTML = `
+
+      <div class="modal-title">
+        Edit Project
+      </div>
+
+      ${formField(
+        "Project name",
+        "edit-name",
+        p.name
+      )}
+
+      ${formField(
+        "Client",
+        "edit-client",
+        p.client
+      )}
+
+      ${formField(
+        "Location",
+        "edit-location",
+        p.location
+      )}
+
+      ${formField(
+        "Surface",
+        "edit-area",
+        p.area
+      )}
+
+      ${formField(
+        "Project type",
+        "edit-type",
+        p.type
+      )}
+
+      ${formField(
+        "Status",
+        "edit-status",
+        p.status
+      )}
+
+      <div class="form-group">
+
+        <label>
+          Cover Image
+        </label>
+
+        <input
+          id="edit-cover-file"
+          type="file"
+          accept="image/*"
+          onchange="previewCoverImage(event)"
+        >
+
+        <div
+          id="cover-preview"
+          style="
+            margin-top:10px;
+            width:100%;
+            height:180px;
+            border-radius:12px;
+            overflow:hidden;
+            background:#f5f4f1;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+          "
+          ${
+            p.cover
+            ? `data-image="${escapeAttribute(
+                p.cover
+              )}"`
+            : ""
+          }
+        >
+
+          ${
+            p.cover
+            ? `
+              <img
+                src="${escapeAttribute(
+                  p.cover
+                )}"
+                style="
+                  width:100%;
+                  height:100%;
+                  object-fit:cover;
+                "
+              >
+            `
+            : `
+              <span style="
+                font-size:12px;
+                color:#999;
+              ">
+                No cover image
+              </span>
+            `
+          }
+
+        </div>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+          Description
+        </label>
+
+        <textarea
+          id="edit-description"
+        >${escapeHTML(
+          p.description || ""
+        )}</textarea>
+
+      </div>
+
+      <div class="modal-actions">
+
+        <button
+          onclick="closeModal()"
+          class="action-button"
+        >
+          Cancel
+        </button>
+
+        <button
+          onclick="saveProjectEdit()"
+          class="action-button dark"
+        >
+          Save
+        </button>
+
+      </div>
+
+    `;
+
+  document
+    .getElementById(
+      "modal"
+    )
+    .classList.add("active");
+
+}
+
+
+function formField(
+  label,
+  id,
+  value
+) {
+
+  return `
+
+    <div class="form-group">
+
+      <label>
+        ${escapeHTML(label)}
+      </label>
+
+      <input
+        id="${id}"
+        value="${escapeAttribute(
+          value || ""
+        )}"
+      >
+
+    </div>
+
+  `;
+
+}
+
+
+function previewCoverImage(
+  event
+) {
+
+  const file =
+    event.target.files[0];
+
+  if (!file) return;
+
+  const reader =
+    new FileReader();
+
+  reader.onload =
+    function(e) {
+
+      const preview =
+        document.getElementById(
+          "cover-preview"
+        );
+
+      preview.innerHTML = `
+
+        <img
+          src="${e.target.result}"
+          style="
+            width:100%;
+            height:100%;
+            object-fit:cover;
+          "
+        >
+
+      `;
+
+      preview.dataset.image =
+        e.target.result;
+
+    };
+
+  reader.readAsDataURL(file);
+
+}
+
+
+function saveProjectEdit() {
 
   const p =
     projects[currentProject];
 
   p.name =
-    document.getElementById("edit-name").value;
+    document
+      .getElementById(
+        "edit-name"
+      )
+      .value;
 
   p.client =
-    document.getElementById("edit-client").value;
+    document
+      .getElementById(
+        "edit-client"
+      )
+      .value;
 
   p.location =
-    document.getElementById("edit-location").value;
+    document
+      .getElementById(
+        "edit-location"
+      )
+      .value;
 
   p.area =
-    document.getElementById("edit-area").value;
+    document
+      .getElementById(
+        "edit-area"
+      )
+      .value;
 
   p.type =
-    document.getElementById("edit-type").value;
+    document
+      .getElementById(
+        "edit-type"
+      )
+      .value;
 
   p.status =
-    document.getElementById("edit-status").value;
+    document
+      .getElementById(
+        "edit-status"
+      )
+      .value;
 
   p.description =
-    document.getElementById("edit-description").value;
+    document
+      .getElementById(
+        "edit-description"
+      )
+      .value;
 
-  // Save uploaded cover image
   const coverPreview =
-    document.getElementById("cover-preview");
+    document.getElementById(
+      "cover-preview"
+    );
 
   const uploadedCover =
     coverPreview.dataset.image;
 
   if (uploadedCover) {
-    p.cover = uploadedCover;
+    p.cover =
+      uploadedCover;
   }
 
   saveLocalStorage();
 
   closeModal();
 
-  openProject(currentProject);
+  openProject(
+    currentProject
+  );
 
-  showToast("Project updated ✓");
+  showToast(
+    "Project updated ✓"
+  );
 
 }
 
-  /* =====================================================
-     CLIENT PREVIEW
-  ===================================================== */
 
-  function previewClient() {
+/* =====================================================
+   CLIENT PREVIEW
+===================================================== */
 
-    const p =
-      projects[currentProject];
+function previewClient() {
 
-    const html =
-      createClientHTML(p);
+  const p =
+    projects[currentProject];
 
-    const win =
-      window.open();
+  const html =
+    createClientHTML(p);
 
-    win.document.open();
+  const win =
+    window.open();
 
-    win.document.write(html);
-
-    win.document.close();
-
-  }
-
-
-  /* =====================================================
-     EXPORT INTERACTIVE HTML
-  ===================================================== */
-
-  function exportHTML() {
-
-    const p =
-      projects[currentProject];
-
-    const html =
-      createClientHTML(p);
-
-    const blob =
-      new Blob(
-        [html],
-        { type: "text/html;charset=utf-8" }
-      );
-
-    const url =
-      URL.createObjectURL(blob);
-
-    const a =
-      document.createElement("a");
-
-    a.href = url;
-
-    a.download =
-      safeFilename(p.name) +
-      ".html";
-
-    document.body.appendChild(a);
-
-    a.click();
-
-    a.remove();
-
-    URL.revokeObjectURL(url);
+  if (!win) {
 
     showToast(
-      "Interactive HTML exported ✓"
+      "Please allow pop-ups"
     );
+
+    return;
 
   }
 
+  win.document.open();
 
-  /* =====================================================
-     CREATE CLIENT HTML
-  ===================================================== */
+  win.document.write(
+    html
+  );
 
-  function createClientHTML(p) {
+  win.document.close();
 
-    let sectionsHTML = "";
+}
 
-    SECTION_TYPES.forEach((section, index) => {
 
-      const images =
-        p.sections[section] || [];
+/* =====================================================
+   EXPORT HTML
+===================================================== */
+
+function exportHTML() {
+
+  const p =
+    projects[currentProject];
+
+  const html =
+    createClientHTML(p);
+
+  const blob =
+    new Blob(
+      [html],
+      {
+        type:
+          "text/html;charset=utf-8"
+      }
+    );
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+  a.href =
+    url;
+
+  a.download =
+    safeFilename(
+      p.name
+    ) +
+    ".html";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(
+    url
+  );
+
+  showToast(
+    "Interactive HTML exported ✓"
+  );
+
+}
+
+
+/* =====================================================
+   CREATE CLIENT HTML
+===================================================== */
+
+function createClientHTML(p) {
+
+  let sectionsHTML = "";
+
+  SECTION_TYPES.forEach(
+    (section, index) => {
+
+      const items =
+        p.sections[section] ||
+        [];
 
       if (
-        images.length === 0 &&
+        items.length === 0 &&
         section !== "Notes"
       ) {
+
         return;
+
       }
+
+      let contentHTML = "";
+
+      /*
+       * TECHNICAL DRAWINGS
+       */
+
+      if (
+        section ===
+        "Technical Drawings"
+      ) {
+
+        contentHTML = `
+
+          <div class="technical-list">
+
+            ${
+              items.map(
+                item => {
+
+                  const image =
+                    typeof item ===
+                    "string"
+                      ? item
+                      : item.image;
+
+                  if (
+                    typeof item ===
+                    "string"
+                  ) {
+
+                    return `
+
+                      <div class="technical-card">
+
+                        <div class="client-image"
+                          onclick="
+                            openImage(
+                              this.querySelector('img').src
+                            )
+                          "
+                        >
+
+                          <img
+                            src="${escapeAttribute(
+                              image
+                            )}"
+                          >
+
+                        </div>
+
+                      </div>
+
+                    `;
+
+                  }
+
+                  return `
+
+                    <div class="technical-card">
+
+                      <div class="client-image"
+                        onclick="
+                          openImage(
+                            this.querySelector('img').src
+                          )
+                        "
+                      >
+
+                        <img
+                          src="${escapeAttribute(
+                            image
+                          )}"
+                        >
+
+                      </div>
+
+                      <div class="info">
+
+                        ${
+                          item.name
+                          ? `
+                            <h3>
+                              ${escapeHTML(
+                                item.name
+                              )}
+                            </h3>
+                          `
+                          : ""
+                        }
+
+                        ${
+                          item.dimensions
+                          ? `
+                            <p>
+                              <strong>
+                                Dimensions:
+                              </strong>
+                              ${escapeHTML(
+                                item.dimensions
+                              )}
+                            </p>
+                          `
+                          : ""
+                        }
+
+                        ${
+                          item.scale
+                          ? `
+                            <p>
+                              <strong>
+                                Scale:
+                              </strong>
+                              ${escapeHTML(
+                                item.scale
+                              )}
+                            </p>
+                          `
+                          : ""
+                        }
+
+                        ${
+                          item.notes
+                          ? `
+                            <p>
+                              ${escapeHTML(
+                                item.notes
+                              )}
+                            </p>
+                          `
+                          : ""
+                        }
+
+                      </div>
+
+                    </div>
+
+                  `;
+
+                }
+              ).join("")
+            }
+
+          </div>
+
+        `;
+
+      }
+
+
+      /*
+       * RENDER DRAWINGS
+       */
+
+      else if (
+        section ===
+        "Render Drawings"
+      ) {
+
+        contentHTML = `
+
+          <div class="render-list">
+
+            ${
+              items.map(
+                item => {
+
+                  const image =
+                    typeof item ===
+                    "string"
+                      ? item
+                      : item.image;
+
+                  if (
+                    typeof item ===
+                    "string"
+                  ) {
+
+                    return `
+
+                      <div class="render-card">
+
+                        <div class="client-image"
+                          onclick="
+                            openImage(
+                              this.querySelector('img').src
+                            )
+                          "
+                        >
+
+                          <img
+                            src="${escapeAttribute(
+                              image
+                            )}"
+                          >
+
+                        </div>
+
+                      </div>
+
+                    `;
+
+                  }
+
+                  return `
+
+                    <div class="render-card">
+
+                      <div class="client-image"
+                        onclick="
+                          openImage(
+                            this.querySelector('img').src
+                          )
+                        "
+                      >
+
+                        <img
+                          src="${escapeAttribute(
+                            image
+                          )}"
+                        >
+
+                      </div>
+
+                      <div class="info">
+
+                        ${
+                          item.room
+                          ? `
+                            <h3>
+                              ${escapeHTML(
+                                item.room
+                              )}
+                            </h3>
+                          `
+                          : ""
+                        }
+
+                        ${
+                          item.view
+                          ? `
+                            <p>
+                              <strong>
+                                View:
+                              </strong>
+                              ${escapeHTML(
+                                item.view
+                              )}
+                            </p>
+                          `
+                          : ""
+                        }
+
+                        ${
+                          item.notes
+                          ? `
+                            <p>
+                              ${escapeHTML(
+                                item.notes
+                              )}
+                            </p>
+                          `
+                          : ""
+                        }
+
+                      </div>
+
+                    </div>
+
+                  `;
+
+                }
+              ).join("")
+            }
+
+          </div>
+
+        `;
+
+      }
+
+
+      /*
+       * NORMAL SECTIONS
+       */
+
+      else {
+
+        contentHTML = `
+
+          <div class="gallery">
+
+            ${
+              items.map(
+                item => {
+
+                  const image =
+                    typeof item ===
+                    "string"
+                      ? item
+                      : item.image;
+
+                  return `
+
+                    <div
+                      class="image"
+                      onclick="
+                        openImage(
+                          this.querySelector('img').src
+                        )
+                      "
+                    >
+
+                      <img
+                        src="${escapeAttribute(
+                          image
+                        )}"
+                      >
+
+                    </div>
+
+                  `;
+
+                }
+              ).join("")
+            }
+
+          </div>
+
+        `;
+
+      }
+
 
       sectionsHTML += `
 
         <section class="section">
 
           <div class="number">
-            ${String(index + 1).padStart(2,"0")}
+
+            ${String(index + 1)
+              .padStart(2,"0")}
+
             /
-            ${escapeHTML(section)}
+
+            ${escapeHTML(
+              section
+            )}
+
           </div>
 
           <h2>
-            ${escapeHTML(section)}
+            ${escapeHTML(
+              section
+            )}
           </h2>
 
-          ${
-            images.length
-            ? `
-              <div class="gallery">
-
-                ${images.map(image => `
-
-                  <div
-                    class="image"
-                    onclick="openImage(this.querySelector('img').src)"
-                  >
-
-                    <img
-                      src="${escapeAttribute(image)}"
-                    >
-
-                  </div>
-
-                `).join("")}
-
-              </div>
-            `
-            : `
-              <p class="empty">
-                Project notes and information.
-              </p>
-            `
-          }
+          ${contentHTML}
 
         </section>
 
       `;
 
-    });
+    }
+  );
 
-    return `
+
+  return `
 
 <!doctype html>
 
@@ -1758,7 +2822,9 @@
 >
 
 <title>
-${escapeHTML(p.name)}
+${escapeHTML(
+  p.name
+)}
 </title>
 
 <link
@@ -1873,9 +2939,52 @@ h2 {
   transform:scale(1.04);
 }
 
-.empty {
-  color:#88847d;
+.technical-list,
+.render-list {
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
+.technical-card,
+.render-card {
+  border:1px solid #e9e7e3;
+  border-radius:14px;
+  overflow:hidden;
+  background:white;
+}
+
+.client-image {
+  width:100%;
+  max-height:700px;
+  background:#f5f4f1;
+  overflow:hidden;
+  cursor:pointer;
+}
+
+.client-image img {
+  display:block;
+  width:100%;
+  max-height:700px;
+  object-fit:contain;
+}
+
+.info {
+  padding:18px;
+}
+
+.info h3 {
+  font-family:"Cormorant Garamond",serif;
+  font-size:24px;
+  font-weight:500;
+  margin:0 0 8px;
+}
+
+.info p {
+  color:#77736d;
   font-size:13px;
+  line-height:1.7;
+  margin:4px 0;
 }
 
 .lightbox {
@@ -1935,27 +3044,37 @@ h2 {
   </div>
 
   <h1>
-    ${escapeHTML(p.name)}
+    ${escapeHTML(
+      p.name
+    )}
   </h1>
 
   <div class="meta">
 
     <span>
-      ${escapeHTML(p.client || "")}
+      ${escapeHTML(
+        p.client || ""
+      )}
     </span>
 
     <span>
-      ${escapeHTML(p.location || "")}
+      ${escapeHTML(
+        p.location || ""
+      )}
     </span>
 
     <span>
-      ${escapeHTML(p.area || "")}
+      ${escapeHTML(
+        p.area || ""
+      )}
     </span>
 
   </div>
 
   <p class="description">
-    ${escapeHTML(p.description || "")}
+    ${escapeHTML(
+      p.description || ""
+    )}
   </p>
 
 </header>
@@ -1986,20 +3105,30 @@ ${sectionsHTML}
 function openImage(src) {
 
   document
-    .getElementById("lightbox-img")
+    .getElementById(
+      "lightbox-img"
+    )
     .src = src;
 
   document
-    .getElementById("lightbox")
-    .classList.add("active");
+    .getElementById(
+      "lightbox"
+    )
+    .classList.add(
+      "active"
+    );
 
 }
 
 function closeImage() {
 
   document
-    .getElementById("lightbox")
-    .classList.remove("active");
+    .getElementById(
+      "lightbox"
+    )
+    .classList.remove(
+      "active"
+    );
 
 }
 
@@ -2007,8 +3136,12 @@ document.addEventListener(
   "keydown",
   function(e) {
 
-    if(e.key === "Escape") {
+    if (
+      e.key === "Escape"
+    ) {
+
       closeImage();
+
     }
 
   }
@@ -2020,233 +3153,316 @@ document.addEventListener(
 
 </html>
 
-    `;
+  `;
 
-  }
+}
 
 
-  /* =====================================================
-     EXPORT JSON
-  ===================================================== */
+/* =====================================================
+   EXPORT JSON
+===================================================== */
 
-  function exportJSON() {
+function exportJSON() {
 
-    const project =
-      projects[currentProject];
+  const project =
+    projects[currentProject];
 
-    const blob =
-      new Blob(
-        [
-          JSON.stringify(
-            project,
-            null,
-            2
-          )
-        ],
-        {
-          type:"application/json"
-        }
-      );
-
-    const url =
-      URL.createObjectURL(blob);
-
-    const a =
-      document.createElement("a");
-
-    a.href = url;
-
-    a.download =
-      safeFilename(project.name) +
-      ".json";
-
-    a.click();
-
-    URL.revokeObjectURL(url);
-
-    showToast(
-      "JSON backup exported ✓"
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          project,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
     );
 
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+  a.href =
+    url;
+
+  a.download =
+    safeFilename(
+      project.name
+    ) +
+    ".json";
+
+  document.body.appendChild(
+    a
+  );
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(
+    url
+  );
+
+  showToast(
+    "JSON backup exported ✓"
+  );
+
+}
+
+
+/* =====================================================
+   IMAGE LIGHTBOX
+===================================================== */
+
+function openImage(src) {
+
+  const win =
+    window.open();
+
+  if (!win) return;
+
+  win.document.write(`
+
+    <html>
+
+    <head>
+
+      <title>
+        Image
+      </title>
+
+      <style>
+
+        body {
+          margin:0;
+          background:#111;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          min-height:100vh;
+        }
+
+        img {
+          max-width:95vw;
+          max-height:95vh;
+          object-fit:contain;
+        }
+
+      </style>
+
+    </head>
+
+    <body>
+
+      <img
+        src="${escapeAttribute(
+          src
+        )}"
+      >
+
+    </body>
+
+    </html>
+
+  `);
+
+  win.document.close();
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function closeModal() {
+
+  document
+    .getElementById(
+      "modal"
+    )
+    .classList.remove(
+      "active"
+    );
+
+}
+
+
+function closeModalOutside(
+  event
+) {
+
+  if (
+    event.target.id ===
+    "modal"
+  ) {
+
+    closeModal();
+
   }
 
-
-  /* =====================================================
-     IMAGE LIGHTBOX
-  ===================================================== */
-
-  function openImage(src) {
-
-    const win =
-      window.open();
-
-    if (!win) return;
-
-    win.document.write(`
-
-      <html>
-
-      <head>
-
-        <title>Image</title>
-
-        <style>
-
-          body {
-            margin:0;
-            background:#111;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            min-height:100vh;
-          }
-
-          img {
-            max-width:95vw;
-            max-height:95vh;
-            object-fit:contain;
-          }
-
-        </style>
-
-      </head>
-
-      <body>
-
-        <img src="${escapeAttribute(src)}">
-
-      </body>
-
-      </html>
-
-    `);
-
-    win.document.close();
-
-  }
+}
 
 
-  /* =====================================================
-     MODAL
-  ===================================================== */
+/* =====================================================
+   TOAST
+===================================================== */
 
-  function closeModal() {
+function showToast(
+  message
+) {
 
-    document
-      .getElementById("modal")
-      .classList.remove("active");
+  const toast =
+    document.getElementById(
+      "toast"
+    );
 
-  }
+  toast.textContent =
+    message;
 
+  toast.classList.add(
+    "show"
+  );
 
-  function closeModalOutside(event) {
+  setTimeout(
+    () => {
 
-    if (
-      event.target.id === "modal"
-    ) {
+      toast.classList.remove(
+        "show"
+      );
 
-      closeModal();
+    },
+    2200
+  );
 
-    }
-
-  }
-
-
-  /* =====================================================
-     TOAST
-  ===================================================== */
-
-  function showToast(message) {
-
-    const toast =
-      document.getElementById("toast");
-
-    toast.textContent =
-      message;
-
-    toast.classList.add("show");
-
-    setTimeout(() => {
-
-      toast.classList.remove("show");
-
-    }, 2200);
-
-  }
+}
 
 
-  /* =====================================================
-     HELPERS
-  ===================================================== */
+/* =====================================================
+   HELPERS
+===================================================== */
 
-  function placeholderImage() {
+function placeholderImage() {
 
-    return `
-      data:image/svg+xml;charset=UTF-8,
-      ${encodeURIComponent(`
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="800"
-          height="500"
+  return `
+    data:image/svg+xml;charset=UTF-8,
+    ${encodeURIComponent(`
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="800"
+        height="500"
+      >
+
+        <rect
+          width="100%"
+          height="100%"
+          fill="#f3f2ef"
+        />
+
+        <text
+          x="50%"
+          y="50%"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          fill="#999"
+          font-family="Arial"
+          font-size="24"
         >
-          <rect width="100%" height="100%" fill="#f3f2ef"/>
-          <text
-            x="50%"
-            y="50%"
-            text-anchor="middle"
-            dominant-baseline="middle"
-            fill="#999"
-            font-family="Arial"
-            font-size="24"
-          >
-            ATELIER
-          </text>
-        </svg>
-      `)}
-    `;
+          ATELIER
+        </text>
 
-  }
+      </svg>
+
+    `)}
+  `;
+
+}
 
 
-  function escapeHTML(value) {
+function escapeHTML(
+  value
+) {
 
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
-  }
+}
 
 
-  function escapeAttribute(value) {
+function escapeAttribute(
+  value
+) {
 
-    return escapeHTML(value);
+  return escapeHTML(
+    value
+  );
 
-  }
-
-
-  function safeFilename(value) {
-
-    return String(value || "project")
-      .replace(/[^a-z0-9ăâîșț \-_]/gi, "")
-      .trim()
-      .replace(/\s+/g, "-")
-      .toLowerCase();
-
-  }
+}
 
 
-  /* =====================================================
-     INIT
-  ===================================================== */
+function safeFilename(
+  value
+) {
 
-  renderProjects();
+  return String(
+    value ||
+    "project"
+  )
+    .replace(
+      /[^a-z0-9ăâîșț \-_]/gi,
+      ""
+    )
+    .trim()
+    .replace(
+      /\s+/g,
+      "-"
+    )
+    .toLowerCase();
 
-  if (window.lucide) {
-    lucide.createIcons();
-  }
+}
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+renderProjects();
+
+if (window.lucide) {
+  lucide.createIcons();
+}
 
 </script>
 
