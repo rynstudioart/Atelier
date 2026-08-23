@@ -1430,7 +1430,44 @@
 
         ${formField("Status", "edit-status", p.status)}
 
-        ${formField("Cover image URL", "edit-cover", p.cover)}
+        <div class="form-group">
+
+  <label>Cover Image</label>
+
+  <input
+    id="edit-cover-file"
+    type="file"
+    accept="image/*"
+    onchange="previewCoverImage(event)"
+  >
+
+  <div
+    id="cover-preview"
+    style="
+      margin-top:10px;
+      width:100%;
+      height:180px;
+      border-radius:12px;
+      overflow:hidden;
+      background:#f5f4f1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    "
+  >
+    ${
+      p.cover
+      ? `<img
+           src="${escapeAttribute(p.cover)}"
+           style="width:100%;height:100%;object-fit:cover;"
+         >`
+      : `<span style="font-size:12px;color:#999;">
+           No cover image
+         </span>`
+    }
+  </div>
+
+</div>
 
         <div class="form-group">
 
@@ -1489,6 +1526,35 @@
     `;
 
   }
+  function previewCoverImage(event) {
+
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+
+    document.getElementById("cover-preview").innerHTML = `
+      <img
+        src="${e.target.result}"
+        style="
+          width:100%;
+          height:100%;
+          object-fit:cover;
+        "
+      >
+    `;
+
+    document
+      .getElementById("cover-preview")
+      .dataset.image = e.target.result;
+
+  };
+
+  reader.readAsDataURL(file);
+}
 
 
   function saveProjectEdit() {
