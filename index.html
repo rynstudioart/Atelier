@@ -1094,123 +1094,30 @@
 
 <script>
 
-
 /* =====================================================
    PROJECT STRUCTURE
 ===================================================== */
 
-const STORAGE_KEY =
-  "atelier-interior-projects";
-
+const STORAGE_KEY = "atelier-interior-projects";
 
 const SECTION_TYPES = [
-
   "Moodboard",
-
   "Sketch",
-
   "Reference",
-
   "Texture",
-
   "Palette Color",
-
   "Materials",
-
   "Furniture",
-
   "Technical Drawings",
-
   "Lighting",
-
   "Render Drawings",
-
   "Notes"
-
 ];
 
-
 let projects =
-  JSON.parse(
-    localStorage.getItem(STORAGE_KEY) || "[]"
-  );
-
+  JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 
 let currentProject = null;
-
-
-
-/* =====================================================
-   DEMO PROJECT
-===================================================== */
-
-if (projects.length === 0) {
-
-  projects.push({
-
-    id: Date.now(),
-
-    name: "Apartment Popescu",
-
-    client: "Andreea & Mihai Popescu",
-
-    location: "Timișoara, Romania",
-
-    area: "78 m²",
-
-    type: "Apartment Renovation",
-
-    status: "Concept",
-
-    description:
-      "Warm contemporary apartment with natural materials, soft neutral tones and custom furniture.",
-
-    cover:
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85",
-
-    sections: {
-
-      "Moodboard": [
-        "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=85",
-        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=85"
-      ],
-
-      "Sketch": [],
-
-      "Reference": [
-        "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85"
-      ],
-
-      "Texture": [
-        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=85"
-      ],
-
-      "Palette Color": [],
-
-      "Materials": [
-        "https://images.unsplash.com/photo-1615529162924-f8605388461d?auto=format&fit=crop&w=1000&q=85"
-      ],
-
-      "Furniture": [
-        "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=85"
-      ],
-
-      "Technical Drawings": [],
-
-      "Lighting": [],
-
-      "Render Drawings": [],
-
-      "Notes": []
-
-    }
-
-  });
-
-  saveLocalStorage();
-
-}
-
 
 
 /* =====================================================
@@ -1226,17 +1133,13 @@ function saveLocalStorage() {
 
 }
 
-
 function saveLocal() {
 
   saveLocalStorage();
 
-  showToast(
-    "Project saved ✓"
-  );
+  showToast("Project saved ✓");
 
 }
-
 
 
 /* =====================================================
@@ -1246,104 +1149,74 @@ function saveLocal() {
 function renderProjects() {
 
   const grid =
-    document.getElementById(
-      "projects-grid"
-    );
+    document.getElementById("projects-grid");
+
+  if (!grid) return;
 
   grid.innerHTML = "";
 
+  projects.forEach((project, index) => {
 
-  projects.forEach(
-    (project, index) => {
+    const card =
+      document.createElement("article");
 
-      const card =
-        document.createElement(
-          "article"
+    card.className = "project-card";
+
+    card.addEventListener("click", function () {
+      openProject(index);
+    });
+
+    const totalImages =
+      Object.values(project.sections || {})
+        .reduce(
+          (total, arr) =>
+            total + (Array.isArray(arr) ? arr.length : 0),
+          0
         );
 
-      card.className =
-        "project-card";
+    card.innerHTML = `
 
+      <div class="project-cover">
 
-      card.onclick =
-        () => openProject(index);
+        <img
+          src="${escapeAttribute(project.cover || placeholderImage())}"
+          alt="${escapeAttribute(project.name)}"
+        >
 
+      </div>
 
-      card.innerHTML = `
+      <div class="project-card-content">
 
-        <div class="project-cover">
-
-          <img
-            src="${escapeAttribute(
-              project.cover ||
-              placeholderImage()
-            )}"
-            alt="${escapeAttribute(
-              project.name
-            )}"
-          >
-
+        <div class="project-card-title">
+          ${escapeHTML(project.name)}
         </div>
 
+        <div class="project-card-info">
+          ${escapeHTML(project.client || "Client")}
+        </div>
 
-        <div class="project-card-content">
-
-          <div class="project-card-title">
-
-            ${escapeHTML(
-              project.name
-            )}
-
-          </div>
-
-
-          <div class="project-card-info">
-
-            ${escapeHTML(
-              project.client ||
-              "Client"
-            )}
-
-          </div>
-
-
-          <div class="project-card-info">
-
-            ${escapeHTML(
-              project.location || ""
-            )}
-
-            ${
-              project.area
-              ? " · " +
-                escapeHTML(project.area)
+        <div class="project-card-info">
+          ${escapeHTML(project.location || "")}
+          ${
+            project.area
+              ? " · " + escapeHTML(project.area)
               : ""
-            }
-
-          </div>
-
-
-          <div class="project-card-status">
-
-            ${escapeHTML(
-              project.status ||
-              "Concept"
-            )}
-
-          </div>
-
+          }
         </div>
 
-      `;
+        <div class="project-card-status">
+          ${escapeHTML(project.status || "Concept")}
+        </div>
 
+      </div>
 
-      grid.appendChild(card);
+    `;
 
-    }
-  );
+    grid.appendChild(card);
+
+  });
 
 }
-
 
 
 /* =====================================================
@@ -1353,16 +1226,11 @@ function renderProjects() {
 function showAddProject() {
 
   document
-    .getElementById(
-      "add-project-form"
-    )
+    .getElementById("add-project-form")
     .classList.remove("hidden");
 
-
   document
-    .getElementById(
-      "new-project-name"
-    )
+    .getElementById("new-project-name")
     .focus();
 
 }
@@ -1371,9 +1239,7 @@ function showAddProject() {
 function hideAddProject() {
 
   document
-    .getElementById(
-      "add-project-form"
-    )
+    .getElementById("add-project-form")
     .classList.add("hidden");
 
 }
@@ -1382,29 +1248,18 @@ function hideAddProject() {
 function createProject() {
 
   const input =
-    document.getElementById(
-      "new-project-name"
-    );
-
+    document.getElementById("new-project-name");
 
   const name =
     input.value.trim();
 
-
   if (!name) return;
-
 
   const sections = {};
 
-
-  SECTION_TYPES.forEach(
-    section => {
-
-      sections[section] = [];
-
-    }
-  );
-
+  SECTION_TYPES.forEach(section => {
+    sections[section] = [];
+  });
 
   projects.push({
 
@@ -1430,20 +1285,15 @@ function createProject() {
 
   });
 
-
   saveLocalStorage();
-
 
   input.value = "";
 
-
   hideAddProject();
-
 
   renderProjects();
 
 }
-
 
 
 /* =====================================================
@@ -1454,252 +1304,172 @@ function openProject(index) {
 
   currentProject = index;
 
-
   const project =
     projects[index];
 
-
   document
-    .getElementById(
-      "main-view"
-    )
+    .getElementById("main-view")
     .classList.add("hidden");
 
-
   document
-    .getElementById(
-      "detail-view"
-    )
+    .getElementById("detail-view")
     .classList.remove("hidden");
 
-
   document
-    .getElementById(
-      "detail-project-name"
-    )
+    .getElementById("detail-project-name")
     .textContent =
-      project.name;
-
+    project.name;
 
   document
-    .getElementById(
-      "detail-meta"
-    )
+    .getElementById("detail-meta")
     .innerHTML = `
 
       <span>
-        ${escapeHTML(
-          project.client ||
-          "No client"
-        )}
+        ${escapeHTML(project.client || "No client")}
       </span>
 
       <span>
-        ${escapeHTML(
-          project.location ||
-          "No location"
-        )}
+        ${escapeHTML(project.location || "No location")}
       </span>
 
       <span>
-        ${escapeHTML(
-          project.area ||
-          "No area"
-        )}
+        ${escapeHTML(project.area || "No area")}
       </span>
 
       <span>
-        ${escapeHTML(
-          project.status ||
-          "Concept"
-        )}
+        ${escapeHTML(project.status || "Concept")}
       </span>
 
     `;
 
+  /*
+     IMPORTANT:
+     Make sure every section exists.
+  */
+
+  SECTION_TYPES.forEach(section => {
+
+    if (!Array.isArray(project.sections[section])) {
+      project.sections[section] = [];
+    }
+
+  });
 
   renderSections();
 
-
-  window.scrollTo(
-    0,
-    0
-  );
-
+  window.scrollTo(0, 0);
 
   if (window.lucide) {
-
     lucide.createIcons();
-
   }
 
 }
 
 
-
 function goBack() {
 
   document
-    .getElementById(
-      "detail-view"
-    )
+    .getElementById("detail-view")
     .classList.add("hidden");
 
-
   document
-    .getElementById(
-      "main-view"
-    )
+    .getElementById("main-view")
     .classList.remove("hidden");
-
 
   currentProject = null;
 
-
   renderProjects();
 
-
-  window.scrollTo(
-    0,
-    0
-  );
+  window.scrollTo(0, 0);
 
 }
 
 
-
 /* =====================================================
-   RENDER PROJECT SECTIONS
+   RENDER SECTIONS
 ===================================================== */
 
 function renderSections() {
 
   const container =
-    document.getElementById(
-      "sections-container"
-    );
+    document.getElementById("sections-container");
 
+  if (!container) return;
 
   container.innerHTML = "";
-
 
   const project =
     projects[currentProject];
 
+  SECTION_TYPES.forEach((section, index) => {
 
-  SECTION_TYPES.forEach(
-    (section, index) => {
+    if (!project.sections[section]) {
+      project.sections[section] = [];
+    }
 
-      const sectionElement =
-        document.createElement(
-          "section"
-        );
+    const images =
+      project.sections[section];
 
+    const sectionElement =
+      document.createElement("section");
 
-      sectionElement.className =
-        "project-section";
+    sectionElement.className =
+      "project-section";
 
+    /*
+       IMPORTANT:
+       The + button is now identified using
+       data-section-index instead of inline onclick.
+    */
 
-      const images =
-        project.sections[section] ||
-        [];
+    sectionElement.innerHTML = `
 
+      <div class="section-number">
+        ${String(index + 1).padStart(2, "0")} /
+        ${escapeHTML(section)}
+      </div>
 
-      /*
-        Sketch and Render Drawings
-        use horizontal scrolling.
-      */
+      <div
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:20px;
+          margin-bottom:22px;
+        "
+      >
 
-      const isHorizontal =
-        section === "Sketch" ||
-        section === "Render Drawings";
+        <h2
+          class="section-title"
+          style="margin:0;"
+        >
+          ${escapeHTML(section)}
+        </h2>
 
+        <button
+          type="button"
+          class="add-content-button"
+          data-add-section="${index}"
+          title="Add content"
+          aria-label="Add content to ${escapeAttribute(section)}"
+        >
+          +
+        </button>
 
-      const isTechnical =
-        section === "Technical Drawings";
+      </div>
 
-
-      let gridClass =
-        "photo-grid";
-
-
-      if (isHorizontal) {
-
-        gridClass =
-          "horizontal-scroll-grid";
-
-      }
-
-
-      if (isTechnical) {
-
-        gridClass =
-          "technical-drawings-grid";
-
-      }
-
-
-      sectionElement.innerHTML = `
-
-        <!-- SECTION HEADER -->
-
-        <div class="section-header">
-
-          <div class="section-header-left">
-
-            <div class="section-number">
-
-              ${String(index + 1).padStart(2, "0")}
-
-              /
-
-              ${escapeHTML(section)}
-
-            </div>
-
-
-            <h2 class="section-title">
-
-              ${escapeHTML(section)}
-
-            </h2>
-
-          </div>
-
-
-          <!-- PLUS -->
-
-          <button
-            class="section-add-button"
-            onclick="openAddContent(${index})"
-            title="Add to ${escapeAttribute(section)}"
-          >
-
-            +
-
-          </button>
-
-        </div>
-
-
-        <!-- IMAGES -->
+      <div
+        class="photo-grid"
+        id="grid-${index}"
+      >
 
         ${
           images.length
-
-          ? `
-
-            <div
-              class="${gridClass}"
-              id="grid-${index}"
-            >
-
-              ${images.map(
-                (image, imageIndex) => `
+            ? images.map((image, imageIndex) => `
 
                 <div
                   class="photo-item"
-                  onclick="openImageModal('${escapeAttribute(image)}')"
+                  data-image="${escapeAttribute(image)}"
                 >
 
                   <img
@@ -1707,223 +1477,351 @@ function renderSections() {
                     alt="${escapeAttribute(section)}"
                   >
 
-
                   <button
+                    type="button"
                     class="remove-photo"
-                    onclick="
-                      event.stopPropagation();
-                      removePhoto(
-                        ${index},
-                        ${imageIndex}
-                      )
-                    "
+                    data-remove-section="${index}"
+                    data-remove-image="${imageIndex}"
                   >
-
                     ×
-
                   </button>
 
                 </div>
 
-              `
-              ).join("")}
-
-            </div>
-
-          `
-
-          : `
-
-            <div
-              style="
-                color:#aaa69f;
-                font-size:12px;
-                padding:5px 0;
-              "
-            >
-
-              No content added yet.
-
-            </div>
-
-          `
+              `).join("")
+            : ""
         }
 
-      `;
+      </div>
 
+    `;
 
-      container.appendChild(
-        sectionElement
-      );
+    container.appendChild(sectionElement);
 
-    }
-  );
+  });
 
+  /*
+     Attach events AFTER the sections are created.
+  */
 
-  if (window.lucide) {
-
-    lucide.createIcons();
-
-  }
+  attachSectionEvents();
 
 }
 
+
+/* =====================================================
+   SECTION EVENTS
+===================================================== */
+
+function attachSectionEvents() {
+
+  /*
+     ADD BUTTONS
+  */
+
+  document
+    .querySelectorAll("[data-add-section]")
+    .forEach(button => {
+
+      button.addEventListener("click", function(event) {
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+        const sectionIndex =
+          Number(
+            this.getAttribute("data-add-section")
+          );
+
+        openAddContent(sectionIndex);
+
+      });
+
+    });
+
+
+  /*
+     REMOVE BUTTONS
+  */
+
+  document
+    .querySelectorAll("[data-remove-section]")
+    .forEach(button => {
+
+      button.addEventListener("click", function(event) {
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+        const sectionIndex =
+          Number(
+            this.getAttribute("data-remove-section")
+          );
+
+        const imageIndex =
+          Number(
+            this.getAttribute("data-remove-image")
+          );
+
+        removePhoto(
+          sectionIndex,
+          imageIndex
+        );
+
+      });
+
+    });
+
+
+  /*
+     IMAGE CLICK
+  */
+
+  document
+    .querySelectorAll(".photo-item")
+    .forEach(item => {
+
+      item.addEventListener("click", function(event) {
+
+        /*
+           Do not open the image when clicking X.
+        */
+
+        if (
+          event.target.closest(".remove-photo")
+        ) {
+          return;
+        }
+
+        const image =
+          this.getAttribute("data-image");
+
+        if (image) {
+          openImage(image);
+        }
+
+      });
+
+    });
+
+}
+
+
+/* =====================================================
+   ADD CONTENT MODAL
+===================================================== */
+
+function openAddContent(sectionIndex) {
+
+  const section =
+    SECTION_TYPES[sectionIndex];
+
+  const modal =
+    document.getElementById("modal");
+
+  const modalBox =
+    document.getElementById("modal-box");
+
+  if (!modal || !modalBox) {
+    console.error("Modal not found");
+    return;
+  }
+
+  modalBox.innerHTML = `
+
+    <div class="modal-title">
+      Add to ${escapeHTML(section)}
+    </div>
+
+    <div class="form-group">
+
+      <label>
+        Image URL
+      </label>
+
+      <input
+        id="content-url"
+        type="text"
+        placeholder="https://..."
+      >
+
+    </div>
+
+    <div
+      class="form-group"
+    >
+
+      <label>
+        Or choose an image
+      </label>
+
+      <input
+        id="content-file"
+        type="file"
+        accept="image/*"
+      >
+
+    </div>
+
+    <div
+      id="image-upload-preview"
+      style="
+        display:none;
+        margin-top:10px;
+        margin-bottom:15px;
+        border-radius:12px;
+        overflow:hidden;
+        background:#f5f4f1;
+        max-height:250px;
+      "
+    ></div>
+
+    <div class="modal-actions">
+
+      <button
+        type="button"
+        id="cancel-add-content"
+        class="action-button"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        id="confirm-add-content"
+        class="action-button dark"
+      >
+        Add
+      </button>
+
+    </div>
+
+  `;
+
+  modal.classList.add("active");
+
+
+  /*
+     Cancel
+  */
+
+  document
+    .getElementById("cancel-add-content")
+    .addEventListener("click", function() {
+
+      closeModal();
+
+    });
+
+
+  /*
+     ADD
+  */
+
+  document
+    .getElementById("confirm-add-content")
+    .addEventListener("click", function() {
+
+      addContent(sectionIndex);
+
+    });
+
+
+  /*
+     IMAGE PREVIEW
+  */
+
+  document
+    .getElementById("content-file")
+    .addEventListener("change", function() {
+
+      const file =
+        this.files[0];
+
+      if (!file) return;
+
+      const reader =
+        new FileReader();
+
+      reader.onload = function(event) {
+
+        const preview =
+          document.getElementById(
+            "image-upload-preview"
+          );
+
+        preview.style.display = "block";
+
+        preview.innerHTML = `
+
+          <img
+            src="${event.target.result}"
+            style="
+              width:100%;
+              max-height:250px;
+              object-fit:contain;
+              display:block;
+            "
+          >
+
+        `;
+
+      };
+
+      reader.readAsDataURL(file);
+
+    });
+
+
+  /*
+     Focus URL
+  */
+
+  document
+    .getElementById("content-url")
+    .focus();
+
+}
 
 
 /* =====================================================
    ADD CONTENT
 ===================================================== */
 
-function openAddContent(
-  sectionIndex
-) {
+function addContent(sectionIndex) {
+
+  if (
+    currentProject === null ||
+    !projects[currentProject]
+  ) {
+    return;
+  }
 
   const section =
     SECTION_TYPES[sectionIndex];
 
+  const urlInput =
+    document.getElementById("content-url");
 
-  document
-    .getElementById(
-      "modal-box"
-    )
-    .innerHTML = `
-
-      <div class="modal-title">
-
-        Add to ${escapeHTML(section)}
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          Image URL
-        </label>
-
-        <input
-          id="content-url"
-          type="text"
-          placeholder="https://..."
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          Or choose an image
-        </label>
-
-        <input
-          id="content-file"
-          type="file"
-          accept="image/*"
-        >
-
-      </div>
-
-
-      <div class="modal-actions">
-
-        <button
-          onclick="closeModal()"
-          class="action-button"
-        >
-
-          Cancel
-
-        </button>
-
-
-        <button
-          onclick="addContent(${sectionIndex})"
-          class="action-button dark"
-        >
-
-          Add
-
-        </button>
-
-      </div>
-
-    `;
-
-
-  document
-    .getElementById(
-      "modal"
-    )
-    .classList.add("active");
-
-}
-
-
-
-function addContent(
-  sectionIndex
-) {
-
-  const urlElement =
-    document.getElementById(
-      "content-url"
-    );
-
-
-  const fileElement =
-    document.getElementById(
-      "content-file"
-    );
-
+  const fileInput =
+    document.getElementById("content-file");
 
   const url =
-    urlElement
-      ? urlElement.value.trim()
+    urlInput
+      ? urlInput.value.trim()
       : "";
 
-
   const file =
-    fileElement &&
-    fileElement.files
-      ? fileElement.files[0]
+    fileInput &&
+    fileInput.files
+      ? fileInput.files[0]
       : null;
 
 
-  const section =
-    SECTION_TYPES[sectionIndex];
-
-
   /*
-    IMPORTANT:
-    Ensure the section exists.
-  */
-
-  if (
-    !projects[currentProject].sections
-  ) {
-
-    projects[currentProject].sections =
-      {};
-
-  }
-
-
-  if (
-    !Array.isArray(
-      projects[currentProject]
-        .sections[section]
-    )
-  ) {
-
-    projects[currentProject]
-      .sections[section] = [];
-
-  }
-
-
-  /*
-    Upload local image
+     FILE UPLOAD
   */
 
   if (file) {
@@ -1931,43 +1829,40 @@ function addContent(
     const reader =
       new FileReader();
 
+    reader.onload = function(event) {
 
-    reader.onload =
-      function(event) {
+      projects[currentProject]
+        .sections[section]
+        .push(event.target.result);
 
-        projects[currentProject]
-          .sections[section]
-          .push(
-            event.target.result
-          );
+      saveLocalStorage();
 
+      closeModal();
 
-        saveLocalStorage();
+      renderSections();
 
+      showToast(
+        `${section} — image added ✓`
+      );
 
-        closeModal();
+    };
 
+    reader.onerror = function() {
 
-        renderSections();
+      showToast(
+        "Could not read image"
+      );
 
-
-        showToast(
-          "Image added ✓"
-        );
-
-      };
-
+    };
 
     reader.readAsDataURL(file);
 
-
     return;
-
   }
 
 
   /*
-    Add image from URL
+     URL
   */
 
   if (url) {
@@ -1976,36 +1871,33 @@ function addContent(
       .sections[section]
       .push(url);
 
-
     saveLocalStorage();
-
 
     closeModal();
 
-
     renderSections();
 
-
     showToast(
-      "Image added ✓"
+      `${section} — image added ✓`
     );
 
-
     return;
-
   }
 
 
+  /*
+     NOTHING SELECTED
+  */
+
   showToast(
-    "Choose an image or enter a URL"
+    "Choose an image or enter an URL"
   );
 
 }
 
 
-
 /* =====================================================
-   REMOVE PHOTO
+   REMOVE IMAGE
 ===================================================== */
 
 function removePhoto(
@@ -2016,39 +1908,28 @@ function removePhoto(
   const section =
     SECTION_TYPES[sectionIndex];
 
-
   if (
-    !projects[currentProject]
-      .sections[section]
+    !projects[currentProject] ||
+    !projects[currentProject].sections[section]
   ) {
     return;
   }
 
-
   projects[currentProject]
     .sections[section]
-    .splice(
-      imageIndex,
-      1
-    );
-
+    .splice(imageIndex, 1);
 
   saveLocalStorage();
 
-
   renderSections();
 
-
-  showToast(
-    "Image removed"
-  );
+  showToast("Image removed ✓");
 
 }
 
 
-
 /* =====================================================
-   EDIT PROJECT
+   PROJECT EDIT
 ===================================================== */
 
 function openProjectEdit() {
@@ -2056,17 +1937,13 @@ function openProjectEdit() {
   const p =
     projects[currentProject];
 
-
   document
-    .getElementById(
-      "modal-box"
-    )
+    .getElementById("modal-box")
     .innerHTML = `
 
       <div class="modal-title">
         Edit Project
       </div>
-
 
       ${formField(
         "Project name",
@@ -2074,13 +1951,11 @@ function openProjectEdit() {
         p.name
       )}
 
-
       ${formField(
         "Client",
         "edit-client",
         p.client
       )}
-
 
       ${formField(
         "Location",
@@ -2088,13 +1963,11 @@ function openProjectEdit() {
         p.location
       )}
 
-
       ${formField(
         "Surface",
         "edit-area",
         p.area
       )}
-
 
       ${formField(
         "Project type",
@@ -2102,13 +1975,11 @@ function openProjectEdit() {
         p.type
       )}
 
-
       ${formField(
         "Status",
         "edit-status",
         p.status
       )}
-
 
       <div class="form-group">
 
@@ -2116,14 +1987,11 @@ function openProjectEdit() {
           Cover Image
         </label>
 
-
         <input
           id="edit-cover-file"
           type="file"
           accept="image/*"
-          onchange="previewCoverImage(event)"
         >
-
 
         <div
           id="cover-preview"
@@ -2142,47 +2010,37 @@ function openProjectEdit() {
 
           ${
             p.cover
-
-            ? `
-
-              <img
-                src="${escapeAttribute(p.cover)}"
-                style="
-                  width:100%;
-                  height:100%;
-                  object-fit:cover;
-                "
-              >
-
-            `
-
-            : `
-
-              <span
-                style="
-                  font-size:12px;
-                  color:#999;
-                "
-              >
-
-                No cover image
-
-              </span>
-
-            `
+              ? `
+                <img
+                  src="${escapeAttribute(p.cover)}"
+                  style="
+                    width:100%;
+                    height:100%;
+                    object-fit:cover;
+                  "
+                >
+              `
+              : `
+                <span
+                  style="
+                    font-size:12px;
+                    color:#999;
+                  "
+                >
+                  No cover image
+                </span>
+              `
           }
 
         </div>
 
       </div>
 
-
       <div class="form-group">
 
         <label>
           Description
         </label>
-
 
         <textarea
           id="edit-description"
@@ -2192,41 +2050,57 @@ function openProjectEdit() {
 
       </div>
 
-
       <div class="modal-actions">
 
         <button
-          onclick="closeModal()"
+          type="button"
+          id="cancel-edit-project"
           class="action-button"
         >
-
           Cancel
-
         </button>
 
-
         <button
-          onclick="saveProjectEdit()"
+          type="button"
+          id="save-edit-project"
           class="action-button dark"
         >
-
           Save
-
         </button>
 
       </div>
 
     `;
 
-
   document
-    .getElementById(
-      "modal"
-    )
+    .getElementById("modal")
     .classList.add("active");
 
-}
 
+  document
+    .getElementById("cancel-edit-project")
+    .addEventListener(
+      "click",
+      closeModal
+    );
+
+
+  document
+    .getElementById("save-edit-project")
+    .addEventListener(
+      "click",
+      saveProjectEdit
+    );
+
+
+  document
+    .getElementById("edit-cover-file")
+    .addEventListener(
+      "change",
+      previewCoverImage
+    );
+
+}
 
 
 function formField(
@@ -2243,9 +2117,8 @@ function formField(
         ${escapeHTML(label)}
       </label>
 
-
       <input
-        id="${escapeAttribute(id)}"
+        id="${id}"
         value="${escapeAttribute(
           value || ""
         )}"
@@ -2258,55 +2131,44 @@ function formField(
 }
 
 
-
 function previewCoverImage(event) {
 
   const file =
     event.target.files[0];
 
-
   if (!file) return;
-
 
   const reader =
     new FileReader();
 
+  reader.onload = function(e) {
 
-  reader.onload =
-    function(e) {
+    const preview =
+      document.getElementById(
+        "cover-preview"
+      );
 
-      document
-        .getElementById(
-          "cover-preview"
-        )
-        .innerHTML = `
+    preview.innerHTML = `
 
-          <img
-            src="${e.target.result}"
-            style="
-              width:100%;
-              height:100%;
-              object-fit:cover;
-            "
-          >
+      <img
+        src="${e.target.result}"
+        style="
+          width:100%;
+          height:100%;
+          object-fit:cover;
+        "
+      >
 
-        `;
+    `;
 
+    preview.dataset.image =
+      e.target.result;
 
-      document
-        .getElementById(
-          "cover-preview"
-        )
-        .dataset.image =
-          e.target.result;
-
-    };
-
+  };
 
   reader.readAsDataURL(file);
 
 }
-
 
 
 function saveProjectEdit() {
@@ -2314,61 +2176,40 @@ function saveProjectEdit() {
   const p =
     projects[currentProject];
 
-
   p.name =
-    document
-      .getElementById(
-        "edit-name"
-      )
-      .value;
-
+    document.getElementById(
+      "edit-name"
+    ).value;
 
   p.client =
-    document
-      .getElementById(
-        "edit-client"
-      )
-      .value;
-
+    document.getElementById(
+      "edit-client"
+    ).value;
 
   p.location =
-    document
-      .getElementById(
-        "edit-location"
-      )
-      .value;
-
+    document.getElementById(
+      "edit-location"
+    ).value;
 
   p.area =
-    document
-      .getElementById(
-        "edit-area"
-      )
-      .value;
-
+    document.getElementById(
+      "edit-area"
+    ).value;
 
   p.type =
-    document
-      .getElementById(
-        "edit-type"
-      )
-      .value;
-
+    document.getElementById(
+      "edit-type"
+    ).value;
 
   p.status =
-    document
-      .getElementById(
-        "edit-status"
-      )
-      .value;
-
+    document.getElementById(
+      "edit-status"
+    ).value;
 
   p.description =
-    document
-      .getElementById(
-        "edit-description"
-      )
-      .value;
+    document.getElementById(
+      "edit-description"
+    ).value;
 
 
   const coverPreview =
@@ -2376,38 +2217,27 @@ function saveProjectEdit() {
       "cover-preview"
     );
 
-
-  const uploadedCover =
-    coverPreview
-      ? coverPreview.dataset.image
-      : "";
-
-
-  if (uploadedCover) {
+  if (
+    coverPreview &&
+    coverPreview.dataset.image
+  ) {
 
     p.cover =
-      uploadedCover;
+      coverPreview.dataset.image;
 
   }
 
-
   saveLocalStorage();
-
 
   closeModal();
 
-
-  openProject(
-    currentProject
-  );
-
+  openProject(currentProject);
 
   showToast(
     "Project updated ✓"
   );
 
 }
-
 
 
 /* =====================================================
@@ -2419,40 +2249,33 @@ function previewClient() {
   const p =
     projects[currentProject];
 
-
   const html =
     createClientHTML(p);
-
 
   const win =
     window.open();
 
-
   if (!win) {
 
     showToast(
-      "Allow popups in your browser"
+      "Allow pop-ups for preview"
     );
 
     return;
 
   }
 
-
   win.document.open();
 
-  win.document.write(
-    html
-  );
+  win.document.write(html);
 
   win.document.close();
 
 }
 
 
-
 /* =====================================================
-   EXPORT INTERACTIVE HTML
+   EXPORT HTML
 ===================================================== */
 
 function exportHTML() {
@@ -2460,10 +2283,8 @@ function exportHTML() {
   const p =
     projects[currentProject];
 
-
   const html =
     createClientHTML(p);
-
 
   const blob =
     new Blob(
@@ -2474,37 +2295,29 @@ function exportHTML() {
       }
     );
 
-
   const url =
     URL.createObjectURL(blob);
-
 
   const a =
     document.createElement("a");
 
-
-  a.href =
-    url;
-
+  a.href = url;
 
   a.download =
-    safeFilename(
-      p.name
-    ) +
+    safeFilename(p.name) +
     ".html";
-
 
   document.body.appendChild(a);
 
-
   a.click();
-
 
   a.remove();
 
+  setTimeout(() => {
 
-  URL.revokeObjectURL(url);
+    URL.revokeObjectURL(url);
 
+  }, 1000);
 
   showToast(
     "Interactive HTML exported ✓"
@@ -2512,6 +2325,207 @@ function exportHTML() {
 
 }
 
+
+/* =====================================================
+   EXPORT JSON
+===================================================== */
+
+function exportJSON() {
+
+  const project =
+    projects[currentProject];
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          project,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    safeFilename(project.name) +
+    ".json";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  setTimeout(() => {
+
+    URL.revokeObjectURL(url);
+
+  }, 1000);
+
+  showToast(
+    "JSON backup exported ✓"
+  );
+
+}
+
+
+/* =====================================================
+   IMAGE VIEWER
+===================================================== */
+
+function openImage(src) {
+
+  const win =
+    window.open();
+
+  if (!win) {
+
+    showToast(
+      "Allow pop-ups to view image"
+    );
+
+    return;
+
+  }
+
+  win.document.write(`
+
+    <!doctype html>
+
+    <html>
+
+    <head>
+
+      <title>
+        Image
+      </title>
+
+      <style>
+
+        html,
+        body {
+
+          margin:0;
+
+          width:100%;
+          height:100%;
+
+          background:#111;
+
+          display:flex;
+
+          align-items:center;
+
+          justify-content:center;
+
+        }
+
+        img {
+
+          max-width:96vw;
+          max-height:96vh;
+
+          object-fit:contain;
+
+        }
+
+      </style>
+
+    </head>
+
+    <body>
+
+      <img
+        src="${escapeAttribute(src)}"
+      >
+
+    </body>
+
+    </html>
+
+  `);
+
+  win.document.close();
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function closeModal() {
+
+  const modal =
+    document.getElementById(
+      "modal"
+    );
+
+  if (modal) {
+
+    modal.classList.remove(
+      "active"
+    );
+
+  }
+
+}
+
+
+function closeModalOutside(event) {
+
+  if (
+    event.target.id === "modal"
+  ) {
+
+    closeModal();
+
+  }
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message) {
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+  if (!toast) return;
+
+  toast.textContent =
+    message;
+
+  toast.classList.add(
+    "show"
+  );
+
+  setTimeout(() => {
+
+    toast.classList.remove(
+      "show"
+    );
+
+  }, 2200);
+
+}
 
 
 /* =====================================================
@@ -2522,29 +2536,18 @@ function createClientHTML(p) {
 
   let sectionsHTML = "";
 
-
   SECTION_TYPES.forEach(
     (section, index) => {
 
       const images =
-        p.sections[section] ||
-        [];
-
+        p.sections[section] || [];
 
       if (
         images.length === 0 &&
         section !== "Notes"
       ) {
-
         return;
-
       }
-
-
-      const horizontal =
-        section === "Sketch" ||
-        section === "Render Drawings";
-
 
       sectionsHTML += `
 
@@ -2553,7 +2556,7 @@ function createClientHTML(p) {
           <div class="number">
 
             ${String(index + 1)
-              .padStart(2,"0")}
+              .padStart(2, "0")}
 
             /
 
@@ -2561,65 +2564,49 @@ function createClientHTML(p) {
 
           </div>
 
-
           <h2>
-
             ${escapeHTML(section)}
-
           </h2>
-
 
           ${
             images.length
+              ? `
 
-            ? `
+                <div class="gallery">
 
-              <div
-                class="${
-                  horizontal
-                  ? "gallery horizontal"
-                  : "gallery"
-                }"
-              >
+                  ${images
+                    .map(
+                      image => `
 
-                ${images.map(
-                  image => `
+                        <div
+                          class="image"
+                          onclick="
+                            openImage(
+                              this.querySelector('img').src
+                            )
+                          "
+                        >
 
-                  <div
-                    class="image"
-                    onclick="
-                      openImage(
-                        this
-                        .querySelector('img')
-                        .src
-                      )
-                    "
-                  >
+                          <img
+                            src="${escapeAttribute(image)}"
+                          >
 
-                    <img
-                      src="${escapeAttribute(
-                        image
-                      )}"
-                    >
+                        </div>
 
-                  </div>
+                      `
+                    )
+                    .join("")}
 
-                `
-                ).join("")}
+                </div>
 
-              </div>
+              `
+              : `
 
-            `
+                <p class="empty">
+                  Project notes and information.
+                </p>
 
-            : `
-
-              <p class="empty">
-
-                Project notes and information.
-
-              </p>
-
-            `
+              `
           }
 
         </section>
@@ -2649,25 +2636,16 @@ function createClientHTML(p) {
 ${escapeHTML(p.name)}
 </title>
 
-
-<link
-  rel="preconnect"
-  href="https://fonts.googleapis.com"
->
-
-
 <link
   href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap"
   rel="stylesheet"
 >
-
 
 <style>
 
 * {
   box-sizing:border-box;
 }
-
 
 body {
 
@@ -2677,10 +2655,11 @@ body {
 
   color:#242220;
 
-  font-family:"DM Sans",sans-serif;
+  font-family:
+    "DM Sans",
+    sans-serif;
 
 }
-
 
 .container {
 
@@ -2688,21 +2667,22 @@ body {
 
   margin:auto;
 
-  padding:0 25px;
+  padding:
+    0 25px;
 
 }
-
 
 header {
 
   text-align:center;
 
-  padding:75px 0 70px;
+  padding:
+    75px 0 70px;
 
-  border-bottom:1px solid #e9e7e3;
+  border-bottom:
+    1px solid #e9e7e3;
 
 }
-
 
 .logo {
 
@@ -2716,12 +2696,14 @@ header {
 
 }
 
-
 h1 {
 
-  font-family:"Cormorant Garamond",serif;
+  font-family:
+    "Cormorant Garamond",
+    serif;
 
-  font-size:clamp(50px,8vw,82px);
+  font-size:
+    clamp(50px,8vw,82px);
 
   font-weight:500;
 
@@ -2730,7 +2712,6 @@ h1 {
   margin:0;
 
 }
-
 
 .meta {
 
@@ -2750,12 +2731,12 @@ h1 {
 
 }
 
-
 .description {
 
   max-width:650px;
 
-  margin:30px auto 0;
+  margin:
+    30px auto 0;
 
   color:#77736d;
 
@@ -2765,15 +2746,15 @@ h1 {
 
 }
 
-
 .section {
 
-  padding:70px 0;
+  padding:
+    70px 0;
 
-  border-bottom:1px solid #e9e7e3;
+  border-bottom:
+    1px solid #e9e7e3;
 
 }
-
 
 .number {
 
@@ -2787,19 +2768,20 @@ h1 {
 
 }
 
-
 h2 {
 
-  font-family:"Cormorant Garamond",serif;
+  font-family:
+    "Cormorant Garamond",
+    serif;
 
   font-size:40px;
 
   font-weight:500;
 
-  margin:8px 0 28px;
+  margin:
+    8px 0 28px;
 
 }
-
 
 .gallery {
 
@@ -2811,20 +2793,6 @@ h2 {
   gap:14px;
 
 }
-
-
-.gallery.horizontal {
-
-  display:flex;
-
-  overflow-x:auto;
-
-  gap:14px;
-
-  padding-bottom:10px;
-
-}
-
 
 .image {
 
@@ -2840,18 +2808,6 @@ h2 {
 
 }
 
-
-.gallery.horizontal .image {
-
-  flex:0 0 520px;
-
-  height:330px;
-
-  aspect-ratio:auto;
-
-}
-
-
 .image img {
 
   width:100%;
@@ -2864,13 +2820,11 @@ h2 {
 
 }
 
-
 .image:hover img {
 
   transform:scale(1.04);
 
 }
-
 
 .empty {
 
@@ -2880,14 +2834,14 @@ h2 {
 
 }
 
-
 .lightbox {
 
   position:fixed;
 
   inset:0;
 
-  background:rgba(0,0,0,.85);
+  background:
+    rgba(0,0,0,.85);
 
   display:none;
 
@@ -2901,13 +2855,11 @@ h2 {
 
 }
 
-
 .lightbox.active {
 
   display:flex;
 
 }
-
 
 .lightbox img {
 
@@ -2918,7 +2870,6 @@ h2 {
   object-fit:contain;
 
 }
-
 
 .close {
 
@@ -2936,7 +2887,6 @@ h2 {
 
 }
 
-
 @media(max-width:700px) {
 
   .gallery {
@@ -2945,18 +2895,6 @@ h2 {
       repeat(2,1fr);
 
   }
-
-
-  .gallery.horizontal .image {
-
-    flex:0 0 85vw;
-
-    width:85vw;
-
-    height:55vw;
-
-  }
-
 
   header {
 
@@ -2970,12 +2908,9 @@ h2 {
 
 </head>
 
-
 <body>
 
-
 <div class="container">
-
 
 <header>
 
@@ -2983,11 +2918,9 @@ h2 {
     ATELIER
   </div>
 
-
   <h1>
     ${escapeHTML(p.name)}
   </h1>
-
 
   <div class="meta">
 
@@ -2995,11 +2928,9 @@ h2 {
       ${escapeHTML(p.client || "")}
     </span>
 
-
     <span>
       ${escapeHTML(p.location || "")}
     </span>
-
 
     <span>
       ${escapeHTML(p.area || "")}
@@ -3007,23 +2938,15 @@ h2 {
 
   </div>
 
-
   <p class="description">
-
-    ${escapeHTML(
-      p.description || ""
-    )}
-
+    ${escapeHTML(p.description || "")}
   </p>
 
 </header>
 
-
 ${sectionsHTML}
 
-
 </div>
-
 
 <div
   class="lightbox"
@@ -3035,7 +2958,6 @@ ${sectionsHTML}
     ×
   </div>
 
-
   <img
     id="lightbox-img"
     onclick="event.stopPropagation()"
@@ -3043,41 +2965,27 @@ ${sectionsHTML}
 
 </div>
 
-
 <script>
 
 function openImage(src) {
 
   document
-    .getElementById(
-      "lightbox-img"
-    )
+    .getElementById("lightbox-img")
     .src = src;
 
-
   document
-    .getElementById(
-      "lightbox"
-    )
-    .classList.add(
-      "active"
-    );
+    .getElementById("lightbox")
+    .classList.add("active");
 
 }
-
 
 function closeImage() {
 
   document
-    .getElementById(
-      "lightbox"
-    )
-    .classList.remove(
-      "active"
-    );
+    .getElementById("lightbox")
+    .classList.remove("active");
 
 }
-
 
 document.addEventListener(
   "keydown",
@@ -3096,7 +3004,6 @@ document.addEventListener(
 
 <\/script>
 
-
 </body>
 
 </html>
@@ -3104,249 +3011,6 @@ document.addEventListener(
   `;
 
 }
-
-
-
-/* =====================================================
-   EXPORT JSON
-===================================================== */
-
-function exportJSON() {
-
-  const project =
-    projects[currentProject];
-
-
-  const blob =
-    new Blob(
-      [
-        JSON.stringify(
-          project,
-          null,
-          2
-        )
-      ],
-      {
-        type:
-          "application/json"
-      }
-    );
-
-
-  const url =
-    URL.createObjectURL(
-      blob
-    );
-
-
-  const a =
-    document.createElement(
-      "a"
-    );
-
-
-  a.href =
-    url;
-
-
-  a.download =
-    safeFilename(
-      project.name
-    ) +
-    ".json";
-
-
-  document.body.appendChild(a);
-
-
-  a.click();
-
-
-  a.remove();
-
-
-  URL.revokeObjectURL(
-    url
-  );
-
-
-  showToast(
-    "JSON backup exported ✓"
-  );
-
-}
-
-
-
-/* =====================================================
-   IMAGE POPUP
-===================================================== */
-
-function openImageModal(src) {
-
-  const modal =
-    document.getElementById(
-      "image-modal"
-    );
-
-
-  const image =
-    document.getElementById(
-      "image-modal-img"
-    );
-
-
-  image.src =
-    src;
-
-
-  modal.classList.add(
-    "active"
-  );
-
-
-  document.body.style.overflow =
-    "hidden";
-
-}
-
-
-
-function closeImageModal(event) {
-
-  if (event) {
-
-    if (
-      event.target.id !==
-        "image-modal" &&
-
-      !event.target.classList
-        .contains(
-          "image-modal-close"
-        )
-    ) {
-
-      return;
-
-    }
-
-  }
-
-
-  const modal =
-    document.getElementById(
-      "image-modal"
-    );
-
-
-  const image =
-    document.getElementById(
-      "image-modal-img"
-    );
-
-
-  modal.classList.remove(
-    "active"
-  );
-
-
-  image.src = "";
-
-
-  document.body.style.overflow =
-    "";
-
-}
-
-
-document.addEventListener(
-  "keydown",
-  function(event) {
-
-    if (
-      event.key === "Escape"
-    ) {
-
-      closeImageModal();
-
-    }
-
-  }
-);
-
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-function closeModal() {
-
-  document
-    .getElementById(
-      "modal"
-    )
-    .classList.remove(
-      "active"
-    );
-
-}
-
-
-
-function closeModalOutside(
-  event
-) {
-
-  if (
-    event.target.id ===
-    "modal"
-  ) {
-
-    closeModal();
-
-  }
-
-}
-
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-function showToast(
-  message
-) {
-
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-
-  toast.textContent =
-    message;
-
-
-  toast.classList.add(
-    "show"
-  );
-
-
-  setTimeout(
-    () => {
-
-      toast.classList.remove(
-        "show"
-      );
-
-    },
-    2200
-  );
-
-}
-
 
 
 /* =====================================================
@@ -3371,7 +3035,6 @@ function placeholderImage() {
           fill="#f3f2ef"
         />
 
-
         <text
           x="50%"
           y="50%"
@@ -3381,9 +3044,7 @@ function placeholderImage() {
           font-family="Arial"
           font-size="24"
         >
-
           ATELIER
-
         </text>
 
       </svg>
@@ -3394,14 +3055,9 @@ function placeholderImage() {
 }
 
 
+function escapeHTML(value) {
 
-function escapeHTML(
-  value
-) {
-
-  return String(
-    value ?? ""
-  )
+  return String(value ?? "")
 
     .replace(
       /&/g,
@@ -3431,26 +3087,17 @@ function escapeHTML(
 }
 
 
+function escapeAttribute(value) {
 
-function escapeAttribute(
-  value
-) {
-
-  return escapeHTML(
-    value
-  );
+  return escapeHTML(value);
 
 }
 
 
-
-function safeFilename(
-  value
-) {
+function safeFilename(value) {
 
   return String(
-    value ||
-    "project"
+    value || "project"
   )
 
     .replace(
@@ -3470,17 +3117,42 @@ function safeFilename(
 }
 
 
-
 /* =====================================================
-   INIT
+   INITIALIZE
 ===================================================== */
 
 renderProjects();
 
-
 if (window.lucide) {
-
   lucide.createIcons();
+}
+
+
+/*
+   ENTER = CREATE PROJECT
+*/
+
+const newProjectInput =
+  document.getElementById(
+    "new-project-name"
+  );
+
+if (newProjectInput) {
+
+  newProjectInput.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key === "Enter"
+      ) {
+
+        createProject();
+
+      }
+
+    }
+  );
 
 }
 
