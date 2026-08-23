@@ -1559,43 +1559,50 @@
 
   function saveProjectEdit() {
 
-    const p =
-      projects[currentProject];
+  const p =
+    projects[currentProject];
 
-    p.name =
-      document.getElementById("edit-name").value;
+  p.name =
+    document.getElementById("edit-name").value;
 
-    p.client =
-      document.getElementById("edit-client").value;
+  p.client =
+    document.getElementById("edit-client").value;
 
-    p.location =
-      document.getElementById("edit-location").value;
+  p.location =
+    document.getElementById("edit-location").value;
 
-    p.area =
-      document.getElementById("edit-area").value;
+  p.area =
+    document.getElementById("edit-area").value;
 
-    p.type =
-      document.getElementById("edit-type").value;
+  p.type =
+    document.getElementById("edit-type").value;
 
-    p.status =
-      document.getElementById("edit-status").value;
+  p.status =
+    document.getElementById("edit-status").value;
 
-    p.cover =
-      document.getElementById("edit-cover").value;
+  p.description =
+    document.getElementById("edit-description").value;
 
-    p.description =
-      document.getElementById("edit-description").value;
+  // Save uploaded cover image
+  const coverPreview =
+    document.getElementById("cover-preview");
 
-    saveLocalStorage();
+  const uploadedCover =
+    coverPreview.dataset.image;
 
-    closeModal();
-
-    openProject(currentProject);
-
-    showToast("Project updated ✓");
-
+  if (uploadedCover) {
+    p.cover = uploadedCover;
   }
 
+  saveLocalStorage();
+
+  closeModal();
+
+  openProject(currentProject);
+
+  showToast("Project updated ✓");
+
+}
 
   /* =====================================================
      CLIENT PREVIEW
