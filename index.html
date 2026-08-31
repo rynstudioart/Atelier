@@ -1093,18 +1093,14 @@
 
 
 <script>
-
 /* =====================================================
    ATELIER — INTERIOR DESIGN STUDIO
-   STORAGE + MULTIPLE IMAGE UPLOAD FIX
-   VISUAL DESIGN UNCHANGED
+   STORAGE + INDEXEDDB + IMAGE LIGHTBOX
 ===================================================== */
-
 const STORAGE_KEY = "atelier-interior-projects";
 const DB_NAME = "atelier-interior-images";
 const DB_VERSION = 1;
 const IMAGE_STORE = "images";
-
 const SECTION_TYPES = [
   "Moodboard",
   "Sketch",
@@ -1118,84 +1114,71 @@ const SECTION_TYPES = [
   "Render Drawings",
   "Notes"
 ];
-
 let projects =
-  JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-
+  JSON.parse(
+    localStorage.getItem(STORAGE_KEY) || "[]"
+  );
 let currentProject = null;
-
-
+let dbPromise = null;
 /* =====================================================
    INDEXED DB
-   Images are stored here instead of localStorage.
 ===================================================== */
-
-let dbPromise = null;
-
 function openImageDB() {
-
   if (dbPromise) {
     return dbPromise;
   }
-
-  dbPromise = new Promise((resolve, reject) => {
-
-    const request =
-      indexedDB.open(
-        DB_NAME,
-        DB_VERSION
-      );
-
-    request.onupgradeneeded = function(event) {
-
-      const db = event.target.result;
-
-      if (!db.objectStoreNames.contains(IMAGE_STORE)) {
-
-        db.createObjectStore(
-          IMAGE_STORE,
-          {
-            keyPath: "id"
-          }
+  dbPromise = new Promise(
+    (resolve, reject) => {
+      const request =
+        indexedDB.open(
+          DB_NAME,
+          DB_VERSION
         );
-
-      }
-
-    };
-
-    request.onsuccess = function(event) {
-
-      resolve(event.target.result);
-
-    };
-
-    request.onerror = function() {
-
-      console.error(
-        "IndexedDB error:",
-        request.error
-      );
-
-      reject(request.error);
-
-    };
-
-  });
-
+      request.onupgradeneeded =
+        function(event) {
+          const db =
+            event.target.result;
+          if (
+            !db.objectStoreNames.contains(
+              IMAGE_STORE
+            )
+          ) {
+            db.createObjectStore(
+              IMAGE_STORE,
+              {
+                keyPath: "id"
+              }
+            );
+          }
+        };
+      request.onsuccess =
+        function(event) {
+          resolve(
+            event.target.result
+          );
+        };
+      request.onerror =
+        function() {
+          console.error(
+            "IndexedDB error:",
+            request.error
+          );
+          reject(
+            request.error
+          );
+        };
+    }
+  );
   return dbPromise;
-
 }
-
-
 /* =====================================================
-   IMAGE DB HELPERS
+   IMAGE DATABASE HELPERS
 ===================================================== */
-
-async function saveImageToDB(dataURL) {
-
+async function saveImageToDB(
+  dataURL
+) {
   const db =
     await openImageDB();
-
   const id =
     "img_" +
     Date.now() +
@@ -1203,240 +1186,181 @@ async function saveImageToDB(dataURL) {
     Math.random()
       .toString(36)
       .substring(2, 10);
-
-  return new Promise((resolve, reject) => {
-
-    const transaction =
-      db.transaction(
-        IMAGE_STORE,
-        "readwrite"
-      );
-
-    const store =
-      transaction.objectStore(
-        IMAGE_STORE
-      );
-
-    const request =
-      store.put({
-        id: id,
-        data: dataURL
-      });
-
-    request.onsuccess = function() {
-
-      resolve(
-        "indexeddb://" + id
-      );
-
-    };
-
-    request.onerror = function() {
-
-      reject(
-        request.error
-      );
-
-    };
-
-  });
-
+  return new Promise(
+    (resolve, reject) => {
+      const transaction =
+        db.transaction(
+          IMAGE_STORE,
+          "readwrite"
+        );
+      const store =
+        transaction.objectStore(
+          IMAGE_STORE
+        );
+      const request =
+        store.put({
+          id: id,
+          data: dataURL
+        });
+      request.onsuccess =
+        function() {
+          resolve(
+            "indexeddb://" + id
+          );
+        };
+      request.onerror =
+        function() {
+          reject(
+            request.error
+          );
+        };
+    }
+  );
 }
-
-
-async function getImageFromDB(id) {
-
+async function getImageFromDB(
+  id
+) {
   const db =
     await openImageDB();
-
-  return new Promise((resolve, reject) => {
-
-    const transaction =
-      db.transaction(
-        IMAGE_STORE,
-        "readonly"
-      );
-
-    const store =
-      transaction.objectStore(
-        IMAGE_STORE
-      );
-
-    const request =
-      store.get(id);
-
-    request.onsuccess = function() {
-
-      resolve(
-        request.result
-          ? request.result.data
-          : null
-      );
-
-    };
-
-    request.onerror = function() {
-
-      reject(
-        request.error
-      );
-
-    };
-
-  });
-
+  return new Promise(
+    (resolve, reject) => {
+      const transaction =
+        db.transaction(
+          IMAGE_STORE,
+          "readonly"
+        );
+      const store =
+        transaction.objectStore(
+          IMAGE_STORE
+        );
+      const request =
+        store.get(id);
+      request.onsuccess =
+        function() {
+          resolve(
+            request.result
+              ? request.result.data
+              : null
+          );
+        };
+      request.onerror =
+        function() {
+          reject(
+            request.error
+          );
+        };
+    }
+  );
 }
-
-
-async function deleteImageFromDB(id) {
-
+async function deleteImageFromDB(
+  id
+) {
   const db =
     await openImageDB();
-
-  return new Promise((resolve, reject) => {
-
-    const transaction =
-      db.transaction(
-        IMAGE_STORE,
-        "readwrite"
-      );
-
-    const store =
-      transaction.objectStore(
-        IMAGE_STORE
-      );
-
-    const request =
-      store.delete(id);
-
-    request.onsuccess = function() {
-
-      resolve(true);
-
-    };
-
-    request.onerror = function() {
-
-      reject(
-        request.error
-      );
-
-    };
-
-  });
-
+  return new Promise(
+    (resolve, reject) => {
+      const transaction =
+        db.transaction(
+          IMAGE_STORE,
+          "readwrite"
+        );
+      const store =
+        transaction.objectStore(
+          IMAGE_STORE
+        );
+      const request =
+        store.delete(id);
+      request.onsuccess =
+        function() {
+          resolve(true);
+        };
+      request.onerror =
+        function() {
+          reject(
+            request.error
+          );
+        };
+    }
+  );
 }
-
-
 /* =====================================================
-   IMAGE SOURCE
+   RESOLVE IMAGE
 ===================================================== */
-
-async function resolveImageSource(src) {
-
+async function resolveImageSource(
+  src
+) {
   if (!src) {
     return "";
   }
-
   if (
     typeof src === "string" &&
     src.startsWith("indexeddb://")
   ) {
-
     const id =
       src.replace(
         "indexeddb://",
         ""
       );
-
-    return await getImageFromDB(id);
-
+    return await getImageFromDB(
+      id
+    );
   }
-
   return src;
-
 }
-
-
 /* =====================================================
-   STORAGE
+   LOCAL STORAGE
 ===================================================== */
-
 function saveLocalStorage() {
-
   try {
-
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify(projects)
     );
-
     return true;
-
   } catch (error) {
-
     console.error(
       "ATELIER storage error:",
       error
     );
-
     showToast(
       "Could not save project"
     );
-
     return false;
-
   }
-
 }
-
-
 function saveLocal() {
-
   saveLocalStorage();
-
   showToast(
     "Project saved ✓"
   );
-
 }
-
-
 /* =====================================================
-   HOME
+   HOME — PROJECTS
 ===================================================== */
-
 function renderProjects() {
-
   const grid =
     document.getElementById(
       "projects-grid"
     );
-
   if (!grid) return;
-
   grid.innerHTML = "";
-
   projects.forEach(
     (project, index) => {
-
       const card =
         document.createElement(
           "article"
         );
-
       card.className =
         "project-card";
-
+      /* ---------------------------------
+         OPEN PROJECT
+      --------------------------------- */
       card.addEventListener(
         "click",
         function() {
-
           openProject(index);
-
         }
       );
-
       const totalImages =
         Object.values(
           project.sections || {}
@@ -1451,11 +1375,14 @@ function renderProjects() {
             ),
           0
         );
-
+      /* ---------------------------------
+         CARD HTML
+      --------------------------------- */
       card.innerHTML = `
-
-        <div class="project-cover">
-
+        <div
+          class="project-cover"
+          data-cover-index="${index}"
+        >
           <img
             src="${escapeAttribute(
               project.cover ||
@@ -1465,28 +1392,23 @@ function renderProjects() {
               project.name
             )}"
           >
-
         </div>
-
         <div class="project-card-content">
-
           <div class="project-card-title">
-            ${escapeHTML(project.name)}
+            ${escapeHTML(
+              project.name
+            )}
           </div>
-
           <div class="project-card-info">
             ${escapeHTML(
               project.client ||
               "Client"
             )}
           </div>
-
           <div class="project-card-info">
-
             ${escapeHTML(
               project.location || ""
             )}
-
             ${
               project.area
                 ? " · " +
@@ -1495,34 +1417,51 @@ function renderProjects() {
                   )
                 : ""
             }
-
           </div>
-
           <div class="project-card-status">
             ${escapeHTML(
               project.status ||
               "Concept"
             )}
           </div>
-
         </div>
-
       `;
-
       grid.appendChild(card);
-
+      /* ---------------------------------
+         COVER IMAGE POPUP
+      --------------------------------- */
+      const cover =
+        card.querySelector(
+          ".project-cover"
+        );
+      if (
+        cover &&
+        project.cover
+      ) {
+        cover.addEventListener(
+          "click",
+          async function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const resolved =
+              await resolveImageSource(
+                project.cover
+              );
+            if (resolved) {
+              openImage(
+                resolved
+              );
+            }
+          }
+        );
+      }
     }
   );
-
 }
-
-
 /* =====================================================
    NEW PROJECT
 ===================================================== */
-
 function showAddProject() {
-
   document
     .getElementById(
       "add-project-form"
@@ -1530,18 +1469,13 @@ function showAddProject() {
     .classList.remove(
       "hidden"
     );
-
   document
     .getElementById(
       "new-project-name"
     )
     .focus();
-
 }
-
-
 function hideAddProject() {
-
   document
     .getElementById(
       "add-project-form"
@@ -1549,100 +1483,62 @@ function hideAddProject() {
     .classList.add(
       "hidden"
     );
-
 }
-
-
 function createProject() {
-
   const input =
     document.getElementById(
       "new-project-name"
     );
-
   const name =
     input.value.trim();
-
   if (!name) return;
-
   const sections = {};
-
   SECTION_TYPES.forEach(
     section => {
-
       sections[section] = [];
-
     }
   );
-
   projects.push({
-
     id: Date.now(),
-
     name,
-
     client: "",
-
     location: "",
-
     area: "",
-
     type: "Interior Design",
-
     status: "Concept",
-
     description: "",
-
     cover: "",
-
     sections
-
   });
-
   saveLocalStorage();
-
   input.value = "";
-
   hideAddProject();
-
   renderProjects();
-
 }
-
-
 /* =====================================================
    OPEN PROJECT
 ===================================================== */
-
-function openProject(index) {
-
+function openProject(
+  index
+) {
   currentProject = index;
-
   const project =
     projects[index];
-
   if (!project) return;
-
   if (!project.sections) {
     project.sections = {};
   }
-
   SECTION_TYPES.forEach(
     section => {
-
       if (
         !Array.isArray(
           project.sections[section]
         )
       ) {
-
         project.sections[section] = [];
-
       }
-
     }
   );
-
   document
     .getElementById(
       "main-view"
@@ -1650,7 +1546,6 @@ function openProject(index) {
     .classList.add(
       "hidden"
     );
-
   document
     .getElementById(
       "detail-view"
@@ -1658,68 +1553,54 @@ function openProject(index) {
     .classList.remove(
       "hidden"
     );
-
   document
     .getElementById(
       "detail-project-name"
     )
     .textContent =
     project.name;
-
   document
     .getElementById(
       "detail-meta"
     )
     .innerHTML = `
-
       <span>
         ${escapeHTML(
           project.client ||
           "No client"
         )}
       </span>
-
       <span>
         ${escapeHTML(
           project.location ||
           "No location"
         )}
       </span>
-
       <span>
         ${escapeHTML(
           project.area ||
           "No area"
         )}
       </span>
-
       <span>
         ${escapeHTML(
           project.status ||
           "Concept"
         )}
       </span>
-
     `;
-
   saveLocalStorage();
-
   renderSections();
-
   window.scrollTo(
     0,
     0
   );
-
   if (window.lucide) {
     lucide.createIcons();
   }
-
 }
-
-
 function goBack() {
-
+  closeImageModal();
   document
     .getElementById(
       "detail-view"
@@ -1727,7 +1608,6 @@ function goBack() {
     .classList.add(
       "hidden"
     );
-
   document
     .getElementById(
       "main-view"
@@ -1735,76 +1615,53 @@ function goBack() {
     .classList.remove(
       "hidden"
     );
-
   currentProject = null;
-
   renderProjects();
-
   window.scrollTo(
     0,
     0
   );
-
 }
-
-
 /* =====================================================
    RENDER SECTIONS
 ===================================================== */
-
 function renderSections() {
-
   const container =
     document.getElementById(
       "sections-container"
     );
-
   if (!container) return;
-
   container.innerHTML = "";
-
   const project =
     projects[currentProject];
-
   if (!project) return;
-
   SECTION_TYPES.forEach(
     (section, index) => {
-
       if (
         !Array.isArray(
           project.sections[section]
         )
       ) {
-
         project.sections[section] = [];
-
       }
-
       const images =
         project.sections[section];
-
       const sectionElement =
         document.createElement(
           "section"
         );
-
       sectionElement.className =
         "project-section";
-
       sectionElement.innerHTML = `
-
         <div class="section-number">
-
-          ${String(index + 1)
-            .padStart(2, "0")}
-
+          ${String(
+            index + 1
+          ).padStart(2, "0")}
           /
-
-          ${escapeHTML(section)}
-
+          ${escapeHTML(
+            section
+          )}
         </div>
-
         <div
           style="
             display:flex;
@@ -1814,14 +1671,14 @@ function renderSections() {
             margin-bottom:22px;
           "
         >
-
           <h2
             class="section-title"
             style="margin:0;"
           >
-            ${escapeHTML(section)}
+            ${escapeHTML(
+              section
+            )}
           </h2>
-
           <button
             type="button"
             class="add-content-button"
@@ -1848,9 +1705,7 @@ function renderSections() {
           >
             +
           </button>
-
         </div>
-
         <div
           class="${
             section === "Sketch" ||
@@ -1862,20 +1717,17 @@ function renderSections() {
           }"
           id="grid-${index}"
         >
-
           ${
             images.length
               ? images
                   .map(
                     (image, imageIndex) => `
-
                       <div
                         class="photo-item"
                         data-image="${escapeAttribute(
                           image
                         )}"
                       >
-
                         <img
                           src="${
                             image.startsWith(
@@ -1890,12 +1742,17 @@ function renderSections() {
                             image.startsWith(
                               "indexeddb://"
                             )
-                              ? `data-db-image="${escapeAttribute(image)}"`
+                              ? `
+                                data-db-image="${escapeAttribute(
+                                  image
+                                )}"
+                              `
                               : ""
                           }
-                          alt="${escapeAttribute(section)}"
+                          alt="${escapeAttribute(
+                            section
+                          )}"
                         >
-
                         <button
                           type="button"
                           class="remove-photo"
@@ -1904,167 +1761,131 @@ function renderSections() {
                         >
                           ×
                         </button>
-
                       </div>
-
                     `
                   )
                   .join("")
               : ""
           }
-
         </div>
-
       `;
-
       container.appendChild(
         sectionElement
       );
-
     }
   );
-
   attachSectionEvents();
-
   loadIndexedDBImages();
-
 }
-
-
+/* =====================================================
+   LOAD INDEXEDDB IMAGES
+===================================================== */
 async function loadIndexedDBImages() {
-
   const images =
     document.querySelectorAll(
       "img[data-db-image]"
     );
-
   for (
     const img of images
   ) {
-
     const src =
       img.getAttribute(
         "data-db-image"
       );
-
     try {
-
       const data =
         await resolveImageSource(
           src
         );
-
       if (data) {
-
-        img.src = data;
-
+        img.src =
+          data;
       }
-
     } catch (error) {
-
       console.error(
         "Could not load image:",
         error
       );
-
     }
-
   }
-
 }
-
-
 /* =====================================================
    SECTION EVENTS
 ===================================================== */
-
 function attachSectionEvents() {
-
+  /* ---------------------------------
+     ADD BUTTONS
+  --------------------------------- */
   document
     .querySelectorAll(
       "[data-add-section]"
     )
     .forEach(
       button => {
-
         button.addEventListener(
           "click",
           function(event) {
-
             event.preventDefault();
-
             event.stopPropagation();
-
             const sectionIndex =
               Number(
                 this.getAttribute(
                   "data-add-section"
                 )
               );
-
             openAddContent(
               sectionIndex
             );
-
           }
         );
-
       }
     );
-
-
+  /* ---------------------------------
+     REMOVE BUTTONS
+  --------------------------------- */
   document
     .querySelectorAll(
       "[data-remove-section]"
     )
     .forEach(
       button => {
-
         button.addEventListener(
           "click",
           function(event) {
-
             event.preventDefault();
-
             event.stopPropagation();
-
             const sectionIndex =
               Number(
                 this.getAttribute(
                   "data-remove-section"
                 )
               );
-
             const imageIndex =
               Number(
                 this.getAttribute(
                   "data-remove-image"
                 )
               );
-
             removePhoto(
               sectionIndex,
               imageIndex
             );
-
           }
         );
-
       }
     );
-
-
+  /* ---------------------------------
+     ALL SECTION IMAGES
+  --------------------------------- */
   document
     .querySelectorAll(
       ".photo-item"
     )
     .forEach(
       item => {
-
         item.addEventListener(
           "click",
           async function(event) {
-
             if (
               event.target.closest(
                 ".remove-photo"
@@ -2072,109 +1893,164 @@ function attachSectionEvents() {
             ) {
               return;
             }
-
             const image =
               this.getAttribute(
                 "data-image"
               );
-
-            if (image) {
-
+            if (!image) {
+              return;
+            }
+            try {
               const resolved =
                 await resolveImageSource(
                   image
                 );
-
               if (resolved) {
-
                 openImage(
                   resolved
                 );
-
               }
-
+            } catch (error) {
+              console.error(
+                "Could not open image:",
+                error
+              );
             }
-
           }
         );
-
       }
     );
-
 }
-
-
+/* =====================================================
+   IMAGE FULLSCREEN POPUP
+===================================================== */
+function openImage(
+  src
+) {
+  const modal =
+    document.getElementById(
+      "image-modal"
+    );
+  const img =
+    document.getElementById(
+      "image-modal-img"
+    );
+  if (
+    !modal ||
+    !img ||
+    !src
+  ) {
+    return;
+  }
+  img.src =
+    src;
+  modal.classList.add(
+    "active"
+  );
+  document.body.style.overflow =
+    "hidden";
+}
+function closeImageModal(
+  event
+) {
+  if (
+    event &&
+    event.target
+  ) {
+    if (
+      event.target.id !==
+      "image-modal" &&
+      !event.target.classList.contains(
+        "image-modal-close"
+      )
+    ) {
+      return;
+    }
+  }
+  const modal =
+    document.getElementById(
+      "image-modal"
+    );
+  const img =
+    document.getElementById(
+      "image-modal-img"
+    );
+  if (!modal) {
+    return;
+  }
+  modal.classList.remove(
+    "active"
+  );
+  if (img) {
+    img.src = "";
+  }
+  document.body.style.overflow =
+    "";
+}
+/* =====================================================
+   ESCAPE KEY — CLOSE IMAGE POPUP
+===================================================== */
+document.addEventListener(
+  "keydown",
+  function(event) {
+    if (
+      event.key === "Escape"
+    ) {
+      closeImageModal();
+    }
+  }
+);
 /* =====================================================
    ADD CONTENT MODAL
 ===================================================== */
-
 function openAddContent(
   sectionIndex
 ) {
-
   const section =
     SECTION_TYPES[
       sectionIndex
     ];
-
   const modal =
     document.getElementById(
       "modal"
     );
-
   const modalBox =
     document.getElementById(
       "modal-box"
     );
-
   if (
     !modal ||
     !modalBox
   ) {
-
-    console.error(
-      "Modal not found"
-    );
-
     return;
-
   }
-
   modalBox.innerHTML = `
-
     <div class="modal-title">
-      Add to ${escapeHTML(section)}
+      Add to ${escapeHTML(
+        section
+      )}
     </div>
-
     <div class="form-group">
-
       <label>
         Image URL
       </label>
-
       <input
         id="content-url"
         type="text"
         placeholder="https://..."
       >
-
     </div>
-
     <div class="form-group">
-
       <label>
         Or choose an image
       </label>
-
       <input
         id="content-file"
         type="file"
         accept="image/*"
         multiple
       >
-
     </div>
-
     <div
       id="image-upload-preview"
       style="
@@ -2187,9 +2063,7 @@ function openAddContent(
         max-height:250px;
       "
     ></div>
-
     <div class="modal-actions">
-
       <button
         type="button"
         id="cancel-add-content"
@@ -2197,7 +2071,6 @@ function openAddContent(
       >
         Cancel
       </button>
-
       <button
         type="button"
         id="confirm-add-content"
@@ -2205,16 +2078,11 @@ function openAddContent(
       >
         Add
       </button>
-
     </div>
-
   `;
-
   modal.classList.add(
     "active"
   );
-
-
   document
     .getElementById(
       "cancel-add-content"
@@ -2223,8 +2091,6 @@ function openAddContent(
       "click",
       closeModal
     );
-
-
   document
     .getElementById(
       "confirm-add-content"
@@ -2232,15 +2098,11 @@ function openAddContent(
     .addEventListener(
       "click",
       function() {
-
         addContent(
           sectionIndex
         );
-
       }
     );
-
-
   document
     .getElementById(
       "content-file"
@@ -2248,179 +2110,124 @@ function openAddContent(
     .addEventListener(
       "change",
       function() {
-
         const files =
           Array.from(
             this.files || []
           );
-
         if (!files.length) {
           return;
         }
-
         const preview =
           document.getElementById(
             "image-upload-preview"
           );
-
         preview.style.display =
           "grid";
-
         preview.style.gridTemplateColumns =
           "repeat(3, 1fr)";
-
         preview.style.gap =
           "6px";
-
         preview.innerHTML =
           "";
-
         files
           .slice(0, 12)
           .forEach(
             file => {
-
               const reader =
                 new FileReader();
-
               reader.onload =
                 function(event) {
-
                   const img =
                     document.createElement(
                       "img"
                     );
-
                   img.src =
                     event.target.result;
-
                   img.style.width =
                     "100%";
-
                   img.style.height =
                     "80px";
-
                   img.style.objectFit =
                     "cover";
-
                   img.style.borderRadius =
                     "8px";
-
                   preview.appendChild(
                     img
                   );
-
                 };
-
               reader.readAsDataURL(
                 file
               );
-
             }
           );
-
       }
     );
-
-
   document
     .getElementById(
       "content-url"
     )
     .focus();
-
 }
-
-
 /* =====================================================
    COMPRESS IMAGE
 ===================================================== */
-
 function compressImage(
   file
 ) {
-
   return new Promise(
     (resolve, reject) => {
-
       const reader =
         new FileReader();
-
       reader.onload =
         function(event) {
-
           const img =
             new Image();
-
           img.onload =
             function() {
-
               const MAX_SIZE =
                 1600;
-
               let width =
                 img.width;
-
               let height =
                 img.height;
-
-
               if (
-                width >
-                  MAX_SIZE ||
-                height >
-                  MAX_SIZE
+                width > MAX_SIZE ||
+                height > MAX_SIZE
               ) {
-
                 if (
-                  width >
-                  height
+                  width > height
                 ) {
-
                   height =
                     Math.round(
                       height *
                       MAX_SIZE /
                       width
                     );
-
                   width =
                     MAX_SIZE;
-
                 } else {
-
                   width =
                     Math.round(
                       width *
                       MAX_SIZE /
                       height
                     );
-
                   height =
                     MAX_SIZE;
-
                 }
-
               }
-
-
               const canvas =
                 document.createElement(
                   "canvas"
                 );
-
               canvas.width =
                 width;
-
               canvas.height =
                 height;
-
-
               const ctx =
                 canvas.getContext(
                   "2d"
                 );
-
               ctx.drawImage(
                 img,
                 0,
@@ -2428,96 +2235,68 @@ function compressImage(
                 width,
                 height
               );
-
-
               const result =
                 canvas.toDataURL(
                   "image/jpeg",
                   0.80
                 );
-
-              resolve(result);
-
+              resolve(
+                result
+              );
             };
-
-
           img.onerror =
             function() {
-
               reject(
                 new Error(
                   "Could not load image"
                 )
               );
-
             };
-
-
           img.src =
             event.target.result;
-
         };
-
-
       reader.onerror =
         function() {
-
           reject(
             new Error(
               "Could not read file"
             )
           );
-
         };
-
-
       reader.readAsDataURL(
         file
       );
-
     }
   );
-
 }
-
-
 /* =====================================================
    ADD CONTENT
 ===================================================== */
-
 async function addContent(
   sectionIndex
 ) {
-
   if (
     currentProject === null ||
     !projects[currentProject]
   ) {
-
     return;
-
   }
-
   const section =
     SECTION_TYPES[
       sectionIndex
     ];
-
   const urlInput =
     document.getElementById(
       "content-url"
     );
-
   const fileInput =
     document.getElementById(
       "content-file"
     );
-
   const url =
     urlInput
       ? urlInput.value.trim()
       : "";
-
   const files =
     fileInput &&
     fileInput.files
@@ -2525,57 +2304,40 @@ async function addContent(
           fileInput.files
         )
       : [];
-
-
   /* ---------------------------------
-     FILES
+     FILE UPLOAD
   --------------------------------- */
-
   if (files.length) {
-
     const button =
       document.getElementById(
         "confirm-add-content"
       );
-
     if (button) {
-
       button.disabled =
         true;
-
       button.textContent =
         "Processing...";
-
     }
-
     let added = 0;
-
     try {
-
       for (
         const file of files
       ) {
-
         if (
           !file.type.startsWith(
             "image/"
           )
         ) {
-
           continue;
-
         }
-
         const compressed =
           await compressImage(
             file
           );
-
         const dbId =
           await saveImageToDB(
             compressed
           );
-
         projects[
           currentProject
         ]
@@ -2585,58 +2347,36 @@ async function addContent(
         .push(
           dbId
         );
-
         added++;
-
       }
-
-
       saveLocalStorage();
-
       closeModal();
-
       renderSections();
-
       showToast(
         `${added} image${added !== 1 ? "s" : ""} added ✓`
       );
-
     } catch (error) {
-
       console.error(
         "Image upload error:",
         error
       );
-
       showToast(
         "Could not save image"
       );
-
     } finally {
-
       if (button) {
-
         button.disabled =
           false;
-
         button.textContent =
           "Add";
-
       }
-
     }
-
     return;
-
   }
-
-
   /* ---------------------------------
-     URL
+     URL IMAGE
   --------------------------------- */
-
   if (url) {
-
     projects[
       currentProject
     ]
@@ -2646,43 +2386,29 @@ async function addContent(
     .push(
       url
     );
-
     saveLocalStorage();
-
     closeModal();
-
     renderSections();
-
     showToast(
       `${section} — image added ✓`
     );
-
     return;
-
   }
-
-
   showToast(
     "Choose an image or enter an URL"
   );
-
 }
-
-
 /* =====================================================
    REMOVE IMAGE
 ===================================================== */
-
 async function removePhoto(
   sectionIndex,
   imageIndex
 ) {
-
   const section =
     SECTION_TYPES[
       sectionIndex
     ];
-
   if (
     !projects[
       currentProject
@@ -2693,11 +2419,8 @@ async function removePhoto(
       section
     ]
   ) {
-
     return;
-
   }
-
   const image =
     projects[
       currentProject
@@ -2707,40 +2430,25 @@ async function removePhoto(
     ][
       imageIndex
     ];
-
-
-  /*
-     Delete image from IndexedDB
-     if it is stored there.
-  */
-
   if (
     typeof image === "string" &&
     image.startsWith(
       "indexeddb://"
     )
   ) {
-
     try {
-
       await deleteImageFromDB(
         image.replace(
           "indexeddb://",
           ""
         )
       );
-
     } catch (error) {
-
       console.error(
         error
       );
-
     }
-
   }
-
-
   projects[
     currentProject
   ]
@@ -2751,87 +2459,67 @@ async function removePhoto(
     imageIndex,
     1
   );
-
   saveLocalStorage();
-
   renderSections();
-
   showToast(
     "Image removed ✓"
   );
-
 }
-
-
 /* =====================================================
    PROJECT EDIT
 ===================================================== */
-
 function openProjectEdit() {
-
   const p =
     projects[
       currentProject
     ];
-
   document
     .getElementById(
       "modal-box"
     )
     .innerHTML = `
-
       <div class="modal-title">
         Edit Project
       </div>
-
       ${formField(
         "Project name",
         "edit-name",
         p.name
       )}
-
       ${formField(
         "Client",
         "edit-client",
         p.client
       )}
-
       ${formField(
         "Location",
         "edit-location",
         p.location
       )}
-
       ${formField(
         "Surface",
         "edit-area",
         p.area
       )}
-
       ${formField(
         "Project type",
         "edit-type",
         p.type
       )}
-
       ${formField(
         "Status",
         "edit-status",
         p.status
       )}
-
       <div class="form-group">
-
         <label>
           Cover Image
         </label>
-
         <input
           id="edit-cover-file"
           type="file"
           accept="image/*"
         >
-
         <div
           id="cover-preview"
           style="
@@ -2846,7 +2534,6 @@ function openProjectEdit() {
             justify-content:center;
           "
         >
-
           ${
             p.cover
               ? `
@@ -2858,7 +2545,9 @@ function openProjectEdit() {
                     width:100%;
                     height:100%;
                     object-fit:cover;
+                    cursor:pointer;
                   "
+                  onclick="event.stopPropagation(); openImage(this.src)"
                 >
               `
               : `
@@ -2872,27 +2561,19 @@ function openProjectEdit() {
                 </span>
               `
           }
-
         </div>
-
       </div>
-
       <div class="form-group">
-
         <label>
           Description
         </label>
-
         <textarea
           id="edit-description"
         >${escapeHTML(
           p.description || ""
         )}</textarea>
-
       </div>
-
       <div class="modal-actions">
-
         <button
           type="button"
           id="cancel-edit-project"
@@ -2900,7 +2581,6 @@ function openProjectEdit() {
         >
           Cancel
         </button>
-
         <button
           type="button"
           id="save-edit-project"
@@ -2908,12 +2588,8 @@ function openProjectEdit() {
         >
           Save
         </button>
-
       </div>
-
     `;
-
-
   document
     .getElementById(
       "modal"
@@ -2921,8 +2597,6 @@ function openProjectEdit() {
     .classList.add(
       "active"
     );
-
-
   document
     .getElementById(
       "cancel-edit-project"
@@ -2931,8 +2605,6 @@ function openProjectEdit() {
       "click",
       closeModal
     );
-
-
   document
     .getElementById(
       "save-edit-project"
@@ -2941,8 +2613,6 @@ function openProjectEdit() {
       "click",
       saveProjectEdit
     );
-
-
   document
     .getElementById(
       "edit-cover-file"
@@ -2951,216 +2621,171 @@ function openProjectEdit() {
       "change",
       previewCoverImage
     );
-
 }
-
-
 function formField(
   label,
   id,
   value
 ) {
-
   return `
-
     <div class="form-group">
-
       <label>
-        ${escapeHTML(label)}
+        ${escapeHTML(
+          label
+        )}
       </label>
-
       <input
         id="${id}"
         value="${escapeAttribute(
           value || ""
         )}"
       >
-
     </div>
-
   `;
-
 }
-
-
 function previewCoverImage(
   event
 ) {
-
   const file =
     event.target.files[0];
-
-  if (!file) return;
-
+  if (!file) {
+    return;
+  }
   const reader =
     new FileReader();
-
   reader.onload =
     function(e) {
-
       const preview =
         document.getElementById(
           "cover-preview"
         );
-
       preview.innerHTML = `
-
         <img
           src="${e.target.result}"
           style="
             width:100%;
             height:100%;
             object-fit:cover;
+            cursor:pointer;
           "
         >
-
       `;
-
       preview.dataset.image =
         e.target.result;
-
+      const img =
+        preview.querySelector(
+          "img"
+        );
+      if (img) {
+        img.addEventListener(
+          "click",
+          function(event) {
+            event.stopPropagation();
+            openImage(
+              this.src
+            );
+          }
+        );
+      }
     };
-
   reader.readAsDataURL(
     file
   );
-
 }
-
-
 function saveProjectEdit() {
-
   const p =
     projects[
       currentProject
     ];
-
   p.name =
     document.getElementById(
       "edit-name"
     ).value;
-
   p.client =
     document.getElementById(
       "edit-client"
     ).value;
-
   p.location =
     document.getElementById(
       "edit-location"
     ).value;
-
   p.area =
     document.getElementById(
       "edit-area"
     ).value;
-
   p.type =
     document.getElementById(
       "edit-type"
     ).value;
-
   p.status =
     document.getElementById(
       "edit-status"
     ).value;
-
   p.description =
     document.getElementById(
       "edit-description"
     ).value;
-
-
   const coverPreview =
     document.getElementById(
       "cover-preview"
     );
-
   if (
     coverPreview &&
     coverPreview.dataset.image
   ) {
-
     p.cover =
       coverPreview.dataset.image;
-
   }
-
   saveLocalStorage();
-
   closeModal();
-
   openProject(
     currentProject
   );
-
   showToast(
     "Project updated ✓"
   );
-
 }
-
-
 /* =====================================================
    CLIENT PREVIEW
 ===================================================== */
-
 async function previewClient() {
-
   const p =
     projects[
       currentProject
     ];
-
   const html =
     await createClientHTML(
       p
     );
-
   const win =
     window.open();
-
   if (!win) {
-
     showToast(
       "Allow pop-ups for preview"
     );
-
     return;
-
   }
-
   win.document.open();
-
   win.document.write(
     html
   );
-
   win.document.close();
-
 }
-
-
 /* =====================================================
    EXPORT HTML
 ===================================================== */
-
 async function exportHTML() {
-
   const p =
     projects[
       currentProject
     ];
-
   showToast(
     "Preparing HTML..."
   );
-
   const html =
     await createClientHTML(
       p
     );
-
   const blob =
     new Blob(
       [html],
@@ -3169,63 +2794,46 @@ async function exportHTML() {
           "text/html;charset=utf-8"
       }
     );
-
   const url =
     URL.createObjectURL(
       blob
     );
-
   const a =
     document.createElement(
       "a"
     );
-
   a.href =
     url;
-
   a.download =
     safeFilename(
       p.name
     ) +
     ".html";
-
   document.body.appendChild(
     a
   );
-
   a.click();
-
   a.remove();
-
   setTimeout(
     () => {
-
       URL.revokeObjectURL(
         url
       );
-
     },
     1000
   );
-
   showToast(
     "Interactive HTML exported ✓"
   );
-
 }
-
-
 /* =====================================================
    EXPORT JSON
 ===================================================== */
-
 function exportJSON() {
-
   const project =
     projects[
       currentProject
     ];
-
   const blob =
     new Blob(
       [
@@ -3240,258 +2848,122 @@ function exportJSON() {
           "application/json"
       }
     );
-
   const url =
     URL.createObjectURL(
       blob
     );
-
   const a =
     document.createElement(
       "a"
     );
-
   a.href =
     url;
-
   a.download =
     safeFilename(
       project.name
     ) +
     ".json";
-
   document.body.appendChild(
     a
   );
-
   a.click();
-
   a.remove();
-
   setTimeout(
     () => {
-
       URL.revokeObjectURL(
         url
       );
-
     },
     1000
   );
-
   showToast(
     "JSON backup exported ✓"
   );
-
 }
-
-
 /* =====================================================
-   IMAGE VIEWER
+   STANDARD MODAL
 ===================================================== */
-
-function openImage(
-  src
-) {
-
-  const win =
-    window.open();
-
-  if (!win) {
-
-    showToast(
-      "Allow pop-ups to view image"
-    );
-
-    return;
-
-  }
-
-  win.document.write(`
-
-    <!doctype html>
-
-    <html>
-
-    <head>
-
-      <title>
-        Image
-      </title>
-
-      <style>
-
-        html,
-        body {
-
-          margin:0;
-
-          width:100%;
-          height:100%;
-
-          background:#111;
-
-          display:flex;
-
-          align-items:center;
-
-          justify-content:center;
-
-        }
-
-        img {
-
-          max-width:96vw;
-          max-height:96vh;
-
-          object-fit:contain;
-
-        }
-
-      </style>
-
-    </head>
-
-    <body>
-
-      <img
-        src="${escapeAttribute(
-          src
-        )}"
-      >
-
-    </body>
-
-    </html>
-
-  `);
-
-  win.document.close();
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
 function closeModal() {
-
   const modal =
     document.getElementById(
       "modal"
     );
-
   if (modal) {
-
     modal.classList.remove(
       "active"
     );
-
   }
-
 }
-
-
 function closeModalOutside(
   event
 ) {
-
   if (
     event.target.id ===
     "modal"
   ) {
-
     closeModal();
-
   }
-
 }
-
-
 /* =====================================================
    TOAST
 ===================================================== */
-
 function showToast(
   message
 ) {
-
   const toast =
     document.getElementById(
       "toast"
     );
-
-  if (!toast) return;
-
+  if (!toast) {
+    return;
+  }
   toast.textContent =
     message;
-
   toast.classList.add(
     "show"
   );
-
   setTimeout(
     () => {
-
       toast.classList.remove(
         "show"
       );
-
     },
     2200
   );
-
 }
-
-
 /* =====================================================
    CLIENT HTML
 ===================================================== */
-
 async function createClientHTML(
   p
 ) {
-
   let sectionsHTML = "";
-
   for (
     let index = 0;
     index < SECTION_TYPES.length;
     index++
   ) {
-
     const section =
       SECTION_TYPES[index];
-
     const images =
       p.sections[
         section
       ] || [];
-
     if (
       images.length === 0 &&
       section !== "Notes"
     ) {
-
       continue;
-
     }
-
-
     let imageHTML = "";
-
     for (
       const image of images
     ) {
-
       const resolved =
         await resolveImageSource(
           image
         );
-
       imageHTML += `
-
         <div
           class="image"
           onclick="
@@ -3500,509 +2972,362 @@ async function createClientHTML(
             )
           "
         >
-
           <img
             src="${escapeAttribute(
               resolved
             )}"
+            alt="${escapeAttribute(
+              section
+            )}"
           >
-
         </div>
-
       `;
-
     }
-
-
     sectionsHTML += `
-
       <section class="section">
-
         <div class="number">
-
           ${String(
             index + 1
           ).padStart(2, "0")}
-
           /
-
           ${escapeHTML(
             section
           )}
-
         </div>
-
         <h2>
           ${escapeHTML(
             section
           )}
         </h2>
-
         ${
           images.length
             ? `
-
               <div class="gallery">
-
                 ${imageHTML}
-
               </div>
-
             `
             : `
-
               <p class="empty">
                 Project notes and information.
               </p>
-
             `
         }
-
       </section>
-
     `;
-
   }
-
-
   return `
-
 <!doctype html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1.0"
 >
-
 <title>
 ${escapeHTML(p.name)}
 </title>
-
 <link
   href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap"
   rel="stylesheet"
 >
-
 <style>
-
 * {
   box-sizing:border-box;
 }
-
 body {
-
   margin:0;
-
   background:white;
-
   color:#242220;
-
   font-family:
     "DM Sans",
     sans-serif;
-
 }
-
 .container {
-
   max-width:1000px;
-
   margin:auto;
-
   padding:
     0 25px;
-
 }
-
 header {
-
   text-align:center;
-
   padding:
     75px 0 70px;
-
   border-bottom:
     1px solid #e9e7e3;
-
 }
-
 .logo {
-
   font-size:10px;
-
   letter-spacing:.3em;
-
   text-transform:uppercase;
-
   margin-bottom:25px;
-
 }
-
 h1 {
-
   font-family:
     "Cormorant Garamond",
     serif;
-
   font-size:
     clamp(50px,8vw,82px);
-
   font-weight:500;
-
   line-height:.95;
-
   margin:0;
-
 }
-
 .meta {
-
   display:flex;
-
   justify-content:center;
-
   flex-wrap:wrap;
-
   gap:20px;
-
   color:#817d76;
-
   font-size:12px;
-
   margin-top:20px;
-
 }
-
 .description {
-
   max-width:650px;
-
   margin:
     30px auto 0;
-
   color:#77736d;
-
   font-size:14px;
-
   line-height:1.8;
-
 }
-
 .section {
-
   padding:
     70px 0;
-
   border-bottom:
     1px solid #e9e7e3;
-
 }
-
 .number {
-
   font-size:10px;
-
   color:#99958e;
-
   letter-spacing:.16em;
-
   text-transform:uppercase;
-
 }
-
 h2 {
-
   font-family:
     "Cormorant Garamond",
     serif;
-
   font-size:40px;
-
   font-weight:500;
-
   margin:
     8px 0 28px;
-
 }
-
 .gallery {
-
   display:grid;
-
   grid-template-columns:
     repeat(3,1fr);
-
   gap:14px;
-
 }
-
 .image {
-
   aspect-ratio:1;
-
   overflow:hidden;
-
   border-radius:14px;
-
   cursor:pointer;
-
   background:#f5f4f1;
-
 }
-
 .image img {
-
   width:100%;
-
   height:100%;
-
   object-fit:cover;
-
   transition:.3s;
-
 }
-
 .image:hover img {
-
   transform:scale(1.04);
-
 }
-
 .empty {
-
   color:#88847d;
-
   font-size:13px;
-
 }
-
 .lightbox {
-
   position:fixed;
-
   inset:0;
-
   background:
-    rgba(0,0,0,.85);
-
+    rgba(0,0,0,.88);
   display:none;
-
   align-items:center;
-
   justify-content:center;
-
   padding:30px;
-
-  z-index:10;
-
+  z-index:9999;
 }
-
 .lightbox.active {
-
   display:flex;
-
 }
-
 .lightbox img {
-
   max-width:95vw;
-
   max-height:90vh;
-
   object-fit:contain;
-
+  border-radius:6px;
 }
-
 .close {
-
   position:fixed;
-
-  top:25px;
-
-  right:30px;
-
+  top:20px;
+  right:25px;
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:
+    rgba(255,255,255,.12);
   color:white;
-
-  font-size:30px;
-
+  font-size:28px;
   cursor:pointer;
-
+  z-index:10000;
 }
-
+.close:hover {
+  background:
+    rgba(255,255,255,.22);
+}
 @media(max-width:700px) {
-
   .gallery {
-
     grid-template-columns:
       repeat(2,1fr);
-
   }
-
   header {
-
     padding-top:50px;
-
   }
-
 }
-
 </style>
-
 </head>
-
 <body>
-
 <div class="container">
-
 <header>
-
   <div class="logo">
     ATELIER
   </div>
-
   <h1>
     ${escapeHTML(
       p.name
     )}
   </h1>
-
   <div class="meta">
-
     <span>
       ${escapeHTML(
         p.client || ""
       )}
     </span>
-
     <span>
       ${escapeHTML(
         p.location || ""
       )}
     </span>
-
     <span>
       ${escapeHTML(
         p.area || ""
       )}
     </span>
-
   </div>
-
   <p class="description">
     ${escapeHTML(
       p.description || ""
     )}
   </p>
-
 </header>
-
 ${sectionsHTML}
-
 </div>
-
 <div
   class="lightbox"
   id="lightbox"
-  onclick="closeImage()"
+  onclick="closeImage(event)"
 >
-
-  <div class="close">
+  <button
+    class="close"
+    onclick="closeImage(event)"
+  >
     ×
-  </div>
-
+  </button>
   <img
     id="lightbox-img"
     onclick="event.stopPropagation()"
   >
-
 </div>
-
 <script>
-
 function openImage(src) {
-
-  document
-    .getElementById(
+  const img =
+    document.getElementById(
       "lightbox-img"
-    )
-    .src = src;
-
-  document
-    .getElementById(
+    );
+  const lightbox =
+    document.getElementById(
       "lightbox"
+    );
+  if (
+    !img ||
+    !lightbox ||
+    !src
+  ) {
+    return;
+  }
+  img.src =
+    src;
+  lightbox.classList.add(
+    "active"
+  );
+  document.body.style.overflow =
+    "hidden";
+}
+function closeImage(event) {
+  if (
+    event &&
+    event.target &&
+    event.target.id !==
+      "lightbox" &&
+    !event.target.classList.contains(
+      "close"
     )
-    .classList.add(
+  ) {
+    return;
+  }
+  const lightbox =
+    document.getElementById(
+      "lightbox"
+    );
+  const img =
+    document.getElementById(
+      "lightbox-img"
+    );
+  if (lightbox) {
+    lightbox.classList.remove(
       "active"
     );
-
+  }
+  if (img) {
+    img.src = "";
+  }
+  document.body.style.overflow =
+    "";
 }
-
-function closeImage() {
-
-  document
-    .getElementById(
-      "lightbox"
-    )
-    .classList.remove(
-      "active"
-    );
-
-}
-
 document.addEventListener(
   "keydown",
-  function(e) {
-
+  function(event) {
     if (
-      e.key === "Escape"
+      event.key === "Escape"
     ) {
-
       closeImage();
-
     }
-
   }
 );
-
 <\/script>
-
 </body>
-
 </html>
-
   `;
-
 }
-
-
 /* =====================================================
    HELPERS
 ===================================================== */
-
 function placeholderImage() {
-
   return `
     data:image/svg+xml;charset=UTF-8,
     ${encodeURIComponent(`
-
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="800"
         height="500"
       >
-
         <rect
           width="100%"
           height="100%"
           fill="#f3f2ef"
         />
-
         <text
           x="50%"
           y="50%"
@@ -4014,137 +3339,94 @@ function placeholderImage() {
         >
           ATELIER
         </text>
-
       </svg>
-
     `)}
   `;
-
 }
-
-
 function escapeHTML(
   value
 ) {
-
   return String(
     value ?? ""
   )
-
     .replace(
       /&/g,
       "&amp;"
     )
-
     .replace(
       /</g,
       "&lt;"
     )
-
     .replace(
       />/g,
       "&gt;"
     )
-
     .replace(
       /"/g,
       "&quot;"
     )
-
     .replace(
       /'/g,
       "&#039;"
     );
-
 }
-
-
 function escapeAttribute(
   value
 ) {
-
   return escapeHTML(
     value
   );
-
 }
-
-
 function safeFilename(
   value
 ) {
-
   return String(
     value ||
     "project"
   )
-
     .replace(
       /[^a-z0-9ăâîșț \-_]/gi,
       ""
     )
-
     .trim()
-
     .replace(
       /\s+/g,
       "-"
     )
-
     .toLowerCase();
-
 }
-
-
 /* =====================================================
    INITIALIZE
 ===================================================== */
-
 openImageDB()
   .catch(
     error => {
-
       console.error(
         "IndexedDB unavailable:",
         error
       );
-
     }
   );
-
 renderProjects();
-
 if (window.lucide) {
-
   lucide.createIcons();
-
 }
-
-
 const newProjectInput =
   document.getElementById(
     "new-project-name"
   );
-
 if (newProjectInput) {
-
   newProjectInput.addEventListener(
     "keydown",
     function(event) {
-
       if (
         event.key === "Enter"
       ) {
-
         createProject();
-
       }
-
     }
   );
-
 }
-
 </script>
 
 </body>
