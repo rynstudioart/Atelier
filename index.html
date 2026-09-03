@@ -2174,10 +2174,39 @@ function saveLocalStorage(){
 
 function saveLocal(){
 
-  saveLocalStorage();
+  if(
+    currentProject === null ||
+    !projects[currentProject]
+  ){
+
+    showToast(
+      "No project is open"
+    );
+
+    return;
+
+  }
+
+  const saved =
+    saveLocalStorage();
+
+  if(
+    !saved
+  ){
+
+    return;
+
+  }
+
+  renderProjects();
+
+  renderPortfolio();
 
   showToast(
     "Project saved ✓"
+  );
+
+}saved ✓"
   );
 
 }
