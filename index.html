@@ -2141,6 +2141,8 @@ function normalizeProjects(){
    STORAGE
 ===================================================== */
 
+
+
 function saveLocalStorage(){
 
   try{
@@ -2152,7 +2154,6 @@ function saveLocalStorage(){
       )
     );
 
-
     return true;
 
   }catch(error){
@@ -2161,18 +2162,15 @@ function saveLocalStorage(){
       error
     );
 
-
     showToast(
       "Could not save project"
     );
-
 
     return false;
 
   }
 
 }
-
 
 function saveLocal(){
 
