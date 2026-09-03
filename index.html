@@ -7371,12 +7371,14 @@ const PUBLIC_WEBSITE_CSS = `
   body{margin:0;background:#fff;color:#242220;font-family:"DM Sans",sans-serif}
   h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500}
   button{font:inherit}
-  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid #e9e7e3}
-  .nav-inner{max-width:1180px;margin:auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-  .brand{border:0;background:none;cursor:pointer;font-size:10px;letter-spacing:.32em;text-transform:uppercase}
-  .links{display:flex;gap:24px;flex-wrap:wrap}
-  .links button{border:0;background:none;cursor:pointer;color:#77736d;font-size:11px}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid #e9e7e3;border-bottom:1px solid #e9e7e3}
+  .nav-inner{max-width:1180px;margin:auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:25px;position:relative}
+  .brand{border:0;background:none;cursor:pointer;font-size:10px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;white-space:nowrap;color:#242220}
+  .links{display:flex;align-items:center;gap:25px}
+  .links button{border:0;background:none;cursor:pointer;color:#77736d;font-size:11px;letter-spacing:.04em;padding:0}
   .links button:hover{color:#242220}
+  .mobile-toggle{display:none;border:0;background:white;cursor:pointer;padding:0;width:28px;height:28px;align-items:center;justify-content:center}
+  .mobile-toggle svg{width:28px;height:28px;stroke-width:2}
   .page{display:none}.page.active{display:block}
   .wrap{max-width:1120px;margin:auto;padding:0 24px}
   .hero{padding-bottom:90px}
@@ -7404,7 +7406,24 @@ const PUBLIC_WEBSITE_CSS = `
   .simple{max-width:760px;margin:auto;padding-bottom:110px}.simple h2{font-size:40px}.simple p{font-size:14px;color:#77736d;line-height:1.9}
   .contact-public{display:grid;grid-template-columns:1fr 1fr;gap:50px;border:1px solid #e9e7e3;border-radius:15px;padding:30px}.contact-public form{display:flex;flex-direction:column;gap:8px}.contact-public label{font-size:11px;color:#77736d;margin-top:5px}.contact-public input,.contact-public textarea{width:100%;border:1px solid #e9e7e3;border-radius:8px;padding:11px;background:white;font:inherit}.contact-public textarea{min-height:120px;resize:vertical}.contact-public .btn{align-self:flex-start;margin:8px 0 0}
   .empty{text-align:center;color:#99958e;padding:60px 0 120px;font-size:13px}
-  @media(max-width:760px){.links{gap:12px}.grid{grid-template-columns:1fr}.hero img{min-height:280px}.hero{padding-top:30px}.section{padding:50px 0}.contact-public{grid-template-columns:1fr}}
+  @media(max-width:760px){
+    .nav-inner{padding:18px 42px}
+    .mobile-toggle{display:flex}
+    .links{display:none;position:absolute;left:0;right:0;top:58px;background:white;border-bottom:1px solid #e9e7e3;padding:20px 42px;flex-direction:column;align-items:flex-start;gap:18px}
+    .links.open{display:flex}
+    .wrap{padding-left:42px;padding-right:42px}
+    .hero{padding-bottom:70px}
+    .hero-heading{padding:48px 0 55px}
+    .hero-heading .logo{margin-bottom:24px}
+    .hero-heading h1{font-size:clamp(48px,12vw,62px);line-height:.92}
+    .hero-heading p{font-size:13px;line-height:1.5;margin-left:auto;margin-right:auto;max-width:330px}
+    .hero img{width:100%;height:calc(100vw - 84px);min-height:0;max-height:none;object-fit:cover;border-radius:16px}
+    .hero-copy{padding:42px 10px 0}
+    .hero-copy h1{font-size:clamp(48px,12vw,64px)}
+    .grid{grid-template-columns:1fr}
+    .section{padding:50px 0}
+    .contact-public{grid-template-columns:1fr}
+  }
 `;
 
 
@@ -7455,7 +7474,19 @@ function buildPublicWebsiteHTML(homeImage){
       <nav class="nav">
         <div class="nav-inner">
           <button class="brand" onclick="go('home')">ATELIER</button>
-          <div class="links">
+
+          <button
+            class="mobile-toggle"
+            onclick="togglePublicMenu()"
+            aria-label="Menu"
+            aria-expanded="false"
+          >
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <div class="links" id="public-links">
             <button onclick="go('home')">Home</button>
             <button onclick="go('portfolio')">Portfolio</button>
             <button onclick="go('about')">About</button>
@@ -7489,6 +7520,22 @@ function buildPublicWebsiteHTML(homeImage){
             .replace(/'/g,'&#039;');
         }
 
+        function togglePublicMenu(){
+          const menu=document.getElementById('public-links');
+          const button=document.querySelector('.mobile-toggle');
+          if(!menu || !button) return;
+
+          const isOpen=menu.classList.toggle('open');
+          button.setAttribute('aria-expanded',String(isOpen));
+        }
+
+        function closePublicMenu(){
+          const menu=document.getElementById('public-links');
+          const button=document.querySelector('.mobile-toggle');
+          if(menu) menu.classList.remove('open');
+          if(button) button.setAttribute('aria-expanded','false');
+        }
+
         function go(id){
           document.querySelectorAll('.page').forEach(
             p=>p.classList.remove('active')
@@ -7498,6 +7545,7 @@ function buildPublicWebsiteHTML(homeImage){
             .getElementById(id)
             .classList.add('active');
 
+          closePublicMenu();
           window.scrollTo(0,0);
         }
 
