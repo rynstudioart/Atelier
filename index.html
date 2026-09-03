@@ -4713,26 +4713,38 @@ async function saveProjectEdit(){
    CLIENT PREVIEW
 ===================================================== */
 
-async function previewClient(projectId) {
+async function previewClient() {
+    const project = projects[currentProject];
+
+    if (!project) {
+        showToast("Open a project first");
+        return;
+    }
+
+    // Deschidem fereastra imediat, înainte de orice await,
+    // pentru a evita blocarea popup-ului în Safari/iPhone.
+    const previewWindow = window.open("", "_blank");
+
+    if (!previewWindow) {
+        showToast("Please allow pop-ups for ATELIER");
+        return;
+    }
+
     try {
-        // Deschide tab-ul IMEDIAT la click, pentru a evita blocarea popup-ului
-        // de Safari / iOS.
-        const previewWindow = window.open('', '_blank');
-
-        if (!previewWindow) {
-            alert('Preview-ul a fost blocat de browser. Permite pop-up-urile pentru acest site.');
-            return;
-        }
-
-        // Afișăm imediat un mesaj în noul tab
+        // Pagina temporară
         previewWindow.document.open();
+
         previewWindow.document.write(`
             <!DOCTYPE html>
             <html>
             <head>
                 <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>ATELIER — Project Preview</title>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                >
+                <title>ATELIER — Preview</title>
+
                 <style>
                     body {
                         margin: 0;
@@ -4741,61 +4753,88 @@ async function previewClient(projectId) {
                         align-items: center;
                         justify-content: center;
                         background: #f7f5f1;
-                        color: #272321;
+                        color: #77736d;
                         font-family: Arial, sans-serif;
-                        font-size: 14px;
+                        font-size: 13px;
+                        letter-spacing: .08em;
                     }
                 </style>
             </head>
+
             <body>
-                Loading project preview…
+                Loading preview...
             </body>
             </html>
         `);
+
         previewWindow.document.close();
 
-        // Găsește proiectul
-        const project = projects.find(p => p.id === projectId);
+        // Creează HTML-ul real pentru client
+        const clientHTML = await createClientHTML(project);
 
-        if (!project) {
-            previewWindow.document.body.innerHTML = `
-                <div style="text-align:center;padding:40px;">
-                    <h2>Project not found</h2>
-                    <p>The selected project could not be loaded.</p>
-                </div>
-            `;
+        // Verificăm dacă fereastra încă există
+        if (previewWindow.closed) {
+            showToast("Preview window was closed");
             return;
         }
 
-        // Generează HTML-ul pentru client
-        const clientHTML = await createClientHTML(project);
-
-        // Încarcă HTML-ul în tab-ul deja deschis
+        // Înlocuiește pagina de loading cu proiectul
         previewWindow.document.open();
         previewWindow.document.write(clientHTML);
         previewWindow.document.close();
 
+        previewWindow.focus();
+
     } catch (error) {
-        console.error('Preview Client error:', error);
 
-        alert('Nu s-a putut deschide Preview Client.');
+        console.error("Preview Client error:", error);
 
-        // Dacă tab-ul s-a deschis, afișăm eroarea și acolo
-        if (previewWindow && !previewWindow.closed) {
-            previewWindow.document.body.innerHTML = `
-                <div style="
-                    font-family: Arial, sans-serif;
-                    padding: 40px;
-                    text-align: center;
+        try {
+            previewWindow.document.open();
+
+            previewWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1.0"
+                    >
+                    <title>ATELIER — Preview Error</title>
+                </head>
+
+                <body style="
+                    margin:0;
+                    padding:50px;
+                    font-family:Arial,sans-serif;
+                    color:#777;
+                    background:#f7f5f1;
                 ">
-                    <h2>Preview unavailable</h2>
-                    <p>Please try again.</p>
-                </div>
-            `;
-        }
+
+                    <h2 style="
+                        font-family:Georgia,serif;
+                        font-weight:400;
+                        color:#242220;
+                    ">
+                        Preview could not be generated
+                    </h2>
+
+                    <p>
+                        Please try again.
+                    </p>
+
+                </body>
+                </html>
+            `);
+
+            previewWindow.document.close();
+
+        } catch (e) {}
+
+        showToast("Could not generate preview");
     }
 }
-
 /* =====================================================
    EXPORT HTML
 ===================================================== */
