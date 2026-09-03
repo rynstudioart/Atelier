@@ -1,894 +1,1173 @@
 <!doctype html>
 <html lang="ro">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Atelier — Interior Design Studio</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  >
-
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-
-  <style>
-
-    :root {
-      --black: #242220;
-      --gray: #77736d;
-      --light-gray: #e9e7e3;
-      --very-light: #f8f7f5;
-      --white: #ffffff;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background: #ffffff;
-      color: var(--black);
-      font-family: "DM Sans", sans-serif;
-    }
-
-    h1,
-    h2,
-    h3,
-    .elegant-title {
-      font-family: "Cormorant Garamond", serif;
-      font-weight: 500;
-    }
-
-
-    /* --------------------------------
-       MAIN PAGE
-    -------------------------------- */
-
-    #main-view {
-      min-height: 100vh;
-      background: #ffffff;
-    }
-
-    .main-header {
-      text-align: center;
-      padding-top: 70px;
-      margin-bottom: 45px;
-    }
-
-    .logo {
-      font-family: "DM Sans", sans-serif;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: #242220;
-      margin-bottom: 24px;
-    }
-
-    .main-title {
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(48px, 7vw, 72px);
-      line-height: 0.95;
-      font-weight: 500;
-      letter-spacing: -0.025em;
-      margin: 0;
-    }
-
-    .main-subtitle {
-      margin-top: 13px;
-      font-size: 13px;
-      color: var(--gray);
-      letter-spacing: 0.04em;
-    }
-
-
-    /* --------------------------------
-       NEW PROJECT BUTTON
-    -------------------------------- */
-
-    .new-project-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 55px;
-    }
-
-    .new-project-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-
-      background: #242220;
-      color: white;
-
-      border: none;
-      border-radius: 999px;
-
-      padding: 14px 27px;
-
-      font-size: 13px;
-      font-weight: 500;
-
-      transition: all .2s ease;
-      cursor: pointer;
-    }
-
-    .new-project-button:hover {
-      background: #3c3935;
-      transform: translateY(-1px);
-    }
-
-
-    /* --------------------------------
-       ADD PROJECT FORM
-    -------------------------------- */
-
-    .add-project-form {
-      max-width: 420px;
-      margin: 0 auto 45px;
-    }
-
-    .add-project-form input {
-      width: 100%;
-      border: 1px solid var(--light-gray);
-      border-radius: 10px;
-      padding: 13px 15px;
-      outline: none;
-      font-size: 13px;
-      background: white;
-    }
-
-    .add-project-form input:focus {
-      border-color: #aaa69f;
-    }
-
-
-    /* --------------------------------
-       PROJECT GRID
-    -------------------------------- */
-
-    #projects-grid {
-      padding-bottom: 100px;
-    }
-
-    .project-card {
-      position: relative;
-      background: white;
-      border: 1px solid var(--light-gray);
-      border-radius: 15px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: all .25s ease;
-    }
-
-    .project-card:hover {
-      border-color: #d0cdc7;
-      transform: translateY(-3px);
-      box-shadow: 0 15px 35px rgba(0,0,0,.06);
-    }
-
-    .project-cover {
-      width: 100%;
-      height: 230px;
-      background: #f3f2ef;
-      overflow: hidden;
-    }
-
-    .project-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .4s ease;
-    }
-
-    .project-card:hover .project-cover img {
-      transform: scale(1.03);
-    }
-
-    .project-card-content {
-      padding: 20px;
-    }
-
-    .project-card-title {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 25px;
-      font-weight: 500;
-      margin-bottom: 5px;
-    }
-
-    .project-card-info {
-      color: #88847d;
-      font-size: 12px;
-    }
-
-    .project-card-status {
-      display: inline-block;
-      margin-top: 13px;
-      padding: 5px 9px;
-      border-radius: 999px;
-      background: #f4f2ef;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: #6e6a64;
-    }
-
-
-    /* --------------------------------
-       DETAIL VIEW
-    -------------------------------- */
-
-    #detail-view {
-      min-height: 100vh;
-      background: white;
-    }
-
-    .detail-header {
-      padding: 35px 0 45px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .back-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      color: #77736d;
-      font-size: 12px;
-      border: none;
-      background: transparent;
-      padding: 0;
-      margin-bottom: 30px;
-      cursor: pointer;
-    }
-
-    .back-button:hover {
-      color: #242220;
-    }
-
-    .detail-title {
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(42px, 6vw, 64px);
-      line-height: 1;
-      margin: 0;
-    }
-
-    .detail-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 25px;
-      margin-top: 17px;
-      color: #817d76;
-      font-size: 12px;
-    }
-
-    .detail-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 28px;
-    }
-
-    .action-button {
-      border: 1px solid var(--light-gray);
-      background: white;
-      border-radius: 999px;
-      padding: 9px 15px;
-      font-size: 12px;
-      color: #44413d;
-      transition: .2s;
-      cursor: pointer;
-    }
-
-    .action-button:hover {
-      background: #f7f6f3;
-    }
-
-    .action-button.dark {
-      background: #242220;
-      color: white;
-      border-color: #242220;
-    }
-
-
-    /* --------------------------------
-       SECTION
-    -------------------------------- */
-
-    .project-section {
-      padding: 60px 0;
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .section-number {
-      font-size: 10px;
-      color: #99958e;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .section-title {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 34px;
-      margin: 0;
-    }
-
-
-    /* --------------------------------
-       SECTION HEADER + PLUS
-    -------------------------------- */
-
-    .section-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 22px;
-    }
-
-    .section-header-left {
-      min-width: 0;
-    }
-
-    .section-add-button {
-      flex: 0 0 auto;
-
-      width: 42px;
-      height: 42px;
-
-      border-radius: 50%;
-
-      border: 1px solid #d8d5cf;
-      background: white;
-
-      color: #77736d;
-
-      font-size: 24px;
-      font-weight: 300;
-
-      line-height: 1;
-
-      cursor: pointer;
-
-      transition: all .2s ease;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .section-add-button:hover {
-      background: #242220;
-      color: white;
-      border-color: #242220;
-      transform: translateY(-1px);
-    }
-
-
-    /* --------------------------------
-       IMAGE GRID
-    -------------------------------- */
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 0;
-    }
-
-    .photo-item {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #f5f4f1;
-      aspect-ratio: 1;
-      cursor: pointer;
-    }
-
-    .photo-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .3s ease;
-    }
-
-    .photo-item:hover img {
-      transform: scale(1.04);
-    }
-
-
-    /* --------------------------------
-       SKETCH + RENDER
-       HORIZONTAL SCROLL
-    -------------------------------- */
-
-    .horizontal-scroll-grid {
-      display: flex;
-
-      gap: 16px;
-
-      overflow-x: auto;
-      overflow-y: hidden;
-
-      padding-bottom: 12px;
-
-      scroll-behavior: smooth;
-
-      scrollbar-width: thin;
-      scrollbar-color: #c8c5bf transparent;
-    }
-
-    .horizontal-scroll-grid::-webkit-scrollbar {
-      height: 6px;
-    }
-
-    .horizontal-scroll-grid::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .horizontal-scroll-grid::-webkit-scrollbar-thumb {
-      background: #c8c5bf;
-      border-radius: 20px;
-    }
-
-    .horizontal-scroll-grid .photo-item {
-      flex: 0 0 520px;
-
-      width: 520px;
-      height: 330px;
-
-      aspect-ratio: auto;
-    }
-
-
-    /* --------------------------------
-       TECHNICAL DRAWINGS
-    -------------------------------- */
-
-    .technical-drawings-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-
-    /* --------------------------------
-       REMOVE PHOTO
-    -------------------------------- */
-
-    .remove-photo {
-      position: absolute;
-
-      top: 7px;
-      right: 7px;
-
-      width: 25px;
-      height: 25px;
-
-      border-radius: 50%;
-      border: none;
-
-      background: rgba(20,20,20,.75);
-      color: white;
-
-      display: none;
-
-      align-items: center;
-      justify-content: center;
-
-      font-size: 12px;
-
-      cursor: pointer;
-
-      z-index: 3;
-    }
-
-    .photo-item:hover .remove-photo {
-      display: flex;
-    }
-
-
-    /* --------------------------------
-       PALETTE
-    -------------------------------- */
-
-    .palette {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .color-item {
-      text-align: center;
-      width: 85px;
-    }
-
-    .color-circle {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 8px;
-      border-radius: 50%;
-      border: 1px solid rgba(0,0,0,.08);
-    }
-
-    .color-name {
-      font-size: 11px;
-      color: #5f5b55;
-    }
-
-    .color-code {
-      font-size: 9px;
-      color: #aaa69f;
-      margin-top: 3px;
-    }
-
-
-    /* --------------------------------
-       MATERIAL CARDS
-    -------------------------------- */
-
-    .material-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .material-card {
-      border: 1px solid var(--light-gray);
-      border-radius: 14px;
-      overflow: hidden;
-      background: white;
-    }
-
-    .material-image {
-      height: 180px;
-      background: #f3f2ef;
-    }
-
-    .material-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .material-content {
-      padding: 15px;
-    }
-
-    .material-title {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 21px;
-    }
-
-    .material-info {
-      color: #89857e;
-      font-size: 11px;
-      margin-top: 4px;
-    }
-
-
-    /* --------------------------------
-       MODAL
-    -------------------------------- */
-
-    .modal {
-      position: fixed;
-      inset: 0;
-
-      z-index: 100;
-
-      display: none;
-
-      align-items: center;
-      justify-content: center;
-
-      background: rgba(25,23,21,.45);
-
-      padding: 20px;
-    }
-
-    .modal.active {
-      display: flex;
-    }
-
-    .modal-box {
-      width: min(560px, 100%);
-
-      max-height: 90vh;
-
-      overflow-y: auto;
-
-      background: white;
-
-      border-radius: 18px;
-
-      padding: 28px;
-
-      box-shadow: 0 25px 80px rgba(0,0,0,.15);
-    }
-
-    .modal-title {
-      font-family: "Cormorant Garamond", serif;
-
-      font-size: 31px;
-
-      margin-bottom: 22px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-
-      font-size: 10px;
-
-      text-transform: uppercase;
-
-      letter-spacing: .1em;
-
-      color: #85817a;
-
-      margin-bottom: 7px;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-
-      border: 1px solid var(--light-gray);
-
-      border-radius: 9px;
-
-      padding: 11px 12px;
-
-      font-size: 13px;
-
-      outline: none;
-
-      background: white;
-    }
-
-    .form-group textarea {
-      min-height: 100px;
-
-      resize: vertical;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      border-color: #aaa69f;
-    }
-
-    .modal-actions {
-      display: flex;
-
-      justify-content: flex-end;
-
-      gap: 8px;
-
-      margin-top: 22px;
-    }
-
-
-    /* --------------------------------
-       FULL IMAGE POPUP
-    -------------------------------- */
-
-    .image-modal {
-      position: fixed;
-
-      inset: 0;
-
-      z-index: 9999;
-
-      display: none;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 30px;
-
-      background: rgba(20,18,16,.88);
-    }
-
-    .image-modal.active {
-      display: flex;
-    }
-
-    .image-modal-content {
-      position: relative;
-
-      max-width: 95vw;
-      max-height: 92vh;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-    }
-
-    .image-modal-content img {
-      max-width: 95vw;
-      max-height: 92vh;
-
-      width: auto;
-      height: auto;
-
-      object-fit: contain;
-
-      border-radius: 6px;
-
-      box-shadow: 0 20px 80px rgba(0,0,0,.3);
-    }
-
-    .image-modal-close {
-      position: fixed;
-
-      top: 25px;
-      right: 30px;
-
-      width: 42px;
-      height: 42px;
-
-      border: none;
-      border-radius: 50%;
-
-      background: rgba(255,255,255,.12);
-
-      color: white;
-
-      font-size: 25px;
-
-      cursor: pointer;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      z-index: 10000;
-    }
-
-    .image-modal-close:hover {
-      background: rgba(255,255,255,.22);
-    }
-
-
-    /* --------------------------------
-       TOAST
-    -------------------------------- */
-
-    #toast {
-      position: fixed;
-
-      bottom: 25px;
-      right: 25px;
-
-      background: #242220;
-
-      color: white;
-
-      padding: 11px 17px;
-
-      border-radius: 999px;
-
-      font-size: 12px;
-
-      opacity: 0;
-
-      transform: translateY(10px);
-
-      pointer-events: none;
-
-      transition: .25s;
-
-      z-index: 200;
-    }
-
-    #toast.show {
-      opacity: 1;
-
-      transform: translateY(0);
-    }
-
-
-    /* --------------------------------
-       MOBILE
-    -------------------------------- */
-
-    @media(max-width:700px) {
-
-      .main-header {
-        padding-top: 45px;
-      }
-
-      .photo-grid,
-      .technical-drawings-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .material-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .detail-meta {
-        gap: 12px;
-      }
-
-      .project-section {
-        padding: 45px 0;
-      }
-
-      .project-cover {
-        height: 210px;
-      }
-
-      .horizontal-scroll-grid .photo-item {
-        flex: 0 0 85vw;
-
-        width: 85vw;
-
-        height: 55vw;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier — Interior Design Studio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+
+<style>
+
+:root{
+  --black:#242220;
+  --gray:#77736d;
+  --light-gray:#e9e7e3;
+  --very-light:#f8f7f5;
+  --white:#fff;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:#fff;
+  color:var(--black);
+  font-family:"DM Sans",sans-serif;
+}
+
+button,
+input,
+textarea{
+  font-family:inherit;
+}
+
+h1,
+h2,
+h3,
+.elegant-title{
+  font-family:"Cormorant Garamond",serif;
+  font-weight:500;
+}
+
+.app-shell{
+  min-height:100vh;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.site-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  border-top:1px solid var(--light-gray);
+  border-bottom:1px solid var(--light-gray);
+}
+
+.site-nav::before{
+  content:"";
+  display:block;
+  height:1px;
+}
+
+.nav-inner{
+  max-width:1180px;
+  margin:auto;
+  padding:18px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+}
+
+.nav-logo{
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  cursor:pointer;
+  white-space:nowrap;
+  border:0;
+  background:none;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:25px;
+}
+
+.nav-link{
+  border:0;
+  background:none;
+  padding:0;
+  cursor:pointer;
+  color:#77736d;
+  font-size:11px;
+  letter-spacing:.04em;
+  transition:.2s;
+}
+
+.nav-link:hover,
+.nav-link.active{
+  color:#242220;
+}
+
+.nav-mobile-toggle{
+  display:none;
+  border:0;
+  background:white;
+  cursor:pointer;
+}
+
+@media(max-width:760px){
+
+  .nav-mobile-toggle{
+    display:block;
+  }
+
+  .nav-links{
+    display:none;
+    position:absolute;
+    left:0;
+    right:0;
+    top:58px;
+    background:white;
+    border-bottom:1px solid var(--light-gray);
+    padding:20px 24px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:18px;
+  }
+
+  .nav-links.open{
+    display:flex;
+  }
+
+}
+
+
+/* =====================================================
+   SHARED
+===================================================== */
+
+.page-container{
+  max-width:1120px;
+  margin:auto;
+  padding:0 24px;
+}
+
+.page-heading{
+  text-align:center;
+  padding:75px 0 55px;
+}
+
+.logo{
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:#242220;
+  margin-bottom:24px;
+}
+
+.page-title{
+  font-size:clamp(48px,7vw,72px);
+  line-height:.95;
+  letter-spacing:-.025em;
+  margin:0;
+}
+
+.page-subtitle{
+  margin-top:14px;
+  font-size:13px;
+  color:var(--gray);
+  letter-spacing:.04em;
+}
+
+.section-intro{
+  max-width:680px;
+  margin:0 auto 50px;
+  text-align:center;
+  color:var(--gray);
+  font-size:14px;
+  line-height:1.8;
+}
+
+
+/* =====================================================
+   HOME
+===================================================== */
+
+.home-hero{
+  padding-bottom:90px;
+}
+
+.home-hero-image{
+  width:100%;
+  height:min(67vh,650px);
+  min-height:360px;
+  object-fit:cover;
+  display:block;
+  border-radius:16px;
+}
+
+.home-hero-copy{
+  text-align:center;
+  padding:48px 20px 0;
+}
+
+.home-hero-copy h1{
+  font-size:clamp(48px,7vw,78px);
+  line-height:.9;
+  margin:0;
+}
+
+.home-hero-copy p{
+  max-width:600px;
+  margin:20px auto 0;
+  color:var(--gray);
+  font-size:14px;
+  line-height:1.8;
+}
+
+.home-actions{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:28px;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.action-button,
+.new-project-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid var(--light-gray);
+  background:white;
+  border-radius:999px;
+  padding:10px 16px;
+  font-size:12px;
+  color:#44413d;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.action-button:hover{
+  background:#f7f6f3;
+}
+
+.action-button.dark,
+.new-project-button{
+  background:#242220;
+  color:white;
+  border-color:#242220;
+}
+
+.action-button.dark:hover,
+.new-project-button:hover{
+  background:#3c3935;
+  transform:translateY(-1px);
+}
+
+.action-button.small{
+  padding:7px 11px;
+  font-size:10px;
+}
+
+.action-button.danger{
+  color:#8a4c47;
+}
+
+
+/* =====================================================
+   PROJECT GRIDS
+===================================================== */
+
+.projects-toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:25px;
+  flex-wrap:wrap;
+}
+
+.projects-count{
+  font-size:11px;
+  color:#99958e;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.project-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  padding-bottom:100px;
+}
+
+.project-card{
+  position:relative;
+  background:white;
+  border:1px solid var(--light-gray);
+  border-radius:15px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.project-card:hover{
+  border-color:#d0cdc7;
+  transform:translateY(-3px);
+  box-shadow:0 15px 35px rgba(0,0,0,.06);
+}
+
+.project-cover{
+  width:100%;
+  height:245px;
+  background:#f3f2ef;
+  overflow:hidden;
+}
+
+.project-cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:.4s;
+}
+
+.project-card:hover .project-cover img{
+  transform:scale(1.03);
+}
+
+.project-card-content{
+  padding:20px;
+}
+
+.project-card-title{
+  font-family:"Cormorant Garamond",serif;
+  font-size:27px;
+  margin-bottom:5px;
+}
+
+.project-card-info{
+  color:#88847d;
+  font-size:11px;
+  line-height:1.7;
+}
+
+.project-card-status{
+  display:inline-block;
+  margin-top:12px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#f4f2ef;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:#6e6a64;
+}
+
+.project-card-actions{
+  padding:0 20px 18px;
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.portfolio-star{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:0;
+  background:rgba(255,255,255,.9);
+  color:#242220;
+  cursor:pointer;
+  z-index:3;
+}
+
+
+/* =====================================================
+   PORTFOLIO
+===================================================== */
+
+.portfolio-empty{
+  text-align:center;
+  color:#99958e;
+  padding:70px 0 120px;
+  font-size:13px;
+}
+
+.portfolio-note{
+  text-align:center;
+  color:#99958e;
+  font-size:11px;
+  margin-top:-28px;
+  margin-bottom:35px;
+}
+
+.portfolio-toolbar{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:-10px 0 35px;
+}
+
+
+/* =====================================================
+   ABOUT / CONTACT
+===================================================== */
+
+.simple-page{
+  padding-bottom:110px;
+}
+
+.simple-card{
+  max-width:760px;
+  margin:0 auto;
+  border-top:1px solid var(--light-gray);
+  padding:45px 0;
+}
+
+.simple-card h2{
+  font-size:40px;
+  margin:0 0 15px;
+}
+
+.simple-card p{
+  font-size:14px;
+  color:var(--gray);
+  line-height:1.9;
+  margin:0 0 18px;
+}
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:#85817a;
+  margin-bottom:7px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;
+  border:1px solid var(--light-gray);
+  border-radius:9px;
+  padding:11px 12px;
+  font-size:13px;
+  outline:none;
+  background:white;
+}
+
+.form-group textarea{
+  min-height:125px;
+  resize:vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
+  border-color:#aaa69f;
+}
+
+
+/* =====================================================
+   DETAIL
+===================================================== */
+
+#detail-page{
+  background:#fff;
+}
+
+.detail-header{
+  padding:35px 0 45px;
+  border-bottom:1px solid var(--light-gray);
+}
+
+.back-button{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:#77736d;
+  font-size:12px;
+  border:0;
+  background:transparent;
+  padding:0;
+  margin-bottom:30px;
+  cursor:pointer;
+}
+
+.back-button:hover{
+  color:#242220;
+}
+
+.detail-title{
+  font-size:clamp(48px,7vw,78px);
+  line-height:.92;
+  margin:0;
+}
+
+.detail-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:25px;
+  margin-top:18px;
+  color:#817d76;
+  font-size:12px;
+}
+
+.detail-description{
+  max-width:700px;
+  color:#77736d;
+  font-size:14px;
+  line-height:1.8;
+  margin:22px 0 0;
+}
+
+.detail-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:28px;
+}
+
+
+/* =====================================================
+   BEHANCE-LIKE PROJECT VIEW
+===================================================== */
+
+.project-section{
+  padding:72px 0;
+  border-bottom:1px solid var(--light-gray);
+}
+
+.section-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:30px;
+}
+
+.section-number{
+  font-size:10px;
+  color:#99958e;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.section-title{
+  font-size:40px;
+  margin:0;
+}
+
+.section-add-button{
+  flex:0 0 auto;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:1px solid #d8d5cf;
+  background:white;
+  color:#77736d;
+  font-size:24px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+}
+
+.section-add-button:hover{
+  background:#242220;
+  color:white;
+  border-color:#242220;
+}
+
+.section-description{
+  width:100%;
+  border:1px solid var(--light-gray);
+  border-radius:10px;
+  padding:13px 14px;
+  font-size:13px;
+  line-height:1.7;
+  outline:none;
+  color:#55514b;
+  resize:vertical;
+  min-height:70px;
+  margin-bottom:30px;
+}
+
+.section-description:focus{
+  border-color:#aaa69f;
+}
+
+.content-stack{
+  display:flex;
+  flex-direction:column;
+  gap:45px;
+}
+
+.content-item{
+  width:100%;
+}
+
+.content-item-image{
+  width:100%;
+  max-width:980px;
+  margin:0 auto;
+  display:block;
+  max-height:none;
+  object-fit:contain;
+  border-radius:10px;
+  background:#f5f4f1;
+  cursor:pointer;
+}
+
+.content-item-text{
+  width:100%;
+  max-width:900px;
+  margin:15px auto 0;
+  color:#77736d;
+  font-size:13px;
+  line-height:1.8;
+  white-space:pre-wrap;
+}
+
+.content-item-remove{
+  display:block;
+  margin:10px auto 0;
+  border:0;
+  background:transparent;
+  color:#99958e;
+  font-size:10px;
+  cursor:pointer;
+}
+
+.content-item-remove:hover{
+  color:#242220;
+}
+
+.content-item.text-only{
+  max-width:900px;
+  margin-left:auto;
+  margin-right:auto;
+  border:1px solid var(--light-gray);
+  border-radius:12px;
+  padding:20px;
+}
+
+.empty-section{
+  color:#aaa69f;
+  font-size:12px;
+  padding:15px 0;
+}
+
+@media(min-width:1000px){
+
+  .content-item-image{
+    width:92%;
+    max-width:1000px;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .project-grid{
+    grid-template-columns:1fr;
+  }
+
+  .project-cover{
+    height:225px;
+  }
+
+  .contact-grid{
+    grid-template-columns:1fr;
+  }
+
+  .page-heading{
+    padding-top:55px;
+  }
+
+  .project-section{
+    padding:52px 0;
+  }
+
+  .section-title{
+    font-size:34px;
+  }
+
+  .detail-meta{
+    gap:12px;
+  }
+
+  .content-item-image{
+    width:100%;
+    border-radius:6px;
+  }
+
+}
+
+
+/* =====================================================
+   MODALS
+===================================================== */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(25,23,21,.45);
+  padding:20px;
+}
+
+.modal.active{
+  display:flex;
+}
+
+.modal-box{
+  width:min(620px,100%);
+  max-height:90vh;
+  overflow-y:auto;
+  background:white;
+  border-radius:18px;
+  padding:28px;
+  box-shadow:0 25px 80px rgba(0,0,0,.15);
+}
+
+.modal-title{
+  font-family:"Cormorant Garamond",serif;
+  font-size:31px;
+  margin-bottom:22px;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:22px;
+}
+
+.preview-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin-top:10px;
+}
+
+.preview-grid img{
+  width:100%;
+  height:75px;
+  object-fit:cover;
+  border-radius:7px;
+}
+
+
+/* =====================================================
+   IMAGE LIGHTBOX
+===================================================== */
+
+.image-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+  background:rgba(20,18,16,.9);
+}
+
+.image-modal.active{
+  display:flex;
+}
+
+.image-modal-content{
+  max-width:96vw;
+  max-height:94vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.image-modal-content img{
+  max-width:96vw;
+  max-height:94vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  border-radius:5px;
+}
+
+.image-modal-close{
+  position:fixed;
+  top:22px;
+  right:25px;
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  color:white;
+  font-size:27px;
+  cursor:pointer;
+  z-index:10000;
+}
+
+.image-modal-close:hover{
+  background:rgba(255,255,255,.22);
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+#toast{
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  background:#242220;
+  color:white;
+  padding:11px 17px;
+  border-radius:999px;
+  font-size:12px;
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:.25s;
+  z-index:200;
+}
+
+#toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+
+/* =====================================================
+   ADD PROJECT FORM
+===================================================== */
+
+.add-project-form{
+  max-width:620px;
+  margin:0 auto 40px;
+}
+
+.add-project-row{
+  display:flex;
+  gap:8px;
+}
+
+.add-project-row input{
+  flex:1;
+}
+
+</style>
 </head>
 
 
 <body>
+
+<div class="app-shell">
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="site-nav">
+
+  <div class="nav-inner">
+
+    <button
+      class="nav-logo"
+      onclick="navigate('home')"
+    >
+      ATELIER
+    </button>
+
+    <button
+      class="nav-mobile-toggle"
+      onclick="toggleMobileNav()"
+      aria-label="Menu"
+    >
+      <i data-lucide="menu"></i>
+    </button>
+
+    <div
+      class="nav-links"
+      id="nav-links"
+    >
+
+      <button
+        class="nav-link"
+        data-page="home"
+        onclick="navigate('home')"
+      >
+        Home
+      </button>
+
+      <button
+        class="nav-link"
+        data-page="portfolio"
+        onclick="navigate('portfolio')"
+      >
+        Portofoliu
+      </button>
+
+      <button
+        class="nav-link"
+        data-page="projects"
+        onclick="navigate('projects')"
+      >
+        My Projects
+      </button>
+
+      <button
+        class="nav-link"
+        data-page="about"
+        onclick="navigate('about')"
+      >
+        About
+      </button>
+
+      <button
+        class="nav-link"
+        data-page="contact"
+        onclick="navigate('contact')"
+      >
+        Contact
+      </button>
+
+    </div>
+
+  </div>
+
+</nav>
 
 
 <!-- =====================================================
      HOME
 ===================================================== -->
 
-<div id="main-view">
+<section
+  id="home-page"
+  class="page active"
+>
 
-  <main class="max-w-5xl mx-auto px-6">
+  <main class="page-container">
 
-    <header class="main-header">
+    <div class="page-heading">
 
       <div class="logo">
         ATELIER
       </div>
 
-      <h1 class="main-title">
+      <h1 class="page-title">
+        Interior Design Studio
+      </h1>
+
+      <p class="page-subtitle">
+        Spaces with character, material & atmosphere.
+      </p>
+
+    </div>
+
+
+    <div class="home-hero">
+
+      <img
+        class="home-hero-image"
+        src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90"
+        alt="Interior design"
+      >
+
+      <div class="home-hero-copy">
+
+        <h1>
+          Designed to feel like home.
+        </h1>
+
+        <p>
+          ATELIER este spațiul meu pentru concepte de interior design,
+          moodboard-uri, materiale, mobilier, lumină și proiecte finale.
+        </p>
+
+        <div class="home-actions">
+
+          <button
+            class="action-button dark"
+            onclick="navigate('portfolio')"
+          >
+            View Portfolio
+          </button>
+
+          <button
+            class="action-button"
+            onclick="navigate('projects')"
+          >
+            My Projects
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</section>
+
+
+<!-- =====================================================
+     PORTFOLIO
+===================================================== -->
+
+<section
+  id="portfolio-page"
+  class="page"
+>
+
+  <main class="page-container">
+
+    <div class="page-heading">
+
+      <div class="logo">
+        ATELIER
+      </div>
+
+      <h1 class="page-title">
+        Portofoliu
+      </h1>
+
+      <p class="page-subtitle">
+        Selected interior design projects.
+      </p>
+
+    </div>
+
+
+    <p class="portfolio-note">
+
+      Aici apar doar proiectele pe care le-ai ales din
+      <b>My Projects</b>.
+
+      Butonul
+      <b>Share Portfolio</b>
+      creează o versiune separată,
+      fără paginile private ale studioului.
+
+    </p>
+
+
+    <div class="portfolio-toolbar">
+
+      <button
+        class="action-button dark"
+        onclick="sharePortfolio()"
+      >
+        Share Portfolio
+      </button>
+
+    </div>
+
+
+    <div
+      id="portfolio-grid"
+      class="project-grid"
+    ></div>
+
+  </main>
+
+</section>
+
+
+<!-- =====================================================
+     MY PROJECTS
+===================================================== -->
+
+<section
+  id="projects-page"
+  class="page"
+>
+
+  <main class="page-container">
+
+    <div class="page-heading">
+
+      <div class="logo">
+        ATELIER
+      </div>
+
+      <h1 class="page-title">
         My Projects
       </h1>
 
-      <p class="main-subtitle">
-        Interior Design Studio
+      <p class="page-subtitle">
+        Private workspace & project library.
       </p>
 
-    </header>
+    </div>
 
 
-    <div class="new-project-wrapper">
+    <div class="projects-toolbar">
+
+      <span
+        id="projects-count"
+        class="projects-count"
+      ></span>
 
       <button
         class="new-project-button"
         onclick="showAddProject()"
       >
 
-        <span style="font-size:18px;">
+        <span style="font-size:18px">
           +
         </span>
 
@@ -904,13 +1183,12 @@
       class="add-project-form hidden"
     >
 
-      <div class="flex gap-2">
+      <div class="add-project-row">
 
         <input
           id="new-project-name"
           type="text"
           placeholder="Nume proiect..."
-          onkeydown="if(event.key==='Enter') createProject()"
         >
 
         <button
@@ -934,36 +1212,201 @@
 
     <div
       id="projects-grid"
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 pb-24"
+      class="project-grid"
     ></div>
 
   </main>
 
-</div>
-
+</section>
 
 
 <!-- =====================================================
-     DETAIL VIEW
+     ABOUT
 ===================================================== -->
 
-<div
-  id="detail-view"
-  class="hidden"
+<section
+  id="about-page"
+  class="page"
 >
 
-  <main class="max-w-5xl mx-auto px-6">
+  <main class="page-container simple-page">
+
+    <div class="page-heading">
+
+      <div class="logo">
+        ATELIER
+      </div>
+
+      <h1 class="page-title">
+        About
+      </h1>
+
+      <p class="page-subtitle">
+        The studio behind the projects.
+      </p>
+
+    </div>
+
+
+    <div class="simple-card">
+
+      <h2>
+        Interior design, thoughtfully composed.
+      </h2>
+
+      <p>
+        ATELIER este un spațiu digital pentru dezvoltarea
+        proiectelor de interior:
+        de la primele referințe și schițe până la materiale,
+        mobilier, iluminat și randări.
+      </p>
+
+      <p>
+        Păstrez fiecare proiect într-un format vizual,
+        astfel încât procesul de design
+        să fie ușor de urmărit și prezentat clientului.
+      </p>
+
+    </div>
+
+  </main>
+
+</section>
+
+
+<!-- =====================================================
+     CONTACT
+===================================================== -->
+
+<section
+  id="contact-page"
+  class="page"
+>
+
+  <main class="page-container simple-page">
+
+    <div class="page-heading">
+
+      <div class="logo">
+        ATELIER
+      </div>
+
+      <h1 class="page-title">
+        Contact
+      </h1>
+
+      <p class="page-subtitle">
+        Let's create something beautiful.
+      </p>
+
+    </div>
+
+
+    <div class="simple-card">
+
+      <div class="contact-grid">
+
+        <div>
+
+          <h2>
+            Get in touch.
+          </h2>
+
+          <p>
+            Pentru colaborări, proiecte de interior design
+            sau întrebări,
+            completează formularul.
+          </p>
+
+        </div>
+
+
+        <form
+          onsubmit="sendContact(event)"
+        >
+
+          <div class="form-group">
+
+            <label>
+              Nume
+            </label>
+
+            <input
+              id="contact-name"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Email
+            </label>
+
+            <input
+              id="contact-email"
+              type="email"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Mesaj
+            </label>
+
+            <textarea
+              id="contact-message"
+              required
+            ></textarea>
+
+          </div>
+
+
+          <button
+            class="action-button dark"
+            type="submit"
+          >
+            Send Message
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</section>
+
+
+<!-- =====================================================
+     DETAIL PROJECT
+===================================================== -->
+
+<section
+  id="detail-page"
+  class="page"
+>
+
+  <main class="page-container">
 
     <header class="detail-header">
 
       <button
-        onclick="goBack()"
+        onclick="goBackFromDetail()"
         class="back-button"
       >
 
         <i data-lucide="arrow-left"></i>
 
-        Back to projects
+        Back
 
       </button>
 
@@ -978,6 +1421,12 @@
         id="detail-meta"
         class="detail-meta"
       ></div>
+
+
+      <p
+        id="detail-description"
+        class="detail-description"
+      ></p>
 
 
       <div class="detail-actions">
@@ -996,6 +1445,13 @@
         >
           Edit Project
         </button>
+
+
+        <button
+          id="portfolio-toggle-detail"
+          onclick="toggleCurrentPortfolio()"
+          class="action-button"
+        ></button>
 
 
         <button
@@ -1032,12 +1488,14 @@
 
   </main>
 
+</section>
+
+
 </div>
 
 
-
 <!-- =====================================================
-     ADD / EDIT MODAL
+     MODAL
 ===================================================== -->
 
 <div
@@ -1054,9 +1512,8 @@
 </div>
 
 
-
 <!-- =====================================================
-     IMAGE FULLSCREEN POPUP
+     IMAGE LIGHTBOX
 ===================================================== -->
 
 <div
@@ -1087,1509 +1544,2054 @@
 </div>
 
 
-
 <div id="toast"></div>
 
 
-
 <script>
-/* =====================================================
-   ATELIER — INTERIOR DESIGN STUDIO
-   STORAGE + INDEXEDDB + IMAGE LIGHTBOX
-===================================================== */
-const STORAGE_KEY = "atelier-interior-projects";
-const DB_NAME = "atelier-interior-images";
-const DB_VERSION = 1;
-const IMAGE_STORE = "images";
+
+const STORAGE_KEY =
+  "atelier-interior-projects";
+
+const DB_NAME =
+  "atelier-interior-images";
+
+const DB_VERSION =
+  1;
+
+const IMAGE_STORE =
+  "images";
+
+
 const SECTION_TYPES = [
+
   "Moodboard",
+
   "Sketch",
+
   "Reference",
+
   "Texture",
+
   "Palette Color",
+
   "Materials",
+
   "Furniture",
+
   "Technical Drawings",
+
   "Lighting",
+
   "Render Drawings",
+
   "Notes"
+
 ];
+
+
 let projects =
   JSON.parse(
-    localStorage.getItem(STORAGE_KEY) || "[]"
+    localStorage.getItem(
+      STORAGE_KEY
+    ) || "[]"
   );
-let currentProject = null;
-let dbPromise = null;
+
+
+let currentProject =
+  null;
+
+
+let previousPage =
+  "projects";
+
+
+let dbPromise =
+  null;
+
+
 /* =====================================================
    INDEXED DB
 ===================================================== */
-function openImageDB() {
-  if (dbPromise) {
+
+function openImageDB(){
+
+  if(dbPromise){
+
     return dbPromise;
+
   }
-  dbPromise = new Promise(
-    (resolve, reject) => {
-      const request =
-        indexedDB.open(
-          DB_NAME,
-          DB_VERSION
-        );
-      request.onupgradeneeded =
-        function(event) {
-          const db =
-            event.target.result;
-          if (
-            !db.objectStoreNames.contains(
-              IMAGE_STORE
-            )
-          ) {
-            db.createObjectStore(
-              IMAGE_STORE,
-              {
-                keyPath: "id"
-              }
+
+
+  dbPromise =
+    new Promise(
+      (resolve,reject)=>{
+
+        const request =
+          indexedDB.open(
+            DB_NAME,
+            DB_VERSION
+          );
+
+
+        request.onupgradeneeded =
+          event=>{
+
+            const db =
+              event.target.result;
+
+
+            if(
+              !db.objectStoreNames.contains(
+                IMAGE_STORE
+              )
+            ){
+
+              db.createObjectStore(
+                IMAGE_STORE,
+                {
+                  keyPath:"id"
+                }
+              );
+
+            }
+
+          };
+
+
+        request.onsuccess =
+          event=>{
+
+            resolve(
+              event.target.result
             );
-          }
-        };
-      request.onsuccess =
-        function(event) {
-          resolve(
-            event.target.result
-          );
-        };
-      request.onerror =
-        function() {
-          console.error(
-            "IndexedDB error:",
-            request.error
-          );
-          reject(
-            request.error
-          );
-        };
-    }
-  );
+
+          };
+
+
+        request.onerror =
+          ()=>{
+
+            reject(
+              request.error
+            );
+
+          };
+
+      }
+    );
+
+
   return dbPromise;
+
 }
+
+
 /* =====================================================
-   IMAGE DATABASE HELPERS
+   SAVE IMAGE
 ===================================================== */
+
 async function saveImageToDB(
   dataURL
-) {
+){
+
   const db =
     await openImageDB();
+
+
   const id =
     "img_" +
     Date.now() +
     "_" +
     Math.random()
       .toString(36)
-      .substring(2, 10);
+      .slice(2,10);
+
+
   return new Promise(
-    (resolve, reject) => {
-      const transaction =
+    (resolve,reject)=>{
+
+      const tx =
         db.transaction(
           IMAGE_STORE,
           "readwrite"
         );
-      const store =
-        transaction.objectStore(
-          IMAGE_STORE
-        );
-      const request =
-        store.put({
-          id: id,
-          data: dataURL
-        });
-      request.onsuccess =
-        function() {
+
+
+      const req =
+        tx
+          .objectStore(
+            IMAGE_STORE
+          )
+          .put({
+            id,
+            data:dataURL
+          });
+
+
+      req.onsuccess =
+        ()=>{
           resolve(
-            "indexeddb://" + id
+            "indexeddb://" +
+            id
           );
         };
-      request.onerror =
-        function() {
+
+
+      req.onerror =
+        ()=>{
           reject(
-            request.error
+            req.error
           );
         };
+
     }
   );
+
 }
+
+
+/* =====================================================
+   GET IMAGE
+===================================================== */
+
 async function getImageFromDB(
   id
-) {
+){
+
   const db =
     await openImageDB();
+
+
   return new Promise(
-    (resolve, reject) => {
-      const transaction =
-        db.transaction(
-          IMAGE_STORE,
-          "readonly"
-        );
-      const store =
-        transaction.objectStore(
-          IMAGE_STORE
-        );
-      const request =
-        store.get(id);
-      request.onsuccess =
-        function() {
+    (resolve,reject)=>{
+
+      const req =
+        db
+          .transaction(
+            IMAGE_STORE,
+            "readonly"
+          )
+          .objectStore(
+            IMAGE_STORE
+          )
+          .get(id);
+
+
+      req.onsuccess =
+        ()=>{
+
           resolve(
-            request.result
-              ? request.result.data
+            req.result
+              ? req.result.data
               : null
           );
+
         };
-      request.onerror =
-        function() {
+
+
+      req.onerror =
+        ()=>{
+
           reject(
-            request.error
+            req.error
           );
+
         };
+
     }
   );
+
 }
+
+
+/* =====================================================
+   DELETE IMAGE
+===================================================== */
+
 async function deleteImageFromDB(
   id
-) {
+){
+
   const db =
     await openImageDB();
+
+
   return new Promise(
-    (resolve, reject) => {
-      const transaction =
-        db.transaction(
-          IMAGE_STORE,
-          "readwrite"
-        );
-      const store =
-        transaction.objectStore(
-          IMAGE_STORE
-        );
-      const request =
-        store.delete(id);
-      request.onsuccess =
-        function() {
+    (resolve,reject)=>{
+
+      const req =
+        db
+          .transaction(
+            IMAGE_STORE,
+            "readwrite"
+          )
+          .objectStore(
+            IMAGE_STORE
+          )
+          .delete(id);
+
+
+      req.onsuccess =
+        ()=>{
+
           resolve(true);
+
         };
-      request.onerror =
-        function() {
+
+
+      req.onerror =
+        ()=>{
+
           reject(
-            request.error
+            req.error
           );
+
         };
+
     }
   );
+
 }
+
+
 /* =====================================================
    RESOLVE IMAGE
 ===================================================== */
+
 async function resolveImageSource(
   src
-) {
-  if (!src) {
+){
+
+  if(!src){
+
     return "";
+
   }
-  if (
+
+
+  if(
     typeof src === "string" &&
-    src.startsWith("indexeddb://")
-  ) {
-    const id =
+    src.startsWith(
+      "indexeddb://"
+    )
+  ){
+
+    return await getImageFromDB(
       src.replace(
         "indexeddb://",
         ""
-      );
-    return await getImageFromDB(
-      id
+      )
     );
+
   }
+
+
   return src;
+
 }
+
+
 /* =====================================================
-   LOCAL STORAGE
+   DATA MIGRATION
 ===================================================== */
-function saveLocalStorage() {
-  try {
+
+/*
+  Versiunea veche avea:
+
+  sections: [
+    "image1",
+    "image2"
+  ]
+
+  Acum fiecare element este:
+
+  {
+    image:"...",
+    text:"..."
+  }
+*/
+
+function normalizeProjects(){
+
+  projects =
+    projects.map(
+      project=>{
+
+        project.portfolio =
+          Boolean(
+            project.portfolio
+          );
+
+
+        if(
+          !project.sections
+        ){
+
+          project.sections =
+            {};
+
+        }
+
+
+        SECTION_TYPES.forEach(
+          section=>{
+
+            if(
+              !Array.isArray(
+                project.sections[
+                  section
+                ]
+              )
+            ){
+
+              project.sections[
+                section
+              ] = [];
+
+            }
+
+
+            project.sections[
+              section
+            ] =
+              project.sections[
+                section
+              ].map(
+                item=>{
+
+                  if(
+                    typeof item ===
+                    "string"
+                  ){
+
+                    return {
+                      image:item,
+                      text:""
+                    };
+
+                  }
+
+
+                  return {
+
+                    image:
+                      item &&
+                      item.image
+                        ? item.image
+                        : "",
+
+                    text:
+                      item &&
+                      item.text
+                        ? item.text
+                        : ""
+
+                  };
+
+                }
+              );
+
+          }
+        );
+
+
+        return project;
+
+      }
+    );
+
+
+  saveLocalStorage();
+
+}
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function saveLocalStorage(){
+
+  try{
+
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify(projects)
+      JSON.stringify(
+        projects
+      )
     );
+
+
     return true;
-  } catch (error) {
+
+  }catch(error){
+
     console.error(
-      "ATELIER storage error:",
       error
     );
+
+
     showToast(
       "Could not save project"
     );
+
+
     return false;
+
   }
+
 }
-function saveLocal() {
+
+
+function saveLocal(){
+
   saveLocalStorage();
+
   showToast(
     "Project saved ✓"
   );
+
 }
+
+
 /* =====================================================
-   HOME — PROJECTS
+   NAVIGATION
 ===================================================== */
-function renderProjects() {
-  const grid =
-    document.getElementById(
-      "projects-grid"
-    );
-  if (!grid) return;
-  grid.innerHTML = "";
-  projects.forEach(
-    (project, index) => {
-      const card =
-        document.createElement(
-          "article"
-        );
-      card.className =
-        "project-card";
-      /* ---------------------------------
-         OPEN PROJECT
-      --------------------------------- */
-      card.addEventListener(
-        "click",
-        function() {
-          openProject(index);
-        }
-      );
-      const totalImages =
-        Object.values(
-          project.sections || {}
-        )
-        .reduce(
-          (total, arr) =>
-            total +
-            (
-              Array.isArray(arr)
-                ? arr.length
-                : 0
-            ),
-          0
-        );
-      /* ---------------------------------
-         CARD HTML
-      --------------------------------- */
-      card.innerHTML = `
-        <div
-          class="project-cover"
-          data-cover-index="${index}"
-        >
-          <img
-            src="${escapeAttribute(
-              project.cover ||
-              placeholderImage()
-            )}"
-            alt="${escapeAttribute(
-              project.name
-            )}"
-          >
-        </div>
-        <div class="project-card-content">
-          <div class="project-card-title">
-            ${escapeHTML(
-              project.name
-            )}
-          </div>
-          <div class="project-card-info">
-            ${escapeHTML(
-              project.client ||
-              "Client"
-            )}
-          </div>
-          <div class="project-card-info">
-            ${escapeHTML(
-              project.location || ""
-            )}
-            ${
-              project.area
-                ? " · " +
-                  escapeHTML(
-                    project.area
-                  )
-                : ""
-            }
-          </div>
-          <div class="project-card-status">
-            ${escapeHTML(
-              project.status ||
-              "Concept"
-            )}
-          </div>
-        </div>
-      `;
-      grid.appendChild(card);
-      /* ---------------------------------
-         COVER IMAGE POPUP
-      --------------------------------- */
-      const cover =
-        card.querySelector(
-          ".project-cover"
-        );
-      if (
-        cover &&
-        project.cover
-      ) {
-        cover.addEventListener(
-          "click",
-          async function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            const resolved =
-              await resolveImageSource(
-                project.cover
-              );
-            if (resolved) {
-              openImage(
-                resolved
-              );
-            }
-          }
+
+function navigate(
+  page
+){
+
+  closeMobileNav();
+
+  closeImageModal();
+
+
+  document
+    .querySelectorAll(
+      ".page"
+    )
+    .forEach(
+      element=>{
+        element.classList.remove(
+          "active"
         );
       }
-    }
+    );
+
+
+  const target =
+    document.getElementById(
+      page +
+      "-page"
+    );
+
+
+  if(!target){
+
+    return;
+
+  }
+
+
+  target.classList.add(
+    "active"
   );
+
+
+  document
+    .querySelectorAll(
+      ".nav-link"
+    )
+    .forEach(
+      button=>{
+
+        button.classList.toggle(
+          "active",
+          button.dataset.page ===
+            page
+        );
+
+      }
+    );
+
+
+  if(
+    page ===
+    "portfolio"
+  ){
+
+    renderPortfolio();
+
+  }
+
+
+  if(
+    page ===
+    "projects"
+  ){
+
+    renderProjects();
+
+  }
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+
+  if(
+    window.lucide
+  ){
+
+    lucide.createIcons();
+
+  }
+
 }
+
+
 /* =====================================================
-   NEW PROJECT
+   MOBILE NAV
 ===================================================== */
-function showAddProject() {
+
+function toggleMobileNav(){
+
   document
     .getElementById(
-      "add-project-form"
+      "nav-links"
+    )
+    .classList.toggle(
+      "open"
+    );
+
+}
+
+
+function closeMobileNav(){
+
+  document
+    .getElementById(
+      "nav-links"
     )
     .classList.remove(
-      "hidden"
+      "open"
     );
-  document
-    .getElementById(
-      "new-project-name"
-    )
-    .focus();
+
 }
-function hideAddProject() {
-  document
-    .getElementById(
-      "add-project-form"
-    )
-    .classList.add(
-      "hidden"
-    );
-}
-function createProject() {
+
+
+/* =====================================================
+   CREATE PROJECT
+===================================================== */
+
+function createProject(){
+
   const input =
     document.getElementById(
       "new-project-name"
     );
+
+
   const name =
     input.value.trim();
-  if (!name) return;
-  const sections = {};
-  SECTION_TYPES.forEach(
-    section => {
-      sections[section] = [];
-    }
-  );
-  projects.push({
-    id: Date.now(),
-    name,
-    client: "",
-    location: "",
-    area: "",
-    type: "Interior Design",
-    status: "Concept",
-    description: "",
-    cover: "",
-    sections
-  });
-  saveLocalStorage();
-  input.value = "";
-  hideAddProject();
-  renderProjects();
-}
-/* =====================================================
-   OPEN PROJECT
-===================================================== */
-function openProject(
-  index
-) {
-  currentProject = index;
-  const project =
-    projects[index];
-  if (!project) return;
-  if (!project.sections) {
-    project.sections = {};
+
+
+  if(!name){
+
+    return;
+
   }
+
+
+  const sections =
+    {};
+
+
   SECTION_TYPES.forEach(
-    section => {
-      if (
-        !Array.isArray(
-          project.sections[section]
-        )
-      ) {
-        project.sections[section] = [];
-      }
+    section=>{
+
+      sections[
+        section
+      ] = [];
+
     }
   );
+
+
+  projects.push({
+
+    id:
+      Date.now(),
+
+    name,
+
+    client:"",
+
+    location:"",
+
+    area:"",
+
+    type:
+      "Interior Design",
+
+    status:
+      "Concept",
+
+    description:"",
+
+    cover:"",
+
+    portfolio:false,
+
+    sections
+
+  });
+
+
+  saveLocalStorage();
+
+
+  input.value =
+    "";
+
+
+  hideAddProject();
+
+
+  renderProjects();
+
+
+  showToast(
+    "Project created ✓"
+  );
+
+}
+
+
+/* =====================================================
+   ADD PROJECT UI
+===================================================== */
+
+function showAddProject(){
+
   document
     .getElementById(
-      "main-view"
-    )
-    .classList.add(
-      "hidden"
-    );
-  document
-    .getElementById(
-      "detail-view"
+      "add-project-form"
     )
     .classList.remove(
       "hidden"
     );
+
+
   document
     .getElementById(
-      "detail-project-name"
+      "new-project-name"
     )
-    .textContent =
-    project.name;
+    .focus();
+
+}
+
+
+function hideAddProject(){
+
   document
     .getElementById(
-      "detail-meta"
+      "add-project-form"
     )
-    .innerHTML = `
-      <span>
+    .classList.add(
+      "hidden"
+    );
+
+}
+
+
+/* =====================================================
+   RENDER MY PROJECTS
+===================================================== */
+
+function renderProjects(){
+
+  const grid =
+    document.getElementById(
+      "projects-grid"
+    );
+
+
+  if(!grid){
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "projects-count"
+  ).textContent =
+
+    projects.length +
+    (
+      projects.length === 1
+        ? " project"
+        : " projects"
+    );
+
+
+  grid.innerHTML =
+    "";
+
+
+  projects.forEach(
+    (
+      project,
+      index
+    )=>{
+
+      grid.appendChild(
+        buildProjectCard(
+          project,
+          index,
+          true
+        )
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   RENDER PORTFOLIO
+===================================================== */
+
+function renderPortfolio(){
+
+  const grid =
+    document.getElementById(
+      "portfolio-grid"
+    );
+
+
+  if(!grid){
+
+    return;
+
+  }
+
+
+  const selected =
+    projects
+      .map(
+        (
+          project,
+          index
+        )=>({
+
+          project,
+
+          index
+
+        })
+      )
+      .filter(
+        item=>
+          item.project.portfolio
+      );
+
+
+  grid.innerHTML =
+    "";
+
+
+  if(!selected.length){
+
+    grid.innerHTML = `
+
+      <div
+        class="portfolio-empty"
+        style="grid-column:1/-1"
+      >
+
+        Nu ai adăugat încă proiecte
+        în portofoliu.
+
+        <br>
+
+        Intră în
+        <b>My Projects</b>
+        și apasă
+        <b>Add to Portfolio</b>.
+
+      </div>
+
+    `;
+
+
+    return;
+
+  }
+
+
+  selected.forEach(
+    item=>{
+
+      grid.appendChild(
+        buildProjectCard(
+          item.project,
+          item.index,
+          false
+        )
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   BUILD PROJECT CARD
+===================================================== */
+
+function buildProjectCard(
+  project,
+  index,
+  showPortfolioAction
+){
+
+  const card =
+    document.createElement(
+      "article"
+    );
+
+
+  card.className =
+    "project-card";
+
+
+  const cover =
+    project.cover ||
+    placeholderImage();
+
+
+  card.innerHTML = `
+
+    <button
+
+      class="portfolio-star"
+
+      title="${
+        project.portfolio
+          ? "Remove from portfolio"
+          : "Add to portfolio"
+      }"
+
+      onclick="
+        event.stopPropagation();
+        togglePortfolio(${index});
+      "
+
+    >
+
+      ${
+        project.portfolio
+          ? "★"
+          : "☆"
+      }
+
+    </button>
+
+
+    <div class="project-cover">
+
+      <img
+
+        src="${escapeAttribute(
+          cover
+        )}"
+
+        alt="${escapeAttribute(
+          project.name
+        )}"
+
+      >
+
+    </div>
+
+
+    <div class="project-card-content">
+
+      <div class="project-card-title">
+
+        ${escapeHTML(
+          project.name
+        )}
+
+      </div>
+
+
+      <div class="project-card-info">
+
         ${escapeHTML(
           project.client ||
-          "No client"
+          "Client"
         )}
-      </span>
-      <span>
+
+      </div>
+
+
+      <div class="project-card-info">
+
         ${escapeHTML(
           project.location ||
-          "No location"
+          ""
         )}
-      </span>
-      <span>
-        ${escapeHTML(
-          project.area ||
-          "No area"
-        )}
-      </span>
-      <span>
+
+        ${
+          project.area
+            ? " · " +
+              escapeHTML(
+                project.area
+              )
+            : ""
+        }
+
+      </div>
+
+
+      <div class="project-card-status">
+
         ${escapeHTML(
           project.status ||
           "Concept"
         )}
-      </span>
-    `;
-  saveLocalStorage();
-  renderSections();
-  window.scrollTo(
-    0,
-    0
+
+      </div>
+
+    </div>
+
+
+    ${
+      showPortfolioAction
+        ? `
+
+      <div class="project-card-actions">
+
+        <button
+
+          class="
+            action-button
+            small
+            ${
+              project.portfolio
+                ? ""
+                : "dark"
+            }
+          "
+
+          onclick="
+            event.stopPropagation();
+            togglePortfolio(${index});
+          "
+
+        >
+
+          ${
+            project.portfolio
+              ? "Remove from Portfolio"
+              : "Add to Portfolio"
+          }
+
+        </button>
+
+
+        <button
+
+          class="action-button small"
+
+          onclick="
+            event.stopPropagation();
+            openProject(
+              ${index},
+              'projects'
+            );
+          "
+
+        >
+
+          Open Project
+
+        </button>
+
+      </div>
+
+    `
+        : ""
+    }
+
+  `;
+
+
+  card.addEventListener(
+    "click",
+    ()=>{
+
+      openProject(
+        index,
+        showPortfolioAction
+          ? "projects"
+          : "portfolio"
+      );
+
+    }
   );
-  if (window.lucide) {
-    lucide.createIcons();
-  }
+
+
+  const image =
+    card.querySelector(
+      ".project-cover img"
+    );
+
+
+  image.addEventListener(
+    "click",
+    async event=>{
+
+      event.stopPropagation();
+
+
+      const src =
+        await resolveImageSource(
+          project.cover
+        );
+
+
+      if(src){
+
+        openImage(
+          src
+        );
+
+      }
+
+    }
+  );
+
+
+  return card;
+
 }
-function goBack() {
-  closeImageModal();
+
+
+/* =====================================================
+   TOGGLE PORTFOLIO
+===================================================== */
+
+function togglePortfolio(
+  index
+){
+
+  if(
+    !projects[index]
+  ){
+
+    return;
+
+  }
+
+
+  projects[index].portfolio =
+    !projects[index].portfolio;
+
+
+  saveLocalStorage();
+
+
+  renderProjects();
+
+
+  renderPortfolio();
+
+
+  showToast(
+
+    projects[index].portfolio
+
+      ? "Added to Portfolio ✓"
+
+      : "Removed from Portfolio"
+
+  );
+
+}
+
+
+/* =====================================================
+   CURRENT PROJECT PORTFOLIO
+===================================================== */
+
+function toggleCurrentPortfolio(){
+
+  if(
+    currentProject === null
+  ){
+
+    return;
+
+  }
+
+
+  togglePortfolio(
+    currentProject
+  );
+
+
+  updateDetailPortfolioButton();
+
+}
+
+
+function updateDetailPortfolioButton(){
+
+  const button =
+    document.getElementById(
+      "portfolio-toggle-detail"
+    );
+
+
+  if(
+    !button ||
+    currentProject === null
+  ){
+
+    return;
+
+  }
+
+
+  const project =
+    projects[
+      currentProject
+    ];
+
+
+  button.textContent =
+    project.portfolio
+      ? "Remove from Portfolio"
+      : "Add to Portfolio";
+
+
+  button.classList.toggle(
+    "dark",
+    !project.portfolio
+  );
+
+}
+
+
+/* =====================================================
+   OPEN PROJECT
+===================================================== */
+
+function openProject(
+  index,
+  fromPage="projects"
+){
+
+  if(
+    !projects[index]
+  ){
+
+    return;
+
+  }
+
+
+  currentProject =
+    index;
+
+
+  previousPage =
+    fromPage;
+
+
+  const project =
+    projects[index];
+
+
+  ensureProjectSections(
+    project
+  );
+
+
+  document
+    .querySelectorAll(
+      ".page"
+    )
+    .forEach(
+      element=>{
+        element.classList.remove(
+          "active"
+        );
+      }
+    );
+
+
   document
     .getElementById(
-      "detail-view"
+      "detail-page"
     )
     .classList.add(
-      "hidden"
+      "active"
     );
+
+
   document
-    .getElementById(
-      "main-view"
+    .querySelectorAll(
+      ".nav-link"
     )
-    .classList.remove(
-      "hidden"
+    .forEach(
+      button=>{
+        button.classList.remove(
+          "active"
+        );
+      }
     );
-  currentProject = null;
-  renderProjects();
+
+
+  document.getElementById(
+    "detail-project-name"
+  ).textContent =
+    project.name;
+
+
+  document.getElementById(
+    "detail-meta"
+  ).innerHTML = `
+
+    <span>
+
+      ${escapeHTML(
+        project.client ||
+        "No client"
+      )}
+
+    </span>
+
+
+    <span>
+
+      ${escapeHTML(
+        project.location ||
+        "No location"
+      )}
+
+    </span>
+
+
+    <span>
+
+      ${escapeHTML(
+        project.area ||
+        "No area"
+      )}
+
+    </span>
+
+
+    <span>
+
+      ${escapeHTML(
+        project.type ||
+        "Interior Design"
+      )}
+
+    </span>
+
+
+    <span>
+
+      ${escapeHTML(
+        project.status ||
+        "Concept"
+      )}
+
+    </span>
+
+  `;
+
+
+  document.getElementById(
+    "detail-description"
+  ).textContent =
+    project.description ||
+    "";
+
+
+  updateDetailPortfolioButton();
+
+
+  renderSections();
+
+
   window.scrollTo(
     0,
     0
   );
+
+
+  if(window.lucide){
+
+    lucide.createIcons();
+
+  }
+
 }
+
+
+/* =====================================================
+   BACK FROM PROJECT
+===================================================== */
+
+function goBackFromDetail(){
+
+  closeImageModal();
+
+
+  navigate(
+    previousPage ||
+    "projects"
+  );
+
+}
+
+
+/* =====================================================
+   ENSURE SECTIONS
+===================================================== */
+
+function ensureProjectSections(
+  project
+){
+
+  if(
+    !project.sections
+  ){
+
+    project.sections =
+      {};
+
+  }
+
+
+  SECTION_TYPES.forEach(
+    section=>{
+
+      if(
+        !Array.isArray(
+          project.sections[
+            section
+          ]
+        )
+      ){
+
+        project.sections[
+          section
+        ] = [];
+
+      }
+
+
+      project.sections[
+        section
+      ] =
+        project.sections[
+          section
+        ].map(
+          item=>{
+
+            if(
+              typeof item ===
+              "string"
+            ){
+
+              return {
+
+                image:item,
+
+                text:""
+
+              };
+
+            }
+
+
+            return {
+
+              image:
+                item.image ||
+                "",
+
+              text:
+                item.text ||
+                ""
+
+            };
+
+          }
+        );
+
+    }
+  );
+
+}
+
+
 /* =====================================================
    RENDER SECTIONS
 ===================================================== */
-function renderSections() {
+
+function renderSections(){
+
   const container =
     document.getElementById(
       "sections-container"
     );
-  if (!container) return;
-  container.innerHTML = "";
+
+
+  if(
+    !container ||
+    currentProject === null
+  ){
+
+    return;
+
+  }
+
+
   const project =
-    projects[currentProject];
-  if (!project) return;
+    projects[
+      currentProject
+    ];
+
+
+  ensureProjectSections(
+    project
+  );
+
+
+  if(
+    !project.sectionDescriptions
+  ){
+
+    project.sectionDescriptions =
+      {};
+
+  }
+
+
+  container.innerHTML =
+    "";
+
+
   SECTION_TYPES.forEach(
-    (section, index) => {
-      if (
-        !Array.isArray(
-          project.sections[section]
-        )
-      ) {
-        project.sections[section] = [];
-      }
-      const images =
-        project.sections[section];
-      const sectionElement =
+    (
+      section,
+      index
+    )=>{
+
+      const items =
+        project.sections[
+          section
+        ];
+
+
+      const element =
         document.createElement(
           "section"
         );
-      sectionElement.className =
+
+
+      element.className =
         "project-section";
-      sectionElement.innerHTML = `
-        <div class="section-number">
-          ${String(
-            index + 1
-          ).padStart(2, "0")}
-          /
-          ${escapeHTML(
-            section
-          )}
-        </div>
-        <div
-          style="
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:20px;
-            margin-bottom:22px;
-          "
-        >
-          <h2
-            class="section-title"
-            style="margin:0;"
-          >
-            ${escapeHTML(
-              section
-            )}
-          </h2>
-          <button
-            type="button"
-            class="add-content-button"
-            data-add-section="${index}"
-            title="Add content"
-            aria-label="Add content to ${escapeAttribute(section)}"
-            style="
-              flex:0 0 auto;
-              width:42px;
-              height:42px;
-              border-radius:50%;
-              border:1px solid #d8d5cf;
-              background:white;
-              color:#77736d;
-              font-size:24px;
-              font-weight:300;
-              line-height:1;
-              cursor:pointer;
-              transition:all .2s ease;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-            "
-          >
-            +
-          </button>
-        </div>
-        <div
-          class="${
-            section === "Sketch" ||
-            section === "Render Drawings"
-              ? "horizontal-scroll-grid"
-              : section === "Technical Drawings"
-                ? "technical-drawings-grid"
-                : "photo-grid"
-          }"
-          id="grid-${index}"
-        >
-          ${
-            images.length
-              ? images
-                  .map(
-                    (image, imageIndex) => `
-                      <div
-                        class="photo-item"
-                        data-image="${escapeAttribute(
-                          image
-                        )}"
-                      >
-                        <img
-                          src="${
-                            image.startsWith(
-                              "indexeddb://"
-                            )
-                              ? ""
-                              : escapeAttribute(
-                                  image
-                                )
-                          }"
-                          ${
-                            image.startsWith(
-                              "indexeddb://"
-                            )
-                              ? `
-                                data-db-image="${escapeAttribute(
-                                  image
-                                )}"
-                              `
-                              : ""
-                          }
-                          alt="${escapeAttribute(
-                            section
-                          )}"
-                        >
-                        <button
-                          type="button"
-                          class="remove-photo"
-                          data-remove-section="${index}"
-                          data-remove-image="${imageIndex}"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    `
-                  )
-                  .join("")
-              : ""
-          }
-        </div>
-      `;
-      container.appendChild(
-        sectionElement
-      );
-    }
-  );
-  attachSectionEvents();
-  loadIndexedDBImages();
-}
-/* =====================================================
-   LOAD INDEXEDDB IMAGES
-===================================================== */
-async function loadIndexedDBImages() {
-  const images =
-    document.querySelectorAll(
-      "img[data-db-image]"
-    );
-  for (
-    const img of images
-  ) {
-    const src =
-      img.getAttribute(
-        "data-db-image"
-      );
-    try {
-      const data =
-        await resolveImageSource(
-          src
-        );
-      if (data) {
-        img.src =
-          data;
-      }
-    } catch (error) {
-      console.error(
-        "Could not load image:",
-        error
-      );
-    }
-  }
-}
-/* =====================================================
-   SECTION EVENTS
-===================================================== */
-function attachSectionEvents() {
-  /* ---------------------------------
-     ADD BUTTONS
-  --------------------------------- */
-  document
-    .querySelectorAll(
-      "[data-add-section]"
-    )
-    .forEach(
-      button => {
-        button.addEventListener(
-          "click",
-          function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            const sectionIndex =
-              Number(
-                this.getAttribute(
-                  "data-add-section"
+
+
+      element.innerHTML = `
+
+        <div class="section-header">
+
+          <div>
+
+            <div class="section-number">
+
+              ${
+                String(
+                  index + 1
+                ).padStart(
+                  2,
+                  "0"
                 )
-              );
-            openAddContent(
-              sectionIndex
-            );
-          }
-        );
-      }
-    );
-  /* ---------------------------------
-     REMOVE BUTTONS
-  --------------------------------- */
-  document
-    .querySelectorAll(
-      "[data-remove-section]"
-    )
-    .forEach(
-      button => {
-        button.addEventListener(
-          "click",
-          function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            const sectionIndex =
-              Number(
-                this.getAttribute(
-                  "data-remove-section"
-                )
-              );
-            const imageIndex =
-              Number(
-                this.getAttribute(
-                  "data-remove-image"
-                )
-              );
-            removePhoto(
-              sectionIndex,
-              imageIndex
-            );
-          }
-        );
-      }
-    );
-  /* ---------------------------------
-     ALL SECTION IMAGES
-  --------------------------------- */
-  document
-    .querySelectorAll(
-      ".photo-item"
-    )
-    .forEach(
-      item => {
-        item.addEventListener(
-          "click",
-          async function(event) {
-            if (
-              event.target.closest(
-                ".remove-photo"
-              )
-            ) {
-              return;
-            }
-            const image =
-              this.getAttribute(
-                "data-image"
-              );
-            if (!image) {
-              return;
-            }
-            try {
-              const resolved =
-                await resolveImageSource(
-                  image
-                );
-              if (resolved) {
-                openImage(
-                  resolved
-                );
               }
-            } catch (error) {
-              console.error(
-                "Could not open image:",
-                error
-              );
-            }
+
+              /
+
+              ${escapeHTML(
+                section
+              )}
+
+            </div>
+
+
+            <h2 class="section-title">
+
+              ${escapeHTML(
+                section
+              )}
+
+            </h2>
+
+          </div>
+
+
+          <button
+
+            class="section-add-button"
+
+            onclick="
+              openAddContent(
+                ${index}
+              )
+            "
+
+            title="Add content"
+
+          >
+
+            +
+
+          </button>
+
+        </div>
+
+
+        <textarea
+
+          class="section-description"
+
+          placeholder="
+            Scrie aici descrierea / explicația secțiunii...
+          "
+
+          data-section-description="${index}"
+
+        >${escapeHTML(
+          project
+            .sectionDescriptions[
+              section
+            ] || ""
+        )}</textarea>
+
+
+        <div
+
+          class="content-stack"
+
+          id="content-stack-${index}"
+
+        ></div>
+
+      `;
+
+
+      container.appendChild(
+        element
+      );
+
+
+      element
+        .querySelector(
+          ".section-description"
+        )
+        .addEventListener(
+          "input",
+          function(){
+
+            project.sectionDescriptions[
+              section
+            ] =
+              this.value;
+
+
+            saveLocalStorage();
+
           }
         );
+
+
+      const stack =
+        element.querySelector(
+          ".content-stack"
+        );
+
+
+      if(
+        !items.length
+      ){
+
+        stack.innerHTML = `
+
+          <div class="empty-section">
+
+            Adaugă imagini sau conținut
+            cu butonul +.
+
+          </div>
+
+        `;
+
+      }else{
+
+        items.forEach(
+          (
+            item,
+            itemIndex
+          )=>{
+
+            const content =
+              document.createElement(
+                "article"
+              );
+
+
+            content.className =
+              "content-item";
+
+
+            let imageElement =
+              null;
+
+
+            if(
+              item.image
+            ){
+
+              imageElement =
+                document.createElement(
+                  "img"
+                );
+
+
+              imageElement.className =
+                "content-item-image";
+
+
+              imageElement.alt =
+                section;
+
+
+              content.appendChild(
+                imageElement
+              );
+
+
+              imageElement.addEventListener(
+                "click",
+                async()=>{
+
+                  const resolved =
+                    await resolveImageSource(
+                      item.image
+                    );
+
+
+                  if(resolved){
+
+                    openImage(
+                      resolved
+                    );
+
+                  }
+
+                }
+              );
+
+
+              if(
+                item.text
+              ){
+
+                const text =
+                  document.createElement(
+                    "div"
+                  );
+
+
+                text.className =
+                  "content-item-text";
+
+
+                text.textContent =
+                  item.text;
+
+
+                content.appendChild(
+                  text
+                );
+
+              }
+
+            }else if(
+              item.text
+            ){
+
+              content.classList.add(
+                "text-only"
+              );
+
+
+              const text =
+                document.createElement(
+                  "div"
+                );
+
+
+              text.className =
+                "content-item-text";
+
+
+              text.textContent =
+                item.text;
+
+
+              content.appendChild(
+                text
+              );
+
+            }
+
+
+            const remove =
+              document.createElement(
+                "button"
+              );
+
+
+            remove.className =
+              "content-item-remove";
+
+
+            remove.textContent =
+              "Remove";
+
+
+            remove.onclick =
+              ()=>removeContent(
+                index,
+                itemIndex
+              );
+
+
+            content.appendChild(
+              remove
+            );
+
+
+            stack.appendChild(
+              content
+            );
+
+
+            if(
+              item.image &&
+              item.image.startsWith(
+                "indexeddb://"
+              )
+            ){
+
+              resolveImageSource(
+                item.image
+              )
+              .then(
+                src=>{
+
+                  if(
+                    src &&
+                    imageElement
+                  ){
+
+                    imageElement.src =
+                      src;
+
+                  }
+
+                }
+              );
+
+            }else if(
+              item.image &&
+              imageElement
+            ){
+
+              imageElement.src =
+                item.image;
+
+            }
+
+          }
+        );
+
       }
-    );
-}
-/* =====================================================
-   IMAGE FULLSCREEN POPUP
-===================================================== */
-function openImage(
-  src
-) {
-  const modal =
-    document.getElementById(
-      "image-modal"
-    );
-  const img =
-    document.getElementById(
-      "image-modal-img"
-    );
-  if (
-    !modal ||
-    !img ||
-    !src
-  ) {
-    return;
-  }
-  img.src =
-    src;
-  modal.classList.add(
-    "active"
-  );
-  document.body.style.overflow =
-    "hidden";
-}
-function closeImageModal(
-  event
-) {
-  if (
-    event &&
-    event.target
-  ) {
-    if (
-      event.target.id !==
-      "image-modal" &&
-      !event.target.classList.contains(
-        "image-modal-close"
-      )
-    ) {
-      return;
+
     }
-  }
-  const modal =
-    document.getElementById(
-      "image-modal"
-    );
-  const img =
-    document.getElementById(
-      "image-modal-img"
-    );
-  if (!modal) {
-    return;
-  }
-  modal.classList.remove(
-    "active"
   );
-  if (img) {
-    img.src = "";
-  }
-  document.body.style.overflow =
-    "";
+
 }
-/* =====================================================
-   ESCAPE KEY — CLOSE IMAGE POPUP
-===================================================== */
-document.addEventListener(
-  "keydown",
-  function(event) {
-    if (
-      event.key === "Escape"
-    ) {
-      closeImageModal();
-    }
-  }
-);
+
+
 /* =====================================================
    ADD CONTENT MODAL
 ===================================================== */
+
 function openAddContent(
   sectionIndex
-) {
+){
+
   const section =
     SECTION_TYPES[
       sectionIndex
     ];
-  const modal =
-    document.getElementById(
-      "modal"
-    );
-  const modalBox =
+
+
+  const box =
     document.getElementById(
       "modal-box"
     );
-  if (
-    !modal ||
-    !modalBox
-  ) {
-    return;
-  }
-  modalBox.innerHTML = `
+
+
+  box.innerHTML = `
+
     <div class="modal-title">
-      Add to ${escapeHTML(
+
+      Add to
+      ${escapeHTML(
         section
       )}
+
     </div>
+
+
     <div class="form-group">
+
       <label>
+
+        Text / description
+
+      </label>
+
+
+      <textarea
+
+        id="content-text"
+
+        placeholder="
+          Scrie o descriere pentru această imagine...
+        "
+
+      ></textarea>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+
         Image URL
+
       </label>
+
+
       <input
+
         id="content-url"
+
         type="text"
+
         placeholder="https://..."
+
       >
+
     </div>
+
+
     <div class="form-group">
+
       <label>
-        Or choose an image
+
+        Or choose image(s)
+
       </label>
+
+
       <input
+
         id="content-file"
+
         type="file"
+
         accept="image/*"
+
         multiple
+
       >
+
+
+      <div
+
+        id="image-upload-preview"
+
+        class="preview-grid"
+
+      ></div>
+
     </div>
-    <div
-      id="image-upload-preview"
-      style="
-        display:none;
-        margin-top:10px;
-        margin-bottom:15px;
-        border-radius:12px;
-        overflow:hidden;
-        background:#f5f4f1;
-        max-height:250px;
-      "
-    ></div>
+
+
     <div class="modal-actions">
+
       <button
-        type="button"
-        id="cancel-add-content"
+
         class="action-button"
+
+        onclick="closeModal()"
+
       >
+
         Cancel
+
       </button>
+
+
       <button
-        type="button"
+
         id="confirm-add-content"
+
         class="action-button dark"
+
       >
+
         Add
+
       </button>
+
     </div>
+
   `;
-  modal.classList.add(
-    "active"
-  );
-  document
-    .getElementById(
-      "cancel-add-content"
-    )
-    .addEventListener(
-      "click",
-      closeModal
-    );
-  document
-    .getElementById(
-      "confirm-add-content"
-    )
-    .addEventListener(
-      "click",
-      function() {
-        addContent(
-          sectionIndex
-        );
-      }
-    );
-  document
-    .getElementById(
-      "content-file"
-    )
-    .addEventListener(
-      "change",
-      function() {
-        const files =
-          Array.from(
-            this.files || []
-          );
-        if (!files.length) {
-          return;
-        }
-        const preview =
-          document.getElementById(
-            "image-upload-preview"
-          );
-        preview.style.display =
-          "grid";
-        preview.style.gridTemplateColumns =
-          "repeat(3, 1fr)";
-        preview.style.gap =
-          "6px";
-        preview.innerHTML =
-          "";
-        files
-          .slice(0, 12)
-          .forEach(
-            file => {
-              const reader =
-                new FileReader();
-              reader.onload =
-                function(event) {
-                  const img =
-                    document.createElement(
-                      "img"
-                    );
-                  img.src =
-                    event.target.result;
-                  img.style.width =
-                    "100%";
-                  img.style.height =
-                    "80px";
-                  img.style.objectFit =
-                    "cover";
-                  img.style.borderRadius =
-                    "8px";
-                  preview.appendChild(
-                    img
-                  );
-                };
-              reader.readAsDataURL(
-                file
-              );
-            }
-          );
-      }
-    );
-  document
-    .getElementById(
-      "content-url"
-    )
-    .focus();
-}
-/* =====================================================
-   COMPRESS IMAGE
-===================================================== */
-function compressImage(
-  file
-) {
-  return new Promise(
-    (resolve, reject) => {
-      const reader =
-        new FileReader();
-      reader.onload =
-        function(event) {
-          const img =
-            new Image();
-          img.onload =
-            function() {
-              const MAX_SIZE =
-                1600;
-              let width =
-                img.width;
-              let height =
-                img.height;
-              if (
-                width > MAX_SIZE ||
-                height > MAX_SIZE
-              ) {
-                if (
-                  width > height
-                ) {
-                  height =
-                    Math.round(
-                      height *
-                      MAX_SIZE /
-                      width
-                    );
-                  width =
-                    MAX_SIZE;
-                } else {
-                  width =
-                    Math.round(
-                      width *
-                      MAX_SIZE /
-                      height
-                    );
-                  height =
-                    MAX_SIZE;
-                }
-              }
-              const canvas =
-                document.createElement(
-                  "canvas"
-                );
-              canvas.width =
-                width;
-              canvas.height =
-                height;
-              const ctx =
-                canvas.getContext(
-                  "2d"
-                );
-              ctx.drawImage(
-                img,
-                0,
-                0,
-                width,
-                height
-              );
-              const result =
-                canvas.toDataURL(
-                  "image/jpeg",
-                  0.80
-                );
-              resolve(
-                result
-              );
-            };
-          img.onerror =
-            function() {
-              reject(
-                new Error(
-                  "Could not load image"
-                )
-              );
-            };
-          img.src =
-            event.target.result;
-        };
-      reader.onerror =
-        function() {
-          reject(
-            new Error(
-              "Could not read file"
-            )
-          );
-        };
-      reader.readAsDataURL(
-        file
-      );
-    }
-  );
-}
-/* =====================================================
-   ADD CONTENT
-===================================================== */
-async function addContent(
-  sectionIndex
-) {
-  if (
-    currentProject === null ||
-    !projects[currentProject]
-  ) {
-    return;
-  }
-  const section =
-    SECTION_TYPES[
-      sectionIndex
-    ];
-  const urlInput =
-    document.getElementById(
-      "content-url"
-    );
-  const fileInput =
-    document.getElementById(
-      "content-file"
-    );
-  const url =
-    urlInput
-      ? urlInput.value.trim()
-      : "";
-  const files =
-    fileInput &&
-    fileInput.files
-      ? Array.from(
-          fileInput.files
-        )
-      : [];
-  /* ---------------------------------
-     FILE UPLOAD
-  --------------------------------- */
-  if (files.length) {
-    const button =
-      document.getElementById(
-        "confirm-add-content"
-      );
-    if (button) {
-      button.disabled =
-        true;
-      button.textContent =
-        "Processing...";
-    }
-    let added = 0;
-    try {
-      for (
-        const file of files
-      ) {
-        if (
-          !file.type.startsWith(
-            "image/"
-          )
-        ) {
-          continue;
-        }
-        const compressed =
-          await compressImage(
-            file
-          );
-        const dbId =
-          await saveImageToDB(
-            compressed
-          );
-        projects[
-          currentProject
-        ]
-        .sections[
-          section
-        ]
-        .push(
-          dbId
-        );
-        added++;
-      }
-      saveLocalStorage();
-      closeModal();
-      renderSections();
-      showToast(
-        `${added} image${added !== 1 ? "s" : ""} added ✓`
-      );
-    } catch (error) {
-      console.error(
-        "Image upload error:",
-        error
-      );
-      showToast(
-        "Could not save image"
-      );
-    } finally {
-      if (button) {
-        button.disabled =
-          false;
-        button.textContent =
-          "Add";
-      }
-    }
-    return;
-  }
-  /* ---------------------------------
-     URL IMAGE
-  --------------------------------- */
-  if (url) {
-    projects[
-      currentProject
-    ]
-    .sections[
-      section
-    ]
-    .push(
-      url
-    );
-    saveLocalStorage();
-    closeModal();
-    renderSections();
-    showToast(
-      `${section} — image added ✓`
-    );
-    return;
-  }
-  showToast(
-    "Choose an image or enter an URL"
-  );
-}
-/* =====================================================
-   REMOVE IMAGE
-===================================================== */
-async function removePhoto(
-  sectionIndex,
-  imageIndex
-) {
-  const section =
-    SECTION_TYPES[
-      sectionIndex
-    ];
-  if (
-    !projects[
-      currentProject
-    ] ||
-    !projects[
-      currentProject
-    ].sections[
-      section
-    ]
-  ) {
-    return;
-  }
-  const image =
-    projects[
-      currentProject
-    ]
-    .sections[
-      section
-    ][
-      imageIndex
-    ];
-  if (
-    typeof image === "string" &&
-    image.startsWith(
-      "indexeddb://"
-    )
-  ) {
-    try {
-      await deleteImageFromDB(
-        image.replace(
-          "indexeddb://",
-          ""
-        )
-      );
-    } catch (error) {
-      console.error(
-        error
-      );
-    }
-  }
-  projects[
-    currentProject
-  ]
-  .sections[
-    section
-  ]
-  .splice(
-    imageIndex,
-    1
-  );
-  saveLocalStorage();
-  renderSections();
-  showToast(
-    "Image removed ✓"
-  );
-}
-/* =====================================================
-   PROJECT EDIT
-===================================================== */
-function openProjectEdit() {
-  const p =
-    projects[
-      currentProject
-    ];
-  document
-    .getElementById(
-      "modal-box"
-    )
-    .innerHTML = `
-      <div class="modal-title">
-        Edit Project
-      </div>
-      ${formField(
-        "Project name",
-        "edit-name",
-        p.name
-      )}
-      ${formField(
-        "Client",
-        "edit-client",
-        p.client
-      )}
-      ${formField(
-        "Location",
-        "edit-location",
-        p.location
-      )}
-      ${formField(
-        "Surface",
-        "edit-area",
-        p.area
-      )}
-      ${formField(
-        "Project type",
-        "edit-type",
-        p.type
-      )}
-      ${formField(
-        "Status",
-        "edit-status",
-        p.status
-      )}
-      <div class="form-group">
-        <label>
-          Cover Image
-        </label>
-        <input
-          id="edit-cover-file"
-          type="file"
-          accept="image/*"
-        >
-        <div
-          id="cover-preview"
-          style="
-            margin-top:10px;
-            width:100%;
-            height:180px;
-            border-radius:12px;
-            overflow:hidden;
-            background:#f5f4f1;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-          "
-        >
-          ${
-            p.cover
-              ? `
-                <img
-                  src="${escapeAttribute(
-                    p.cover
-                  )}"
-                  style="
-                    width:100%;
-                    height:100%;
-                    object-fit:cover;
-                    cursor:pointer;
-                  "
-                  onclick="event.stopPropagation(); openImage(this.src)"
-                >
-              `
-              : `
-                <span
-                  style="
-                    font-size:12px;
-                    color:#999;
-                  "
-                >
-                  No cover image
-                </span>
-              `
-          }
-        </div>
-      </div>
-      <div class="form-group">
-        <label>
-          Description
-        </label>
-        <textarea
-          id="edit-description"
-        >${escapeHTML(
-          p.description || ""
-        )}</textarea>
-      </div>
-      <div class="modal-actions">
-        <button
-          type="button"
-          id="cancel-edit-project"
-          class="action-button"
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          id="save-edit-project"
-          class="action-button dark"
-        >
-          Save
-        </button>
-      </div>
-    `;
+
+
   document
     .getElementById(
       "modal"
@@ -2597,22 +3599,799 @@ function openProjectEdit() {
     .classList.add(
       "active"
     );
+
+
   document
     .getElementById(
-      "cancel-edit-project"
+      "content-file"
     )
     .addEventListener(
-      "click",
-      closeModal
+      "change",
+      function(){
+
+        const preview =
+          document.getElementById(
+            "image-upload-preview"
+          );
+
+
+        preview.innerHTML =
+          "";
+
+
+        Array
+          .from(
+            this.files ||
+            []
+          )
+          .slice(
+            0,
+            20
+          )
+          .forEach(
+            file=>{
+
+              const reader =
+                new FileReader();
+
+
+              reader.onload =
+                event=>{
+
+                  const img =
+                    document.createElement(
+                      "img"
+                    );
+
+
+                  img.src =
+                    event.target.result;
+
+
+                  preview.appendChild(
+                    img
+                  );
+
+                };
+
+
+              reader.readAsDataURL(
+                file
+              );
+
+            }
+          );
+
+      }
     );
+
+
   document
     .getElementById(
-      "save-edit-project"
+      "confirm-add-content"
     )
-    .addEventListener(
-      "click",
-      saveProjectEdit
+    .onclick =
+      ()=>addContent(
+        sectionIndex
+      );
+
+
+  document
+    .getElementById(
+      "content-text"
+    )
+    .focus();
+
+}
+
+
+/* =====================================================
+   COMPRESS IMAGE
+===================================================== */
+
+function compressImage(
+  file
+){
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        event=>{
+
+          const img =
+            new Image();
+
+
+          img.onload =
+            ()=>{
+
+              const MAX =
+                2200;
+
+
+              let width =
+                img.width;
+
+
+              let height =
+                img.height;
+
+
+              if(
+                width > MAX ||
+                height > MAX
+              ){
+
+                if(
+                  width >
+                  height
+                ){
+
+                  height =
+                    Math.round(
+                      height *
+                      MAX /
+                      width
+                    );
+
+                  width =
+                    MAX;
+
+                }else{
+
+                  width =
+                    Math.round(
+                      width *
+                      MAX /
+                      height
+                    );
+
+                  height =
+                    MAX;
+
+                }
+
+              }
+
+
+              const canvas =
+                document.createElement(
+                  "canvas"
+                );
+
+
+              canvas.width =
+                width;
+
+
+              canvas.height =
+                height;
+
+
+              const ctx =
+                canvas.getContext(
+                  "2d"
+                );
+
+
+              ctx.drawImage(
+                img,
+                0,
+                0,
+                width,
+                height
+              );
+
+
+              resolve(
+                canvas.toDataURL(
+                  "image/jpeg",
+                  .86
+                )
+              );
+
+            };
+
+
+          img.onerror =
+            ()=>reject(
+              new Error(
+                "Could not load image"
+              )
+            );
+
+
+          img.src =
+            event.target.result;
+
+        };
+
+
+      reader.onerror =
+        ()=>reject(
+          new Error(
+            "Could not read file"
+          )
+        );
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   ADD CONTENT
+===================================================== */
+
+async function addContent(
+  sectionIndex
+){
+
+  if(
+    currentProject === null
+  ){
+
+    return;
+
+  }
+
+
+  const project =
+    projects[
+      currentProject
+    ];
+
+
+  const section =
+    SECTION_TYPES[
+      sectionIndex
+    ];
+
+
+  const text =
+    document
+      .getElementById(
+        "content-text"
+      )
+      .value
+      .trim();
+
+
+  const url =
+    document
+      .getElementById(
+        "content-url"
+      )
+      .value
+      .trim();
+
+
+  const files =
+    Array.from(
+      document
+        .getElementById(
+          "content-file"
+        )
+        .files ||
+        []
     );
+
+
+  const button =
+    document.getElementById(
+      "confirm-add-content"
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    "Processing...";
+
+
+  try{
+
+    if(
+      files.length
+    ){
+
+      for(
+        const file of files
+      ){
+
+        if(
+          !file.type.startsWith(
+            "image/"
+          )
+        ){
+
+          continue;
+
+        }
+
+
+        const compressed =
+          await compressImage(
+            file
+          );
+
+
+        const dbId =
+          await saveImageToDB(
+            compressed
+          );
+
+
+        project
+          .sections[
+            section
+          ]
+          .push({
+
+            image:
+              dbId,
+
+            text:
+              text
+
+          });
+
+      }
+
+    }else if(
+      url
+    ){
+
+      project
+        .sections[
+          section
+        ]
+        .push({
+
+          image:
+            url,
+
+          text:
+            text
+
+        });
+
+    }else if(
+      text
+    ){
+
+      project
+        .sections[
+          section
+        ]
+        .push({
+
+          image:"",
+
+          text:
+            text
+
+        });
+
+    }else{
+
+      showToast(
+        "Add an image or text"
+      );
+
+
+      return;
+
+    }
+
+
+    saveLocalStorage();
+
+
+    closeModal();
+
+
+    renderSections();
+
+
+    showToast(
+      "Content added ✓"
+    );
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+
+    showToast(
+      "Could not save content"
+    );
+
+  }finally{
+
+    button.disabled =
+      false;
+
+
+    button.textContent =
+      "Add";
+
+  }
+
+}
+
+
+/* =====================================================
+   REMOVE CONTENT
+===================================================== */
+
+async function removeContent(
+  sectionIndex,
+  itemIndex
+){
+
+  const section =
+    SECTION_TYPES[
+      sectionIndex
+    ];
+
+
+  const item =
+    projects[
+      currentProject
+    ]?.sections?.[
+      section
+    ]?.[
+      itemIndex
+    ];
+
+
+  if(!item){
+
+    return;
+
+  }
+
+
+  if(
+    item.image &&
+    item.image.startsWith(
+      "indexeddb://"
+    )
+  ){
+
+    try{
+
+      await deleteImageFromDB(
+        item.image.replace(
+          "indexeddb://",
+          ""
+        )
+      );
+
+    }catch(error){
+
+      console.error(
+        error
+      );
+
+    }
+
+  }
+
+
+  projects[
+    currentProject
+  ]
+  .sections[
+    section
+  ]
+  .splice(
+    itemIndex,
+    1
+  );
+
+
+  saveLocalStorage();
+
+
+  renderSections();
+
+
+  showToast(
+    "Content removed ✓"
+  );
+
+}
+
+
+/* =====================================================
+   PROJECT EDIT
+===================================================== */
+
+function openProjectEdit(){
+
+  const project =
+    projects[
+      currentProject
+    ];
+
+
+  const box =
+    document.getElementById(
+      "modal-box"
+    );
+
+
+  box.innerHTML = `
+
+    <div class="modal-title">
+
+      Edit Project
+
+    </div>
+
+
+    ${formField(
+      "Project name",
+      "edit-name",
+      project.name
+    )}
+
+
+    ${formField(
+      "Client",
+      "edit-client",
+      project.client
+    )}
+
+
+    ${formField(
+      "Location",
+      "edit-location",
+      project.location
+    )}
+
+
+    ${formField(
+      "Surface",
+      "edit-area",
+      project.area
+    )}
+
+
+    ${formField(
+      "Project type",
+      "edit-type",
+      project.type
+    )}
+
+
+    ${formField(
+      "Status",
+      "edit-status",
+      project.status
+    )}
+
+
+    <div class="form-group">
+
+      <label>
+
+        Cover Image URL
+
+      </label>
+
+
+      <input
+
+        id="edit-cover-url"
+
+        value="${
+          escapeAttribute(
+            project.cover &&
+            !project.cover.startsWith(
+              "indexeddb://"
+            )
+              ? project.cover
+              : ""
+          )
+        }"
+
+        placeholder="https://..."
+
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+
+        Or choose cover image
+
+      </label>
+
+
+      <input
+
+        id="edit-cover-file"
+
+        type="file"
+
+        accept="image/*"
+
+      >
+
+
+      <div
+
+        id="cover-preview"
+
+        style="
+          margin-top:10px;
+          width:100%;
+          height:180px;
+          border-radius:12px;
+          overflow:hidden;
+          background:#f5f4f1;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        "
+
+      >
+
+        ${
+          project.cover
+
+            ? `
+
+              <img
+
+                id="current-cover-preview"
+
+                src=""
+
+                style="
+                  width:100%;
+                  height:100%;
+                  object-fit:cover
+                "
+
+              >
+
+            `
+
+            : `
+
+              <span
+                style="
+                  font-size:12px;
+                  color:#999
+                "
+              >
+
+                No cover image
+
+              </span>
+
+            `
+        }
+
+      </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+
+        Description
+
+      </label>
+
+
+      <textarea
+        id="edit-description"
+      >${escapeHTML(
+        project.description ||
+        ""
+      )}</textarea>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+
+        class="action-button"
+
+        onclick="closeModal()"
+
+      >
+
+        Cancel
+
+      </button>
+
+
+      <button
+
+        id="save-edit-project"
+
+        class="action-button dark"
+
+      >
+
+        Save
+
+      </button>
+
+    </div>
+
+  `;
+
+
+  document
+    .getElementById(
+      "modal"
+    )
+    .classList.add(
+      "active"
+    );
+
+
+  if(
+    project.cover
+  ){
+
+    resolveImageSource(
+      project.cover
+    )
+    .then(
+      src=>{
+
+        const img =
+          document.getElementById(
+            "current-cover-preview"
+          );
+
+
+        if(
+          img &&
+          src
+        ){
+
+          img.src =
+            src;
+
+        }
+
+      }
+    );
+
+  }
+
+
   document
     .getElementById(
       "edit-cover-file"
@@ -2621,171 +4400,385 @@ function openProjectEdit() {
       "change",
       previewCoverImage
     );
+
+
+  document
+    .getElementById(
+      "save-edit-project"
+    )
+    .onclick =
+      saveProjectEdit;
+
 }
+
+
+/* =====================================================
+   FORM FIELD
+===================================================== */
+
 function formField(
   label,
   id,
   value
-) {
+){
+
   return `
+
     <div class="form-group">
+
       <label>
+
         ${escapeHTML(
           label
         )}
+
       </label>
+
+
       <input
+
         id="${id}"
+
         value="${escapeAttribute(
-          value || ""
+          value ||
+          ""
         )}"
+
       >
+
     </div>
+
   `;
+
 }
+
+
+/* =====================================================
+   COVER PREVIEW
+===================================================== */
+
 function previewCoverImage(
   event
-) {
+){
+
   const file =
     event.target.files[0];
-  if (!file) {
+
+
+  if(!file){
+
     return;
+
   }
+
+
   const reader =
     new FileReader();
+
+
   reader.onload =
-    function(e) {
+    event=>{
+
       const preview =
         document.getElementById(
           "cover-preview"
         );
+
+
       preview.innerHTML = `
+
         <img
-          src="${e.target.result}"
+
+          src="${event.target.result}"
+
           style="
             width:100%;
             height:100%;
-            object-fit:cover;
-            cursor:pointer;
+            object-fit:cover
           "
+
         >
+
       `;
+
+
       preview.dataset.image =
-        e.target.result;
-      const img =
-        preview.querySelector(
-          "img"
-        );
-      if (img) {
-        img.addEventListener(
-          "click",
-          function(event) {
-            event.stopPropagation();
-            openImage(
-              this.src
-            );
-          }
-        );
-      }
+        event.target.result;
+
     };
+
+
   reader.readAsDataURL(
     file
   );
+
 }
-function saveProjectEdit() {
-  const p =
+
+
+/* =====================================================
+   SAVE PROJECT EDIT
+===================================================== */
+
+async function saveProjectEdit(){
+
+  const project =
     projects[
       currentProject
     ];
-  p.name =
-    document.getElementById(
-      "edit-name"
-    ).value;
-  p.client =
-    document.getElementById(
-      "edit-client"
-    ).value;
-  p.location =
-    document.getElementById(
-      "edit-location"
-    ).value;
-  p.area =
-    document.getElementById(
-      "edit-area"
-    ).value;
-  p.type =
-    document.getElementById(
-      "edit-type"
-    ).value;
-  p.status =
-    document.getElementById(
-      "edit-status"
-    ).value;
-  p.description =
-    document.getElementById(
-      "edit-description"
-    ).value;
+
+
+  project.name =
+    document
+      .getElementById(
+        "edit-name"
+      )
+      .value
+      .trim();
+
+
+  project.client =
+    document
+      .getElementById(
+        "edit-client"
+      )
+      .value
+      .trim();
+
+
+  project.location =
+    document
+      .getElementById(
+        "edit-location"
+      )
+      .value
+      .trim();
+
+
+  project.area =
+    document
+      .getElementById(
+        "edit-area"
+      )
+      .value
+      .trim();
+
+
+  project.type =
+    document
+      .getElementById(
+        "edit-type"
+      )
+      .value
+      .trim();
+
+
+  project.status =
+    document
+      .getElementById(
+        "edit-status"
+      )
+      .value
+      .trim();
+
+
+  project.description =
+    document
+      .getElementById(
+        "edit-description"
+      )
+      .value
+      .trim();
+
+
   const coverPreview =
     document.getElementById(
       "cover-preview"
     );
-  if (
+
+
+  const coverFile =
+    document
+      .getElementById(
+        "edit-cover-file"
+      )
+      .files[0];
+
+
+  const coverURL =
+    document
+      .getElementById(
+        "edit-cover-url"
+      )
+      .value
+      .trim();
+
+
+  if(
+    coverFile
+  ){
+
+    if(
+      project.cover &&
+      project.cover.startsWith(
+        "indexeddb://"
+      )
+    ){
+
+      try{
+
+        await deleteImageFromDB(
+          project.cover.replace(
+            "indexeddb://",
+            ""
+          )
+        );
+
+      }catch(error){}
+
+    }
+
+
+    const compressed =
+      await compressImage(
+        coverFile
+      );
+
+
+    project.cover =
+      await saveImageToDB(
+        compressed
+      );
+
+  }else if(
+    coverURL
+  ){
+
+    if(
+      project.cover &&
+      project.cover.startsWith(
+        "indexeddb://"
+      )
+    ){
+
+      try{
+
+        await deleteImageFromDB(
+          project.cover.replace(
+            "indexeddb://",
+            ""
+          )
+        );
+
+      }catch(error){}
+
+    }
+
+
+    project.cover =
+      coverURL;
+
+  }else if(
     coverPreview &&
     coverPreview.dataset.image
-  ) {
-    p.cover =
-      coverPreview.dataset.image;
+  ){
+
+    project.cover =
+      await saveImageToDB(
+        coverPreview.dataset.image
+      );
+
   }
+
+
   saveLocalStorage();
+
+
   closeModal();
+
+
   openProject(
-    currentProject
+    currentProject,
+    previousPage
   );
+
+
   showToast(
     "Project updated ✓"
   );
+
 }
+
+
 /* =====================================================
    CLIENT PREVIEW
 ===================================================== */
-async function previewClient() {
-  const p =
+
+async function previewClient(){
+
+  const project =
     projects[
       currentProject
     ];
+
+
   const html =
     await createClientHTML(
-      p
+      project
     );
+
+
   const win =
     window.open();
-  if (!win) {
+
+
+  if(!win){
+
     showToast(
       "Allow pop-ups for preview"
     );
+
+
     return;
+
   }
+
+
   win.document.open();
+
+
   win.document.write(
     html
   );
+
+
   win.document.close();
+
 }
+
+
 /* =====================================================
    EXPORT HTML
 ===================================================== */
-async function exportHTML() {
-  const p =
+
+async function exportHTML(){
+
+  const project =
     projects[
       currentProject
     ];
+
+
   showToast(
     "Preparing HTML..."
   );
+
+
   const html =
     await createClientHTML(
-      p
+      project
     );
+
+
   const blob =
     new Blob(
       [html],
@@ -2794,46 +4787,71 @@ async function exportHTML() {
           "text/html;charset=utf-8"
       }
     );
+
+
   const url =
     URL.createObjectURL(
       blob
     );
+
+
   const a =
     document.createElement(
       "a"
     );
+
+
   a.href =
     url;
+
+
   a.download =
     safeFilename(
-      p.name
+      project.name
     ) +
     ".html";
+
+
   document.body.appendChild(
     a
   );
+
+
   a.click();
+
+
   a.remove();
+
+
   setTimeout(
-    () => {
+    ()=>{
       URL.revokeObjectURL(
         url
       );
     },
     1000
   );
+
+
   showToast(
     "Interactive HTML exported ✓"
   );
+
 }
+
+
 /* =====================================================
    EXPORT JSON
 ===================================================== */
-function exportJSON() {
+
+function exportJSON(){
+
   const project =
     projects[
       currentProject
     ];
+
+
   const blob =
     new Blob(
       [
@@ -2848,231 +4866,918 @@ function exportJSON() {
           "application/json"
       }
     );
+
+
   const url =
     URL.createObjectURL(
       blob
     );
+
+
   const a =
     document.createElement(
       "a"
     );
+
+
   a.href =
     url;
+
+
   a.download =
     safeFilename(
       project.name
     ) +
     ".json";
+
+
   document.body.appendChild(
     a
   );
+
+
   a.click();
+
+
   a.remove();
+
+
   setTimeout(
-    () => {
+    ()=>{
       URL.revokeObjectURL(
         url
       );
     },
     1000
   );
+
+
   showToast(
     "JSON backup exported ✓"
   );
+
 }
+
+
 /* =====================================================
-   STANDARD MODAL
+   SHARE PORTFOLIO
 ===================================================== */
-function closeModal() {
-  const modal =
-    document.getElementById(
-      "modal"
+
+/*
+  IMPORTANT:
+
+  Share Portfolio NU trimite întregul site.
+
+  Creează un HTML separat care conține
+  DOAR proiectele selectate pentru Portfolio.
+
+  Astfel clientul nu poate vedea:
+
+  - Home
+  - My Projects
+  - About
+  - Contact
+  - editarea proiectelor
+  - workspace-ul privat
+
+  Ci doar Portfolio.
+*/
+
+async function sharePortfolio(){
+
+  const selected =
+    projects.filter(
+      project =>
+        project.portfolio
     );
-  if (modal) {
-    modal.classList.remove(
-      "active"
+
+
+  if(
+    !selected.length
+  ){
+
+    showToast(
+      "Add at least one project to Portfolio"
     );
-  }
-}
-function closeModalOutside(
-  event
-) {
-  if (
-    event.target.id ===
-    "modal"
-  ) {
-    closeModal();
-  }
-}
-/* =====================================================
-   TOAST
-===================================================== */
-function showToast(
-  message
-) {
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-  if (!toast) {
+
+
     return;
+
   }
-  toast.textContent =
-    message;
-  toast.classList.add(
-    "show"
+
+
+  showToast(
+    "Preparing Portfolio..."
   );
+
+
+  const html =
+    await createPortfolioShareHTML(
+      selected
+    );
+
+
+  const blob =
+    new Blob(
+      [html],
+      {
+        type:
+          "text/html;charset=utf-8"
+      }
+    );
+
+
+  const file =
+    new File(
+      [
+        blob
+      ],
+      "atelier-portfolio.html",
+      {
+        type:
+          "text/html"
+      }
+    );
+
+
+  /*
+    Pe iPhone / iPad și browsere compatibile
+    se deschide meniul nativ Share.
+
+    Fișierul distribuit conține DOAR
+    versiunea publică de Portfolio.
+  */
+
+  if(
+    navigator.share &&
+    (
+      !navigator.canShare ||
+      navigator.canShare({
+        files:[
+          file
+        ]
+      })
+    )
+  ){
+
+    try{
+
+      await navigator.share({
+
+        title:
+          "ATELIER — Portfolio",
+
+        text:
+          "ATELIER — Interior Design Portfolio",
+
+        files:[
+          file
+        ]
+
+      });
+
+
+      return;
+
+    }catch(error){
+
+      if(
+        error &&
+        error.name ===
+        "AbortError"
+      ){
+
+        return;
+
+      }
+
+    }
+
+  }
+
+
+  /*
+    Dacă browserul nu permite Share Files,
+    descarcă automat doar portfolio-ul.
+  */
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    "atelier-portfolio.html";
+
+
+  document.body.appendChild(
+    a
+  );
+
+
+  a.click();
+
+
+  a.remove();
+
+
   setTimeout(
-    () => {
-      toast.classList.remove(
-        "show"
+    ()=>{
+      URL.revokeObjectURL(
+        url
       );
     },
-    2200
+    1500
   );
+
+
+  showToast(
+    "Private pages are not included ✓"
+  );
+
 }
+
+
 /* =====================================================
-   CLIENT HTML
+   CREATE SHARED PORTFOLIO HTML
 ===================================================== */
-async function createClientHTML(
-  p
-) {
-  let sectionsHTML = "";
-  for (
-    let index = 0;
-    index < SECTION_TYPES.length;
-    index++
-  ) {
-    const section =
-      SECTION_TYPES[index];
-    const images =
-      p.sections[
-        section
-      ] || [];
-    if (
-      images.length === 0 &&
-      section !== "Notes"
-    ) {
-      continue;
-    }
-    let imageHTML = "";
-    for (
-      const image of images
-    ) {
-      const resolved =
-        await resolveImageSource(
-          image
-        );
-      imageHTML += `
-        <div
-          class="image"
-          onclick="
-            openImage(
-              this.querySelector('img').src
-            )
-          "
-        >
-          <img
-            src="${escapeAttribute(
-              resolved
-            )}"
-            alt="${escapeAttribute(
-              section
-            )}"
-          >
-        </div>
-      `;
-    }
-    sectionsHTML += `
-      <section class="section">
-        <div class="number">
-          ${String(
-            index + 1
-          ).padStart(2, "0")}
-          /
-          ${escapeHTML(
-            section
-          )}
-        </div>
-        <h2>
-          ${escapeHTML(
-            section
-          )}
-        </h2>
+
+async function createPortfolioShareHTML(
+  selected
+){
+
+  let cardsHTML =
+    "";
+
+
+  for(
+    const project of selected
+  ){
+
+    const cover =
+      await resolveImageSource(
+        project.cover ||
+        ""
+      );
+
+
+    cardsHTML += `
+
+      <article
+        class="portfolio-card"
+      >
+
         ${
-          images.length
+          cover
+
             ? `
-              <div class="gallery">
-                ${imageHTML}
-              </div>
+
+              <img
+
+                src="${escapeAttribute(
+                  cover
+                )}"
+
+                alt="${escapeAttribute(
+                  project.name
+                )}"
+
+              >
+
             `
-            : `
-              <p class="empty">
-                Project notes and information.
-              </p>
-            `
+
+            : ""
+
         }
-      </section>
+
+
+        <div class="card-copy">
+
+          <h2>
+
+            ${escapeHTML(
+              project.name
+            )}
+
+          </h2>
+
+
+          <div class="meta">
+
+            ${
+              project.client
+
+                ? `
+
+                  <span>
+
+                    ${escapeHTML(
+                      project.client
+                    )}
+
+                  </span>
+
+                `
+
+                : ""
+            }
+
+
+            ${
+              project.location
+
+                ? `
+
+                  <span>
+
+                    ${escapeHTML(
+                      project.location
+                    )}
+
+                  </span>
+
+                `
+
+                : ""
+            }
+
+
+            ${
+              project.area
+
+                ? `
+
+                  <span>
+
+                    ${escapeHTML(
+                      project.area
+                    )}
+
+                  </span>
+
+                `
+
+                : ""
+            }
+
+
+            ${
+              project.type
+
+                ? `
+
+                  <span>
+
+                    ${escapeHTML(
+                      project.type
+                    )}
+
+                  </span>
+
+                `
+
+                : ""
+            }
+
+          </div>
+
+
+          ${
+            project.description
+
+              ? `
+
+                <p>
+
+                  ${escapeHTML(
+                    project.description
+                  )}
+
+                </p>
+
+              `
+
+              : ""
+          }
+
+        </div>
+
+      </article>
+
     `;
+
   }
+
+
   return `
+
 <!doctype html>
+
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1.0"
 >
+
 <title>
-${escapeHTML(p.name)}
+ATELIER — Portfolio
 </title>
+
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap"
+  rel="stylesheet"
+>
+
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#fff;
+  color:#242220;
+  font-family:"DM Sans",sans-serif;
+}
+
+.container{
+  max-width:1120px;
+  margin:auto;
+  padding:0 24px;
+}
+
+header{
+  text-align:center;
+  padding:75px 0 60px;
+  border-bottom:1px solid #e9e7e3;
+}
+
+.logo{
+  font-size:10px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  margin-bottom:24px;
+}
+
+h1,
+h2{
+  font-family:"Cormorant Garamond",serif;
+  font-weight:500;
+}
+
+h1{
+  font-size:clamp(50px,8vw,82px);
+  line-height:.95;
+  margin:0;
+}
+
+.subtitle{
+  margin-top:14px;
+  color:#77736d;
+  font-size:13px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:25px;
+  padding:60px 0 100px;
+}
+
+.portfolio-card{
+  border:1px solid #e9e7e3;
+  border-radius:15px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.portfolio-card>img{
+  width:100%;
+  height:390px;
+  object-fit:cover;
+  display:block;
+}
+
+.card-copy{
+  padding:24px;
+}
+
+.card-copy h2{
+  font-size:34px;
+  margin:0 0 8px;
+}
+
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  color:#817d76;
+  font-size:11px;
+}
+
+.card-copy p{
+  color:#77736d;
+  font-size:13px;
+  line-height:1.8;
+  margin:18px 0 0;
+}
+
+.footer{
+  border-top:1px solid #e9e7e3;
+  padding:25px 0 40px;
+  text-align:center;
+  color:#aaa69f;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+@media(max-width:700px){
+
+  .grid{
+    grid-template-columns:1fr;
+    padding-top:40px;
+  }
+
+  .portfolio-card>img{
+    height:280px;
+  }
+
+  header{
+    padding-top:50px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+<header>
+
+  <div class="logo">
+    ATELIER
+  </div>
+
+  <h1>
+    Portfolio
+  </h1>
+
+  <div class="subtitle">
+    Selected interior design projects.
+  </div>
+
+</header>
+
+
+<main class="grid">
+
+  ${cardsHTML}
+
+</main>
+
+
+<div class="footer">
+
+  ATELIER — Interior Design Studio
+
+</div>
+
+
+</div>
+
+</body>
+
+</html>
+
+`;
+
+}
+
+
+/* =====================================================
+   CLIENT HTML
+===================================================== */
+
+async function createClientHTML(
+  project
+){
+
+  /*
+    Standalone client view.
+
+    NU conține:
+
+    - Navigation
+    - My Projects
+    - About
+    - Contact
+
+    Clientul vede doar proiectul.
+  */
+
+
+  ensureProjectSections(
+    project
+  );
+
+
+  let sectionsHTML =
+    "";
+
+
+  for(
+    let index=0;
+    index<SECTION_TYPES.length;
+    index++
+  ){
+
+    const section =
+      SECTION_TYPES[
+        index
+      ];
+
+
+    const items =
+      project.sections[
+        section
+      ] || [];
+
+
+    const description =
+      project
+        .sectionDescriptions?.[
+          section
+        ] || "";
+
+
+    if(
+      !items.length &&
+      !description
+    ){
+
+      continue;
+
+    }
+
+
+    let itemsHTML =
+      "";
+
+
+    for(
+      const item of items
+    ){
+
+      const resolved =
+        item.image
+          ? await resolveImageSource(
+              item.image
+            )
+          : "";
+
+
+      if(
+        resolved
+      ){
+
+        itemsHTML += `
+
+          <article
+            class="content-item"
+          >
+
+            <img
+
+              class="content-image"
+
+              src="${escapeAttribute(
+                resolved
+              )}"
+
+              alt="${escapeAttribute(
+                section
+              )}"
+
+            >
+
+
+            ${
+              item.text
+
+                ? `
+
+                  <div class="content-text">
+
+                    ${escapeHTML(
+                      item.text
+                    )}
+
+                  </div>
+
+                `
+
+                : ""
+            }
+
+          </article>
+
+        `;
+
+      }else if(
+        item.text
+      ){
+
+        itemsHTML += `
+
+          <article
+            class="text-only"
+          >
+
+            ${escapeHTML(
+              item.text
+            )}
+
+          </article>
+
+        `;
+
+      }
+
+    }
+
+
+    sectionsHTML += `
+
+      <section
+        class="section"
+      >
+
+        <div class="number">
+
+          ${
+            String(
+              index+1
+            ).padStart(
+              2,
+              "0"
+            )
+          }
+
+          /
+
+          ${escapeHTML(
+            section
+          )}
+
+        </div>
+
+
+        <h2>
+
+          ${escapeHTML(
+            section
+          )}
+
+        </h2>
+
+
+        ${
+          description
+
+            ? `
+
+              <div
+                class="section-description"
+              >
+
+                ${escapeHTML(
+                  description
+                )}
+
+              </div>
+
+            `
+
+            : ""
+        }
+
+
+        <div class="stack">
+
+          ${
+            itemsHTML ||
+            '<div class="empty">No content.</div>'
+          }
+
+        </div>
+
+      </section>
+
+    `;
+
+  }
+
+
+  return `
+
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+
+${escapeHTML(
+  project.name
+)}
+
+</title>
+
+
 <link
   href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap"
   rel="stylesheet"
 >
+
+
 <style>
-* {
+
+*{
   box-sizing:border-box;
 }
-body {
+
+body{
   margin:0;
-  background:white;
+  background:#fff;
   color:#242220;
-  font-family:
-    "DM Sans",
-    sans-serif;
+  font-family:"DM Sans",sans-serif;
 }
-.container {
-  max-width:1000px;
+
+.container{
+  max-width:1100px;
   margin:auto;
-  padding:
-    0 25px;
+  padding:0 25px;
 }
-header {
+
+header{
   text-align:center;
-  padding:
-    75px 0 70px;
-  border-bottom:
-    1px solid #e9e7e3;
+  padding:75px 0 70px;
+  border-bottom:1px solid #e9e7e3;
 }
-.logo {
+
+.logo{
   font-size:10px;
   letter-spacing:.3em;
   text-transform:uppercase;
   margin-bottom:25px;
 }
-h1 {
-  font-family:
-    "Cormorant Garamond",
-    serif;
-  font-size:
-    clamp(50px,8vw,82px);
+
+h1,
+h2{
+  font-family:"Cormorant Garamond",serif;
   font-weight:500;
+}
+
+h1{
+  font-size:clamp(50px,8vw,82px);
   line-height:.95;
   margin:0;
 }
-.meta {
+
+.meta{
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
@@ -3081,253 +5786,423 @@ h1 {
   font-size:12px;
   margin-top:20px;
 }
-.description {
-  max-width:650px;
-  margin:
-    30px auto 0;
+
+.description{
+  max-width:700px;
+  margin:28px auto 0;
   color:#77736d;
   font-size:14px;
   line-height:1.8;
 }
-.section {
-  padding:
-    70px 0;
-  border-bottom:
-    1px solid #e9e7e3;
+
+.section{
+  padding:72px 0;
+  border-bottom:1px solid #e9e7e3;
 }
-.number {
+
+.number{
   font-size:10px;
   color:#99958e;
   letter-spacing:.16em;
   text-transform:uppercase;
 }
-h2 {
-  font-family:
-    "Cormorant Garamond",
-    serif;
-  font-size:40px;
-  font-weight:500;
-  margin:
-    8px 0 28px;
+
+h2{
+  font-size:42px;
+  margin:8px 0 24px;
 }
-.gallery {
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
-  gap:14px;
-}
-.image {
-  aspect-ratio:1;
-  overflow:hidden;
-  border-radius:14px;
-  cursor:pointer;
-  background:#f5f4f1;
-}
-.image img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:.3s;
-}
-.image:hover img {
-  transform:scale(1.04);
-}
-.empty {
-  color:#88847d;
+
+.section-description{
+  max-width:900px;
+  color:#77736d;
   font-size:13px;
+  line-height:1.8;
+  white-space:pre-wrap;
+  margin-bottom:30px;
 }
-.lightbox {
-  position:fixed;
-  inset:0;
-  background:
-    rgba(0,0,0,.88);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:30px;
-  z-index:9999;
-}
-.lightbox.active {
+
+.stack{
   display:flex;
+  flex-direction:column;
+  gap:50px;
 }
-.lightbox img {
-  max-width:95vw;
-  max-height:90vh;
-  object-fit:contain;
-  border-radius:6px;
+
+.content-item{
+  width:100%;
 }
-.close {
-  position:fixed;
-  top:20px;
-  right:25px;
-  width:42px;
-  height:42px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  background:
-    rgba(255,255,255,.12);
-  color:white;
-  font-size:28px;
-  cursor:pointer;
-  z-index:10000;
+
+.content-image{
+  display:block;
+  width:94%;
+  max-width:1000px;
+  margin:auto;
+  border-radius:8px;
 }
-.close:hover {
-  background:
-    rgba(255,255,255,.22);
+
+.content-text{
+  max-width:900px;
+  margin:15px auto 0;
+  color:#77736d;
+  font-size:13px;
+  line-height:1.8;
+  white-space:pre-wrap;
 }
-@media(max-width:700px) {
-  .gallery {
-    grid-template-columns:
-      repeat(2,1fr);
+
+.text-only{
+  max-width:900px;
+  margin:auto;
+  border:1px solid #e9e7e3;
+  border-radius:12px;
+  padding:20px;
+  color:#77736d;
+  font-size:13px;
+  line-height:1.8;
+  white-space:pre-wrap;
+}
+
+.empty{
+  color:#99958e;
+  font-size:12px;
+}
+
+@media(max-width:700px){
+
+  .content-image{
+    width:100%;
   }
-  header {
+
+  header{
     padding-top:50px;
   }
+
 }
+
 </style>
+
 </head>
+
+
 <body>
+
 <div class="container">
+
 <header>
+
   <div class="logo">
     ATELIER
   </div>
+
   <h1>
+
     ${escapeHTML(
-      p.name
+      project.name
     )}
+
   </h1>
+
+
   <div class="meta">
+
     <span>
       ${escapeHTML(
-        p.client || ""
+        project.client ||
+        ""
       )}
     </span>
+
     <span>
       ${escapeHTML(
-        p.location || ""
+        project.location ||
+        ""
       )}
     </span>
+
     <span>
       ${escapeHTML(
-        p.area || ""
+        project.area ||
+        ""
       )}
     </span>
+
+    <span>
+      ${escapeHTML(
+        project.type ||
+        ""
+      )}
+    </span>
+
   </div>
-  <p class="description">
-    ${escapeHTML(
-      p.description || ""
-    )}
-  </p>
-</header>
-${sectionsHTML}
-</div>
-<div
-  class="lightbox"
-  id="lightbox"
-  onclick="closeImage(event)"
->
-  <button
-    class="close"
-    onclick="closeImage(event)"
-  >
-    ×
-  </button>
-  <img
-    id="lightbox-img"
-    onclick="event.stopPropagation()"
-  >
-</div>
-<script>
-function openImage(src) {
-  const img =
-    document.getElementById(
-      "lightbox-img"
-    );
-  const lightbox =
-    document.getElementById(
-      "lightbox"
-    );
-  if (
-    !img ||
-    !lightbox ||
-    !src
-  ) {
-    return;
+
+
+  ${
+    project.description
+
+      ? `
+
+        <div class="description">
+
+          ${escapeHTML(
+            project.description
+          )}
+
+        </div>
+
+      `
+
+      : ""
   }
-  img.src =
-    src;
-  lightbox.classList.add(
-    "active"
-  );
+
+</header>
+
+
+${sectionsHTML}
+
+
+</div>
+
+</body>
+
+</html>
+
+`;
+
+}
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+function sendContact(
+  event
+){
+
+  event.preventDefault();
+
+
+  const name =
+    document
+      .getElementById(
+        "contact-name"
+      )
+      .value
+      .trim();
+
+
+  const email =
+    document
+      .getElementById(
+        "contact-email"
+      )
+      .value
+      .trim();
+
+
+  const message =
+    document
+      .getElementById(
+        "contact-message"
+      )
+      .value
+      .trim();
+
+
+  const subject =
+    encodeURIComponent(
+      "ATELIER — Project inquiry"
+    );
+
+
+  const body =
+    encodeURIComponent(
+
+      "Name: " +
+      name +
+
+      "\nEmail: " +
+      email +
+
+      "\n\n" +
+      message
+
+    );
+
+
+  /*
+    SCHIMBĂ ADRESA DE MAI JOS
+    CU EMAILUL TĂU REAL.
+  */
+
+  window.location.href =
+    "mailto:hello@atelier-studio.com" +
+    "?subject=" +
+    subject +
+    "&body=" +
+    body;
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function closeModal(){
+
+  document
+    .getElementById(
+      "modal"
+    )
+    .classList.remove(
+      "active"
+    );
+
+}
+
+
+function closeModalOutside(
+  event
+){
+
+  if(
+    event.target.id ===
+    "modal"
+  ){
+
+    closeModal();
+
+  }
+
+}
+
+
+/* =====================================================
+   IMAGE LIGHTBOX
+===================================================== */
+
+function openImage(
+  src
+){
+
+  if(!src){
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      "image-modal-img"
+    )
+    .src =
+      src;
+
+
+  document
+    .getElementById(
+      "image-modal"
+    )
+    .classList.add(
+      "active"
+    );
+
+
   document.body.style.overflow =
     "hidden";
+
 }
-function closeImage(event) {
-  if (
+
+
+function closeImageModal(
+  event
+){
+
+  if(
     event &&
     event.target &&
     event.target.id !==
-      "lightbox" &&
+      "image-modal" &&
     !event.target.classList.contains(
-      "close"
+      "image-modal-close"
     )
-  ) {
+  ){
+
     return;
+
   }
-  const lightbox =
-    document.getElementById(
-      "lightbox"
-    );
-  const img =
-    document.getElementById(
-      "lightbox-img"
-    );
-  if (lightbox) {
-    lightbox.classList.remove(
+
+
+  document
+    .getElementById(
+      "image-modal"
+    )
+    .classList.remove(
       "active"
     );
-  }
-  if (img) {
-    img.src = "";
-  }
+
+
+  document
+    .getElementById(
+      "image-modal-img"
+    )
+    .src =
+      "";
+
+
   document.body.style.overflow =
     "";
+
 }
+
+
+/* =====================================================
+   ESC
+===================================================== */
+
 document.addEventListener(
   "keydown",
-  function(event) {
-    if (
-      event.key === "Escape"
-    ) {
-      closeImage();
+  event=>{
+
+    if(
+      event.key ===
+      "Escape"
+    ){
+
+      closeModal();
+
+      closeImageModal();
+
     }
+
   }
 );
-<\/script>
-</body>
-</html>
-  `;
-}
+
+
 /* =====================================================
-   HELPERS
+   PLACEHOLDER
 ===================================================== */
-function placeholderImage() {
-  return `
-    data:image/svg+xml;charset=UTF-8,
-    ${encodeURIComponent(`
+
+function placeholderImage(){
+
+  return (
+
+    "data:image/svg+xml;charset=UTF-8," +
+
+    encodeURIComponent(`
+
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="800"
-        height="500"
+        width="1000"
+        height="650"
       >
+
         <rect
           width="100%"
           height="100%"
           fill="#f3f2ef"
         />
+
         <text
           x="50%"
           y="50%"
@@ -3335,98 +6210,189 @@ function placeholderImage() {
           dominant-baseline="middle"
           fill="#999"
           font-family="Arial"
-          font-size="24"
+          font-size="28"
         >
+
           ATELIER
+
         </text>
+
       </svg>
-    `)}
-  `;
+
+    `)
+
+  );
+
 }
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
 function escapeHTML(
   value
-) {
+){
+
   return String(
-    value ?? ""
+    value ??
+    ""
   )
+
     .replace(
       /&/g,
       "&amp;"
     )
+
     .replace(
       /</g,
       "&lt;"
     )
+
     .replace(
       />/g,
       "&gt;"
     )
+
     .replace(
       /"/g,
       "&quot;"
     )
+
     .replace(
       /'/g,
       "&#039;"
     );
+
 }
+
+
 function escapeAttribute(
   value
-) {
+){
+
   return escapeHTML(
     value
   );
+
 }
+
+
+/* =====================================================
+   SAFE FILENAME
+===================================================== */
+
 function safeFilename(
   value
-) {
+){
+
   return String(
     value ||
     "project"
   )
+
     .replace(
       /[^a-z0-9ăâîșț \-_]/gi,
       ""
     )
+
     .trim()
+
     .replace(
       /\s+/g,
       "-"
     )
+
     .toLowerCase();
+
 }
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(
+  message
+){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    message;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    ()=>{
+      toast.classList.remove(
+        "show"
+      );
+    },
+    2200
+  );
+
+}
+
+
 /* =====================================================
    INITIALIZE
 ===================================================== */
+
+normalizeProjects();
+
+
 openImageDB()
   .catch(
-    error => {
-      console.error(
-        "IndexedDB unavailable:",
-        error
-      );
-    }
+    console.error
   );
+
+
 renderProjects();
-if (window.lucide) {
-  lucide.createIcons();
-}
-const newProjectInput =
+
+
+renderPortfolio();
+
+
+const input =
   document.getElementById(
     "new-project-name"
   );
-if (newProjectInput) {
-  newProjectInput.addEventListener(
-    "keydown",
-    function(event) {
-      if (
-        event.key === "Enter"
-      ) {
-        createProject();
-      }
+
+
+input.addEventListener(
+  "keydown",
+  event=>{
+
+    if(
+      event.key ===
+      "Enter"
+    ){
+
+      createProject();
+
     }
-  );
+
+  }
+);
+
+
+if(
+  window.lucide
+){
+
+  lucide.createIcons();
+
 }
+
 </script>
 
 </body>
