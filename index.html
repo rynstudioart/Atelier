@@ -2909,11 +2909,22 @@ function buildProjectCard(
     "click",
     ()=>{
 
-      openProject(
-        index,
-        showPortfolioAction
-          ? "projects"
-          : "portfolio"
+      if(showPortfolioAction){
+
+        // My Projects: open the editable project workspace.
+        openProject(
+          index,
+          "projects"
+        );
+
+        return;
+
+      }
+
+      // Portfolio: open the clean client presentation.
+      // No ATELIER workspace buttons are shown to the client.
+      previewClientProject(
+        index
       );
 
     }
@@ -2926,32 +2937,158 @@ function buildProjectCard(
     );
 
 
-  image.addEventListener(
-    "click",
-    async event=>{
+  // In My Projects the cover can still be opened as a large image.
+  // In Portfolio the entire card is the client-entry button.
+  if(showPortfolioAction){
 
-      event.stopPropagation();
+    image.addEventListener(
+      "click",
+      async event=>{
 
-
-      const src =
-        await resolveImageSource(
-          project.cover
-        );
+        event.stopPropagation();
 
 
-      if(src){
+        const src =
+          await resolveImageSource(
+            project.cover
+          );
 
-        openImage(
-          src
-        );
+
+        if(src){
+
+          openImage(
+            src
+          );
+
+        }
 
       }
+    );
 
-    }
-  );
+  }
 
 
   return card;
+
+}
+
+
+/* =====================================================
+   CLIENT VIEW FROM PORTFOLIO
+===================================================== */
+
+async function previewClientProject(
+  index
+){
+
+  const project =
+    projects[index];
+
+
+  if(!project){
+
+    return;
+
+  }
+
+
+  // Open the window immediately from the user's tap so
+  // Safari/iPhone does not block it as a popup.
+  const previewWindow =
+    window.open(
+      "",
+      "_blank"
+    );
+
+
+  if(!previewWindow){
+
+    showToast(
+      "Please allow pop-ups for ATELIER"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    previewWindow.document.open();
+
+    previewWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        >
+        <title>ATELIER — ${escapeHTML(project.name || "Project")}</title>
+        <style>
+          body{
+            margin:0;
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#f7f5f1;
+            color:#77736d;
+            font-family:Arial,sans-serif;
+            font-size:13px;
+            letter-spacing:.08em;
+          }
+        </style>
+      </head>
+      <body>Loading project...<\/body>
+      </html>
+    `);
+    previewWindow.document.close();
+
+
+    const clientHTML =
+      await createClientHTML(
+        project
+      );
+
+
+    if(previewWindow.closed){
+
+      return;
+
+    }
+
+
+    previewWindow.document.open();
+    previewWindow.document.write(
+      clientHTML
+    );
+    previewWindow.document.close();
+    previewWindow.focus();
+
+
+  }catch(error){
+
+    console.error(
+      "Portfolio client view error:",
+      error
+    );
+
+    try{
+      previewWindow.document.open();
+      previewWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <body style="margin:0;padding:40px;font-family:Arial,sans-serif;color:#777;background:#f7f5f1">
+          Could not open project.
+        </body>
+        </html>
+      `);
+      previewWindow.document.close();
+    }catch(e){}
+
+  }
 
 }
 
