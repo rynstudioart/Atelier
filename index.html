@@ -1825,6 +1825,13 @@ async function saveImageToDB(
   dataURL
 ){
 
+  if(!dataURL){
+    throw new Error(
+      "Image data is empty"
+    );
+  }
+
+
   const db =
     await openImageDB();
 
@@ -1841,6 +1848,8 @@ async function saveImageToDB(
   return new Promise(
     (resolve,reject)=>{
 
+      let finished = false;
+
       const tx =
         db.transaction(
           IMAGE_STORE,
@@ -1848,30 +1857,89 @@ async function saveImageToDB(
         );
 
 
+      const store =
+        tx.objectStore(
+          IMAGE_STORE
+        );
+
+
       const req =
-        tx
-          .objectStore(
-            IMAGE_STORE
-          )
-          .put({
-            id,
-            data:dataURL
-          });
-
-
-      req.onsuccess =
-        ()=>{
-          resolve(
-            "indexeddb://" +
-            id
-          );
-        };
+        store.put({
+          id:id,
+          data:dataURL
+        });
 
 
       req.onerror =
         ()=>{
+          if(finished){
+            return;
+          }
+
+          finished = true;
+
           reject(
-            req.error
+            req.error ||
+            new Error(
+              "Could not save image"
+            )
+          );
+        };
+
+
+      tx.onerror =
+        ()=>{
+          if(finished){
+            return;
+          }
+
+          finished = true;
+
+          reject(
+            tx.error ||
+            new Error(
+              "Image storage failed"
+            )
+          );
+        };
+
+
+      tx.onabort =
+        ()=>{
+          if(finished){
+            return;
+          }
+
+          finished = true;
+
+          reject(
+            tx.error ||
+            new Error(
+              "Image storage was aborted"
+            )
+          );
+        };
+
+
+      /*
+        Important:
+        We only confirm the image after the
+        IndexedDB transaction has COMPLETED.
+        This prevents the project from keeping
+        an image ID when the browser has not
+        actually finished writing the image.
+      */
+      tx.oncomplete =
+        ()=>{
+          if(finished){
+            return;
+          }
+
+          finished = true;
+
+          resolve(
+            "indexeddb://" +
+            id
           );
         };
 
@@ -4454,7 +4522,7 @@ function compressImage(
             ()=>{
 
               const MAX =
-                2200;
+                4000;
 
 
               let width =
@@ -4534,7 +4602,7 @@ function compressImage(
               resolve(
                 canvas.toDataURL(
                   "image/jpeg",
-                  .86
+                  .92
                 )
               );
 
