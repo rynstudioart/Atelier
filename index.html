@@ -208,6 +208,7 @@ h3,
   line-height:1.8;
 }
 
+  
 
 /* =====================================================
    HOME
@@ -300,7 +301,82 @@ h3,
   color:#8a4c47;
 }
 
+/* =====================================================
+   CONTENT ITEM ACTIONS
+===================================================== */
 
+.content-item-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+}
+
+
+/* EDIT + REMOVE */
+
+.content-item-edit,
+.content-item-remove{
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  height:32px;
+
+  padding:0 12px;
+
+  border:1px solid var(--border-color);
+
+  border-radius:7px;
+
+  background:transparent;
+
+  color:var(--text-color);
+
+  font-family:inherit;
+
+  font-size:12px;
+
+  line-height:1;
+
+  cursor:pointer;
+
+  transition:
+    background .2s ease,
+    color .2s ease,
+    border-color .2s ease;
+
+}
+
+
+/* EDIT */
+
+.content-item-edit:hover{
+
+  background:var(--light-gray);
+
+}
+
+
+/* REMOVE */
+
+.content-item-remove:hover{
+
+  background:var(--light-gray);
+
+}
+
+
+/* ICON IF USED */
+
+.content-item-edit svg,
+.content-item-remove svg{
+
+  width:14px;
+  height:14px;
+
+}
 /* =====================================================
    PROJECT GRIDS
 ===================================================== */
