@@ -3771,101 +3771,104 @@ function renderSections(){
 
           }
 
+/* =================================================
+   ACTION BUTTONS
+================================================= */
 
-          /* =================================================
-             ACTION BUTTONS
-          ================================================= */
-
-          const actions =
-            document.createElement(
-              "div"
-            );
-
-
-          actions.className =
-            "content-item-actions";
+const actions =
+  document.createElement(
+    "div"
+  );
 
 
-          /* EDIT */
-
-          const edit =
-            document.createElement(
-              "button"
-            );
+actions.className =
+  "content-item-actions";
 
 
-          edit.type =
-            "button";
+/* EDIT */
+
+const edit =
+  document.createElement(
+    "button"
+  );
 
 
-          edit.className =
-            "content-item-edit";
+edit.type =
+  "button";
 
 
-          edit.textContent =
-            "Edit";
+edit.className =
+  "content-item-edit";
 
 
-          edit.title =
-            "Edit content";
+edit.textContent =
+  "Edit";
 
 
-          edit.onclick =
-            ()=>editContent(
-              index,
-              itemIndex
-            );
+edit.title =
+  "Edit content";
 
 
-          /* REMOVE */
-
-          const remove =
-            document.createElement(
-              "button"
-            );
-
-
-          remove.type =
-            "button";
+edit.onclick =
+  ()=>{
+    openAddContent(
+      index,
+      itemIndex
+    );
+  };
 
 
-          remove.className =
-            "content-item-remove";
+/* REMOVE */
+
+const remove =
+  document.createElement(
+    "button"
+  );
 
 
-          remove.textContent =
-            "Remove";
+remove.type =
+  "button";
 
 
-          remove.title =
-            "Remove content";
+remove.className =
+  "content-item-remove";
 
 
-          remove.onclick =
-            ()=>removeContent(
-              index,
-              itemIndex
-            );
+remove.textContent =
+  "Remove";
 
 
-          actions.appendChild(
-            edit
-          );
+remove.title =
+  "Remove content";
 
 
-          actions.appendChild(
-            remove
-          );
+remove.onclick =
+  ()=>{
+    removeContent(
+      index,
+      itemIndex
+    );
+  };
 
 
-          content.appendChild(
-            actions
-          );
+actions.appendChild(
+  edit
+);
 
 
-          stack.appendChild(
-            content
-          );
+actions.appendChild(
+  remove
+);
+
+
+content.appendChild(
+  actions
+);
+
+
+stack.appendChild(
+  content
+);
 
 
           /* =================================================
