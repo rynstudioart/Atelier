@@ -3050,6 +3050,7 @@ function ensureProjectSections(
 }
 
 
+
 /* =====================================================
    RENDER SECTIONS
 ===================================================== */
@@ -3177,6 +3178,8 @@ function renderSections(){
         </div>
 
 
+        <!-- DESCRIPTION FOR THE ENTIRE SECTION -->
+
         <textarea
 
           class="section-description"
@@ -3211,25 +3214,35 @@ function renderSections(){
       );
 
 
-      element
-        .querySelector(
+      /* =================================================
+         SECTION DESCRIPTION
+      ================================================= */
+
+      const sectionDescription =
+        element.querySelector(
           ".section-description"
-        )
-        .addEventListener(
-          "input",
-          function(){
-
-            project.sectionDescriptions[
-              section
-            ] =
-              this.value;
-
-
-            saveLocalStorage();
-
-          }
         );
 
+
+      sectionDescription.addEventListener(
+        "input",
+        function(){
+
+          project.sectionDescriptions[
+            section
+          ] =
+            this.value;
+
+
+          saveLocalStorage();
+
+        }
+      );
+
+
+      /* =================================================
+         CONTENT STACK
+      ================================================= */
 
       const stack =
         element.querySelector(
@@ -3274,6 +3287,10 @@ function renderSections(){
               null;
 
 
+            /* =================================================
+               IMAGE
+            ================================================= */
+
             if(
               item.image
             ){
@@ -3297,6 +3314,10 @@ function renderSections(){
               );
 
 
+              /* ===============================================
+                 OPEN IMAGE
+              =============================================== */
+
               imageElement.addEventListener(
                 "click",
                 async()=>{
@@ -3307,7 +3328,9 @@ function renderSections(){
                     );
 
 
-                  if(resolved){
+                  if(
+                    resolved
+                  ){
 
                     openImage(
                       resolved
@@ -3319,33 +3342,54 @@ function renderSections(){
               );
 
 
-              if(
-                item.text
-              ){
+              /* =================================================
+                 TEXT BOX UNDER IMAGE
+              ================================================= */
 
-                const text =
-                  document.createElement(
-                    "div"
-                  );
-
-
-                text.className =
-                  "content-item-text";
-
-
-                text.textContent =
-                  item.text;
-
-
-                content.appendChild(
-                  text
+              const textBox =
+                document.createElement(
+                  "textarea"
                 );
 
-              }
+
+              textBox.className =
+                "content-item-description";
+
+
+              textBox.placeholder =
+                "Scrie aici despre această imagine...";
+
+
+              textBox.value =
+                item.text || "";
+
+
+              textBox.addEventListener(
+                "input",
+                function(){
+
+                  item.text =
+                    this.value;
+
+
+                  saveLocalStorage();
+
+                }
+              );
+
+
+              content.appendChild(
+                textBox
+              );
+
 
             }else if(
               item.text
             ){
+
+              /* =================================================
+                 TEXT ONLY CONTENT
+              ================================================= */
 
               content.classList.add(
                 "text-only"
@@ -3372,6 +3416,10 @@ function renderSections(){
 
             }
 
+
+            /* =================================================
+               REMOVE BUTTON
+            ================================================= */
 
             const remove =
               document.createElement(
@@ -3403,6 +3451,10 @@ function renderSections(){
               content
             );
 
+
+            /* =================================================
+               RESOLVE IMAGE
+            ================================================= */
 
             if(
               item.image &&
@@ -3449,7 +3501,6 @@ function renderSections(){
   );
 
 }
-
 
 /* =====================================================
    ADD CONTENT MODAL
