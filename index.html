@@ -4713,48 +4713,88 @@ async function saveProjectEdit(){
    CLIENT PREVIEW
 ===================================================== */
 
-async function previewClient(){
+async function previewClient(projectId) {
+    try {
+        // Deschide tab-ul IMEDIAT la click, pentru a evita blocarea popup-ului
+        // de Safari / iOS.
+        const previewWindow = window.open('', '_blank');
 
-  const project =
-    projects[
-      currentProject
-    ];
+        if (!previewWindow) {
+            alert('Preview-ul a fost blocat de browser. Permite pop-up-urile pentru acest site.');
+            return;
+        }
 
+        // Afișăm imediat un mesaj în noul tab
+        previewWindow.document.open();
+        previewWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>ATELIER — Project Preview</title>
+                <style>
+                    body {
+                        margin: 0;
+                        min-height: 100vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: #f7f5f1;
+                        color: #272321;
+                        font-family: Arial, sans-serif;
+                        font-size: 14px;
+                    }
+                </style>
+            </head>
+            <body>
+                Loading project preview…
+            </body>
+            </html>
+        `);
+        previewWindow.document.close();
 
-  const html =
-    await createClientHTML(
-      project
-    );
+        // Găsește proiectul
+        const project = projects.find(p => p.id === projectId);
 
+        if (!project) {
+            previewWindow.document.body.innerHTML = `
+                <div style="text-align:center;padding:40px;">
+                    <h2>Project not found</h2>
+                    <p>The selected project could not be loaded.</p>
+                </div>
+            `;
+            return;
+        }
 
-  const win =
-    window.open();
+        // Generează HTML-ul pentru client
+        const clientHTML = await createClientHTML(project);
 
+        // Încarcă HTML-ul în tab-ul deja deschis
+        previewWindow.document.open();
+        previewWindow.document.write(clientHTML);
+        previewWindow.document.close();
 
-  if(!win){
+    } catch (error) {
+        console.error('Preview Client error:', error);
 
-    showToast(
-      "Allow pop-ups for preview"
-    );
+        alert('Nu s-a putut deschide Preview Client.');
 
-
-    return;
-
-  }
-
-
-  win.document.open();
-
-
-  win.document.write(
-    html
-  );
-
-
-  win.document.close();
-
+        // Dacă tab-ul s-a deschis, afișăm eroarea și acolo
+        if (previewWindow && !previewWindow.closed) {
+            previewWindow.document.body.innerHTML = `
+                <div style="
+                    font-family: Arial, sans-serif;
+                    padding: 40px;
+                    text-align: center;
+                ">
+                    <h2>Preview unavailable</h2>
+                    <p>Please try again.</p>
+                </div>
+            `;
+        }
+    }
 }
-
 
 /* =====================================================
    EXPORT HTML
