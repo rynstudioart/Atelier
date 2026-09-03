@@ -2141,20 +2141,26 @@ function normalizeProjects(){
    STORAGE
 ===================================================== */
 
+
+
 function saveLocalStorage(){
 
   try{
 
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify(projects)
+      JSON.stringify(
+        projects
+      )
     );
 
     return true;
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
     showToast(
       "Could not save project"
@@ -2166,38 +2172,27 @@ function saveLocalStorage(){
 
 }
 
-
 function saveLocal(){
 
   if(
     currentProject === null ||
     !projects[currentProject]
   ){
-
     showToast(
       "No project is open"
     );
-
     return;
-
   }
-
 
   const saved =
     saveLocalStorage();
 
-
   if(!saved){
-
     return;
-
   }
 
-
   renderProjects();
-
   renderPortfolio();
-
 
   showToast(
     "Project saved ✓"
@@ -2214,83 +2209,60 @@ function navigate(page){
 
   closeMobileNav();
 
-  closeImageModal();
-
+  if(typeof closeImageModal === "function"){
+    closeImageModal();
+  }
 
   document
     .querySelectorAll(".page")
     .forEach(
       element=>{
-
         element.classList.remove(
           "active"
         );
-
       }
     );
-
 
   const target =
     document.getElementById(
       page + "-page"
     );
 
-
   if(!target){
-
     console.error(
       "Page not found:",
       page
     );
-
     return;
-
   }
-
 
   target.classList.add(
     "active"
   );
 
-
   document
     .querySelectorAll(".nav-link")
     .forEach(
       button=>{
-
         button.classList.toggle(
           "active",
           button.dataset.page === page
         );
-
       }
     );
 
-
-  window.scrollTo(
-    0,
-    0
-  );
-
+  window.scrollTo(0,0);
 
   if(page === "projects"){
-
     renderProjects();
-
   }
-
 
   if(page === "portfolio"){
-
     renderPortfolio();
-
   }
 
-
   if(window.lucide){
-
     lucide.createIcons();
-
   }
 
 }
@@ -2302,44 +2274,26 @@ function navigate(page){
 
 function toggleMobileNav(){
 
-  const nav =
-    document.getElementById(
+  document
+    .getElementById(
       "nav-links"
+    )
+    .classList.toggle(
+      "open"
     );
-
-
-  if(!nav){
-
-    return;
-
-  }
-
-
-  nav.classList.toggle(
-    "open"
-  );
 
 }
 
 
 function closeMobileNav(){
 
-  const nav =
-    document.getElementById(
+  document
+    .getElementById(
       "nav-links"
+    )
+    .classList.remove(
+      "open"
     );
-
-
-  if(!nav){
-
-    return;
-
-  }
-
-
-  nav.classList.remove(
-    "open"
-  );
 
 }
 
