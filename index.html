@@ -486,6 +486,8 @@ h3,
   color:#242220;
   cursor:pointer;
   z-index:3;
+  font-size:18px;
+  line-height:34px;
 }
 
 
@@ -2719,24 +2721,18 @@ function buildProjectCard(
 
       class="portfolio-star"
 
-      title="${
-        project.portfolio
-          ? "Remove from portfolio"
-          : "Add to portfolio"
-      }"
+      title="Delete project"
+
+      aria-label="Delete project"
 
       onclick="
         event.stopPropagation();
-        togglePortfolio(${index});
+        deleteProject(${index});
       "
 
     >
 
-      ${
-        project.portfolio
-          ? "★"
-          : "☆"
-      }
+      ×
 
     </button>
 
@@ -2871,6 +2867,44 @@ function buildProjectCard(
   `;
 
 
+  const coverImage =
+    card.querySelector(
+      ".project-cover img"
+    );
+
+  if(
+    coverImage &&
+    project.cover &&
+    project.cover.startsWith(
+      "indexeddb://"
+    )
+  ){
+
+    resolveImageSource(
+      project.cover
+    )
+    .then(
+      src=>{
+
+        if(
+          src &&
+          coverImage
+        ){
+
+          coverImage.src =
+            src;
+
+        }
+
+      }
+    )
+    .catch(
+      console.error
+    );
+
+  }
+
+
   card.addEventListener(
     "click",
     ()=>{
@@ -2918,6 +2952,154 @@ function buildProjectCard(
 
 
   return card;
+
+}
+
+
+/* =====================================================
+   DELETE PROJECT
+===================================================== */
+
+async function deleteProject(
+  index
+){
+
+  const project =
+    projects[index];
+
+  if(!project){
+    return;
+  }
+
+  const confirmed =
+    window.confirm(
+      `Delete "${project.name || "this project"}"?\\n\\nThis action cannot be undone.`
+    );
+
+  if(!confirmed){
+    return;
+  }
+
+  try{
+
+    const imageIds = [];
+
+    if(
+      project.cover &&
+      project.cover.startsWith("indexeddb://")
+    ){
+      imageIds.push(
+        project.cover.replace(
+          "indexeddb://",
+          ""
+        )
+      );
+    }
+
+    if(project.sections){
+
+      Object.values(
+        project.sections
+      ).forEach(
+        items=>{
+
+          if(!Array.isArray(items)){
+            return;
+          }
+
+          items.forEach(
+            item=>{
+
+              if(
+                item &&
+                item.image &&
+                item.image.startsWith(
+                  "indexeddb://"
+                )
+              ){
+                imageIds.push(
+                  item.image.replace(
+                    "indexeddb://",
+                    ""
+                  )
+                );
+              }
+
+            }
+          );
+
+        }
+      );
+
+    }
+
+    for(
+      const id of [...new Set(imageIds)]
+    ){
+
+      try{
+        await deleteImageFromDB(id);
+      }catch(error){
+        console.error(
+          "Could not delete image:",
+          error
+        );
+      }
+
+    }
+
+    projects.splice(
+      index,
+      1
+    );
+
+    if(
+      currentProject !== null
+    ){
+
+      if(
+        currentProject === index
+      ){
+
+        currentProject =
+          null;
+
+        navigate(
+          "projects"
+        );
+
+      }else if(
+        currentProject > index
+      ){
+
+        currentProject--;
+
+      }
+
+    }
+
+    saveLocalStorage();
+
+    renderProjects();
+
+    renderPortfolio();
+
+    showToast(
+      "Project deleted ✓"
+    );
+
+  }catch(error){
+
+    console.error(
+      "Delete project error:",
+      error
+    );
+
+    showToast(
+      "Could not delete project"
+    );
+
+  }
 
 }
 
@@ -5300,12 +5482,17 @@ function previewCoverImage(
 
         <img
 
+          id="current-cover-preview"
+
           src="${event.target.result}"
+
+          alt="Cover preview"
 
           style="
             width:100%;
             height:100%;
-            object-fit:cover
+            object-fit:cover;
+            display:block
           "
 
         >
