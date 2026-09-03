@@ -65,121 +65,97 @@ h3,
 
 
 /* =====================================================
-   NAVIGATION — DESKTOP + MOBILE
+   NAVIGATION
 ===================================================== */
 
 .site-nav{
   position:sticky;
   top:0;
-  z-index:9999;
-  width:100%;
-  background:rgba(255,255,255,.98);
+  z-index:50;
+  background:rgba(255,255,255,.96);
   backdrop-filter:blur(12px);
+  border-top:1px solid var(--light-gray);
   border-bottom:1px solid var(--light-gray);
+}
+
+.site-nav::before{
+  content:"";
+  display:block;
+  height:1px;
 }
 
 .nav-inner{
   max-width:1180px;
-  margin:0 auto;
-  padding:14px 24px;
+  margin:auto;
+  padding:18px 24px;
   display:flex;
   align-items:center;
-  gap:28px;
+  justify-content:space-between;
+  gap:25px;
 }
 
 .nav-logo{
-  flex:0 0 auto;
-  border:0;
-  background:transparent;
-  padding:8px 0;
-  cursor:pointer;
-  color:#242220;
-  font-family:"DM Sans",sans-serif;
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.28em;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.32em;
   text-transform:uppercase;
+  cursor:pointer;
   white-space:nowrap;
+  border:0;
+  background:none;
 }
 
 .nav-links{
   display:flex;
   align-items:center;
-  justify-content:flex-end;
-  gap:24px;
-  flex:1;
+  gap:25px;
 }
 
 .nav-link{
-  flex:0 0 auto;
   border:0;
-  background:transparent;
-  padding:8px 0;
+  background:none;
+  padding:0;
   cursor:pointer;
   color:#77736d;
-  font-family:"DM Sans",sans-serif;
   font-size:11px;
-  font-weight:500;
-  letter-spacing:.03em;
-  white-space:nowrap;
-  -webkit-tap-highlight-color:transparent;
-  transition:color .2s ease;
+  letter-spacing:.04em;
+  transition:.2s;
 }
 
 .nav-link:hover,
-.nav-link:focus,
 .nav-link.active{
   color:#242220;
 }
 
 .nav-mobile-toggle{
-  display:none !important;
+  display:none;
+  border:0;
+  background:white;
+  cursor:pointer;
 }
-
-
-/* =====================================================
-   MOBILE NAVIGATION
-   Butoanele sunt vizibile permanent.
-===================================================== */
 
 @media(max-width:760px){
 
-  .nav-inner{
+  .nav-mobile-toggle{
     display:block;
-    padding:10px 16px 0;
-  }
-
-  .nav-logo{
-    display:block;
-    margin:0 auto 8px;
-    padding:6px 0 10px;
   }
 
   .nav-links{
-    display:flex !important;
-    width:100%;
-    max-width:100%;
-    justify-content:flex-start;
-    align-items:center;
-    gap:22px;
-    overflow-x:auto;
-    overflow-y:hidden;
-    padding:0 2px 11px;
-    margin:0;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    touch-action:pan-x;
-  }
-
-  .nav-links::-webkit-scrollbar{
     display:none;
+    position:absolute;
+    left:0;
+    right:0;
+    top:58px;
+    background:white;
+    border-bottom:1px solid var(--light-gray);
+    padding:20px 24px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:18px;
   }
 
-  .nav-link{
-    display:block;
-    min-height:32px;
-    padding:8px 0;
-    font-size:11px;
+  .nav-links.open{
+    display:flex;
   }
 
 }
@@ -596,7 +572,7 @@ h3,
 
 
 /* =====================================================
-   PROJECT SECTIONS
+   BEHANCE-LIKE PROJECT VIEW
 ===================================================== */
 
 .project-section{
@@ -890,6 +866,28 @@ h3,
    TOAST
 ===================================================== */
 
+
+.content-item-description{
+  display:block;
+  width:100%;
+  max-width:900px;
+  margin:14px auto 0;
+  min-height:70px;
+  padding:12px 14px;
+  border:1px solid var(--light-gray);
+  border-radius:9px;
+  background:#fff;
+  color:#55514b;
+  font-size:13px;
+  line-height:1.7;
+  resize:vertical;
+  outline:none;
+}
+
+.content-item-description:focus{
+  border-color:#aaa69f;
+}
+
 #toast{
   position:fixed;
   bottom:25px;
@@ -933,9 +931,11 @@ h3,
 </style>
 </head>
 
+
 <body>
 
 <div class="app-shell">
+
 
 <!-- =====================================================
      NAVIGATION
@@ -1013,68 +1013,79 @@ h3,
 
 
 <!-- =====================================================
-     HOME PAGE
+     HOME
 ===================================================== -->
 
-<main
+<section
   id="home-page"
   class="page active"
 >
 
-  <div class="page-container">
+  <main class="page-container">
 
-    <section class="home-hero">
+    <div class="page-heading">
+
+      <div class="logo">
+        ATELIER
+      </div>
+
+      <h1 class="page-title">
+        Interior Design Studio
+      </h1>
+
+      <p class="page-subtitle">
+        Spaces with character, material & atmosphere.
+      </p>
+
+    </div>
+
+
+    <div class="home-hero">
 
       <img
-        class="home-hero-image"
-        src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=85"
-        alt="Interior design"
-      >
-
+  class="home-hero-image"
+  src="design.png.PNG"
+  alt="Interior design" >
       <div class="home-hero-copy">
 
-        <div class="logo">
-          ATELIER
-        </div>
-
         <h1>
-          Interior Design Studio
+          Designed to feel like home.
         </h1>
 
         <p>
-          A refined digital workspace for creating,
-          organizing and presenting interior design projects.
+          ATELIER este spațiul meu pentru concepte de interior design,
+          moodboard-uri, materiale, mobilier, lumină și proiecte finale.
         </p>
 
         <div class="home-actions">
 
           <button
             class="action-button dark"
-            onclick="navigate('projects')"
+            onclick="navigate('portfolio')"
           >
-            My Projects
+            View Portfolio
           </button>
 
           <button
             class="action-button"
-            onclick="navigate('portfolio')"
+            onclick="navigate('projects')"
           >
-            View Portfolio
+            My Projects
           </button>
 
         </div>
 
       </div>
 
-    </section>
+    </div>
 
-  </div>
+  </main>
 
-</main>
+</section>
 
 
 <!-- =====================================================
-     PORTFOLIO PAGE
+     PORTFOLIO
 ===================================================== -->
 
 <section
@@ -1082,7 +1093,7 @@ h3,
   class="page"
 >
 
-  <div class="page-container">
+  <main class="page-container">
 
     <div class="page-heading">
 
@@ -1095,31 +1106,49 @@ h3,
       </h1>
 
       <p class="page-subtitle">
-        Selected interior design projects
+        Selected interior design projects.
       </p>
 
     </div>
 
+
+    <p class="portfolio-note">
+
+      Aici apar doar proiectele pe care le-ai ales din
+      <b>My Projects</b>.
+
+      Butonul
+      <b>Share Portfolio</b>
+      creează o versiune separată,
+      fără paginile private ale studioului.
+
+    </p>
+
+
+    <div class="portfolio-toolbar">
+
+      <button
+        class="action-button dark"
+        onclick="sharePortfolio()"
+      >
+        Share Portfolio
+      </button>
+
+    </div>
+
+
     <div
-      id="portfolio-container"
+      id="portfolio-grid"
       class="project-grid"
     ></div>
 
-    <div
-      id="portfolio-empty"
-      class="portfolio-empty"
-      style="display:none;"
-    >
-      No portfolio projects yet.
-    </div>
-
-  </div>
+  </main>
 
 </section>
 
 
 <!-- =====================================================
-     MY PROJECTS PAGE
+     MY PROJECTS
 ===================================================== -->
 
 <section
@@ -1127,7 +1156,7 @@ h3,
   class="page"
 >
 
-  <div class="page-container">
+  <main class="page-container">
 
     <div class="page-heading">
 
@@ -1140,50 +1169,87 @@ h3,
       </h1>
 
       <p class="page-subtitle">
-        Your interior design studio
+        Private workspace & project library.
       </p>
 
     </div>
 
+
     <div class="projects-toolbar">
 
-      <div
+      <span
         id="projects-count"
         class="projects-count"
-      >
-        0 projects
-      </div>
+      ></span>
 
       <button
         class="new-project-button"
-        onclick="openNewProjectModal()"
+        onclick="showAddProject()"
       >
-        <i data-lucide="plus" size="15"></i>
+
+        <span style="font-size:18px">
+          +
+        </span>
+
         New Project
+
       </button>
 
     </div>
 
+
     <div
-      id="projects-container"
+      id="add-project-form"
+      class="add-project-form hidden"
+    >
+
+      <div class="add-project-row">
+
+        <input
+          id="new-project-name"
+          type="text"
+          placeholder="Nume proiect..."
+        >
+
+        <button
+          onclick="createProject()"
+          class="action-button dark"
+        >
+          Create
+        </button>
+
+        <button
+          onclick="hideAddProject()"
+          class="action-button"
+        >
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="projects-grid"
       class="project-grid"
     ></div>
 
-  </div>
+  </main>
 
 </section>
 
 
 <!-- =====================================================
-     ABOUT PAGE
+     ABOUT
 ===================================================== -->
 
 <section
   id="about-page"
-  class="page simple-page"
+  class="page"
 >
 
-  <div class="page-container">
+  <main class="page-container simple-page">
 
     <div class="page-heading">
 
@@ -1196,47 +1262,48 @@ h3,
       </h1>
 
       <p class="page-subtitle">
-        Interior Design Studio
+        The studio behind the projects.
       </p>
 
     </div>
+
 
     <div class="simple-card">
 
       <h2>
-        Designed for ideas.
+        Interior design, thoughtfully composed.
       </h2>
 
       <p>
-        ATELIER is a minimalist workspace created
-        for interior design projects, moodboards,
-        materials, furniture, lighting, renders
-        and client presentations.
+        ATELIER este un spațiu digital pentru dezvoltarea
+        proiectelor de interior:
+        de la primele referințe și schițe până la materiale,
+        mobilier, iluminat și randări.
       </p>
 
       <p>
-        Everything is stored locally in your browser,
-        allowing you to organize your projects
-        without a traditional backend.
+        Păstrez fiecare proiect într-un format vizual,
+        astfel încât procesul de design
+        să fie ușor de urmărit și prezentat clientului.
       </p>
 
     </div>
 
-  </div>
+  </main>
 
 </section>
 
 
 <!-- =====================================================
-     CONTACT PAGE
+     CONTACT
 ===================================================== -->
 
 <section
   id="contact-page"
-  class="page simple-page"
+  class="page"
 >
 
-  <div class="page-container">
+  <main class="page-container simple-page">
 
     <div class="page-heading">
 
@@ -1254,28 +1321,43 @@ h3,
 
     </div>
 
+
     <div class="simple-card">
 
-      <form
-        id="contact-form"
-        onsubmit="submitContactForm(event)"
-      >
+      <div class="contact-grid">
 
-        <div class="contact-grid">
+        <div>
+
+          <h2>
+            Get in touch.
+          </h2>
+
+          <p>
+            Pentru colaborări, proiecte de interior design
+            sau întrebări,
+            completează formularul.
+          </p>
+
+        </div>
+
+
+        <form
+          onsubmit="sendContact(event)"
+        >
 
           <div class="form-group">
 
             <label>
-              Name
+              Nume
             </label>
 
             <input
-              type="text"
               id="contact-name"
               required
             >
 
           </div>
+
 
           <div class="form-group">
 
@@ -1284,60 +1366,48 @@ h3,
             </label>
 
             <input
-              type="email"
               id="contact-email"
+              type="email"
               required
             >
 
           </div>
 
-        </div>
 
-        <div class="form-group">
+          <div class="form-group">
 
-          <label>
-            Subject
-          </label>
+            <label>
+              Mesaj
+            </label>
 
-          <input
-            type="text"
-            id="contact-subject"
-            required
+            <textarea
+              id="contact-message"
+              required
+            ></textarea>
+
+          </div>
+
+
+          <button
+            class="action-button dark"
+            type="submit"
           >
+            Send Message
+          </button>
 
-        </div>
+        </form>
 
-        <div class="form-group">
-
-          <label>
-            Message
-          </label>
-
-          <textarea
-            id="contact-message"
-            required
-          ></textarea>
-
-        </div>
-
-        <button
-          type="submit"
-          class="action-button dark"
-        >
-          Send Message
-        </button>
-
-      </form>
+      </div>
 
     </div>
 
-  </div>
+  </main>
 
 </section>
 
 
 <!-- =====================================================
-     DETAIL PAGE
+     DETAIL PROJECT
 ===================================================== -->
 
 <section
@@ -1345,169 +1415,148 @@ h3,
   class="page"
 >
 
-  <div class="page-container">
+  <main class="page-container">
 
-    <div class="detail-header">
+    <header class="detail-header">
 
       <button
+        onclick="goBackFromDetail()"
         class="back-button"
-        onclick="navigate('projects')"
       >
-        <i data-lucide="arrow-left" size="15"></i>
-        Back to Projects
+
+        <i data-lucide="arrow-left"></i>
+
+        Back
+
       </button>
 
+
       <h1
-        id="detail-title"
+        id="detail-project-name"
         class="detail-title"
       ></h1>
+
 
       <div
         id="detail-meta"
         class="detail-meta"
       ></div>
 
+
       <p
         id="detail-description"
         class="detail-description"
       ></p>
 
-      <div
-        id="detail-actions"
-        class="detail-actions"
-      ></div>
 
-    </div>
+      <div class="detail-actions">
+
+        <button
+          onclick="saveLocal()"
+          class="action-button"
+        >
+          Save
+        </button>
+
+
+        <button
+          onclick="openProjectEdit()"
+          class="action-button"
+        >
+          Edit Project
+        </button>
+
+
+        <button
+          id="portfolio-toggle-detail"
+          onclick="toggleCurrentPortfolio()"
+          class="action-button"
+        ></button>
+
+
+        <button
+          onclick="previewClient()"
+          class="action-button"
+        >
+          Preview Client
+        </button>
+
+
+        <button
+          onclick="exportHTML()"
+          class="action-button dark"
+        >
+          Export Interactive HTML
+        </button>
+
+
+        <button
+          onclick="exportJSON()"
+          class="action-button"
+        >
+          Export JSON
+        </button>
+
+      </div>
+
+    </header>
+
 
     <div
       id="sections-container"
     ></div>
 
-  </div>
+  </main>
 
 </section>
 
-
-<!-- =====================================================
-     NEW PROJECT MODAL
-===================================================== -->
-
-<div
-  id="new-project-modal"
-  class="modal"
->
-
-  <div class="modal-box">
-
-    <div class="modal-title">
-      New Project
-    </div>
-
-    <div class="form-group">
-
-      <label>
-        Project name
-      </label>
-
-      <input
-        type="text"
-        id="new-project-name"
-        placeholder="e.g. Villa Aria"
-      >
-
-    </div>
-
-    <div class="form-group">
-
-      <label>
-        Client
-      </label>
-
-      <input
-        type="text"
-        id="new-project-client"
-        placeholder="Client name"
-      >
-
-    </div>
-
-    <div class="form-group">
-
-      <label>
-        Location
-      </label>
-
-      <input
-        type="text"
-        id="new-project-location"
-        placeholder="Location"
-      >
-
-    </div>
-
-    <div class="form-group">
-
-      <label>
-        Description
-      </label>
-
-      <textarea
-        id="new-project-description"
-        placeholder="Project description..."
-      ></textarea>
-
-    </div>
-
-    <div class="modal-actions">
-
-      <button
-        class="action-button"
-        onclick="closeNewProjectModal()"
-      >
-        Cancel
-      </button>
-
-      <button
-        class="action-button dark"
-        onclick="createProject()"
-      >
-        Create Project
-      </button>
-
-    </div>
-
-  </div>
 
 </div>
 
 
 <!-- =====================================================
-     IMAGE MODAL
+     MODAL
+===================================================== -->
+
+<div
+  id="modal"
+  class="modal"
+  onclick="closeModalOutside(event)"
+>
+
+  <div
+    id="modal-box"
+    class="modal-box"
+  ></div>
+
+</div>
+
+
+<!-- =====================================================
+     IMAGE LIGHTBOX
 ===================================================== -->
 
 <div
   id="image-modal"
   class="image-modal"
-  onclick="closeImageModal()"
+  onclick="closeImageModal(event)"
 >
 
   <button
     class="image-modal-close"
-    onclick="closeImageModal()"
-    aria-label="Close"
+    onclick="closeImageModal(event)"
   >
     ×
   </button>
 
-  <div
-    class="image-modal-content"
-    onclick="event.stopPropagation()"
-  >
+
+  <div class="image-modal-content">
 
     <img
       id="image-modal-img"
       src=""
-      alt=""
+      alt="Preview"
+      onclick="event.stopPropagation()"
     >
 
   </div>
@@ -1515,15 +1564,10 @@ h3,
 </div>
 
 
-<!-- =====================================================
-     TOAST
-===================================================== -->
-
 <div id="toast"></div>
 
-</div>
-<script>
 
+<script>
 
 const STORAGE_KEY =
   "atelier-interior-projects";
@@ -1663,46 +1707,62 @@ function openImageDB(){
 
 
 /* =====================================================
-   IMAGE DATABASE
+   SAVE IMAGE
 ===================================================== */
 
-async function saveImage(
-  id,
-  blob
+async function saveImageToDB(
+  dataURL
 ){
 
   const db =
     await openImageDB();
 
 
+  const id =
+    "img_" +
+    Date.now() +
+    "_" +
+    Math.random()
+      .toString(36)
+      .slice(2,10);
+
+
   return new Promise(
     (resolve,reject)=>{
 
-      const transaction =
+      const tx =
         db.transaction(
           IMAGE_STORE,
           "readwrite"
         );
 
 
-      transaction
-        .objectStore(
-          IMAGE_STORE
-        )
-        .put({
-          id:id,
-          blob:blob
-        });
+      const req =
+        tx
+          .objectStore(
+            IMAGE_STORE
+          )
+          .put({
+            id,
+            data:dataURL
+          });
 
 
-      transaction.oncomplete =
-        ()=>resolve();
+      req.onsuccess =
+        ()=>{
+          resolve(
+            "indexeddb://" +
+            id
+          );
+        };
 
 
-      transaction.onerror =
-        ()=>reject(
-          transaction.error
-        );
+      req.onerror =
+        ()=>{
+          reject(
+            req.error
+          );
+        };
 
     }
   );
@@ -1710,16 +1770,13 @@ async function saveImage(
 }
 
 
-async function getImage(
+/* =====================================================
+   GET IMAGE
+===================================================== */
+
+async function getImageFromDB(
   id
 ){
-
-  if(!id){
-
-    return null;
-
-  }
-
 
   const db =
     await openImageDB();
@@ -1728,36 +1785,37 @@ async function getImage(
   return new Promise(
     (resolve,reject)=>{
 
-      const transaction =
-        db.transaction(
-          IMAGE_STORE,
-          "readonly"
-        );
-
-
-      const request =
-        transaction
+      const req =
+        db
+          .transaction(
+            IMAGE_STORE,
+            "readonly"
+          )
           .objectStore(
             IMAGE_STORE
           )
           .get(id);
 
 
-      request.onsuccess =
+      req.onsuccess =
         ()=>{
+
           resolve(
-            request.result
-              ? request.result.blob
+            req.result
+              ? req.result.data
               : null
           );
+
         };
 
 
-      request.onerror =
+      req.onerror =
         ()=>{
+
           reject(
-            request.error
+            req.error
           );
+
         };
 
     }
@@ -1766,16 +1824,13 @@ async function getImage(
 }
 
 
-async function deleteImage(
+/* =====================================================
+   DELETE IMAGE
+===================================================== */
+
+async function deleteImageFromDB(
   id
 ){
-
-  if(!id){
-
-    return;
-
-  }
-
 
   const db =
     await openImageDB();
@@ -1784,28 +1839,34 @@ async function deleteImage(
   return new Promise(
     (resolve,reject)=>{
 
-      const transaction =
-        db.transaction(
-          IMAGE_STORE,
-          "readwrite"
-        );
+      const req =
+        db
+          .transaction(
+            IMAGE_STORE,
+            "readwrite"
+          )
+          .objectStore(
+            IMAGE_STORE
+          )
+          .delete(id);
 
 
-      transaction
-        .objectStore(
-          IMAGE_STORE
-        )
-        .delete(id);
+      req.onsuccess =
+        ()=>{
+
+          resolve(true);
+
+        };
 
 
-      transaction.oncomplete =
-        ()=>resolve();
+      req.onerror =
+        ()=>{
 
+          reject(
+            req.error
+          );
 
-      transaction.onerror =
-        ()=>reject(
-          transaction.error
-        );
+        };
 
     }
   );
@@ -1814,92 +1875,201 @@ async function deleteImage(
 
 
 /* =====================================================
-   IMAGE URL
+   RESOLVE IMAGE
 ===================================================== */
 
-async function getImageURL(
-  imageId
+async function resolveImageSource(
+  src
 ){
 
-  if(!imageId){
+  if(!src){
 
     return "";
 
   }
 
 
-  const blob =
-    await getImage(
-      imageId
+  if(
+    typeof src === "string" &&
+    src.startsWith(
+      "indexeddb://"
+    )
+  ){
+
+    return await getImageFromDB(
+      src.replace(
+        "indexeddb://",
+        ""
+      )
+    );
+
+  }
+
+
+  return src;
+
+}
+
+
+/* =====================================================
+   DATA MIGRATION
+===================================================== */
+
+/*
+  Versiunea veche avea:
+
+  sections: [
+    "image1",
+    "image2"
+  ]
+
+  Acum fiecare element este:
+
+  {
+    image:"...",
+    text:"..."
+  }
+*/
+
+function normalizeProjects(){
+
+  projects =
+    projects.map(
+      project=>{
+
+        project.portfolio =
+          Boolean(
+            project.portfolio
+          );
+
+
+        if(
+          !project.sections
+        ){
+
+          project.sections =
+            {};
+
+        }
+
+
+        SECTION_TYPES.forEach(
+          section=>{
+
+            if(
+              !Array.isArray(
+                project.sections[
+                  section
+                ]
+              )
+            ){
+
+              project.sections[
+                section
+              ] = [];
+
+            }
+
+
+            project.sections[
+              section
+            ] =
+              project.sections[
+                section
+              ].map(
+                item=>{
+
+                  if(
+                    typeof item ===
+                    "string"
+                  ){
+
+                    return {
+                      image:item,
+                      text:""
+                    };
+
+                  }
+
+
+                  return {
+
+                    image:
+                      item &&
+                      item.image
+                        ? item.image
+                        : "",
+
+                    text:
+                      item &&
+                      item.text
+                        ? item.text
+                        : ""
+
+                  };
+
+                }
+              );
+
+          }
+        );
+
+
+        return project;
+
+      }
     );
 
 
-  if(!blob){
+  saveLocalStorage();
 
-    return "";
+}
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function saveLocalStorage(){
+
+  try{
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(
+        projects
+      )
+    );
+
+
+    return true;
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+
+    showToast(
+      "Could not save project"
+    );
+
+
+    return false;
 
   }
 
-
-  return URL.createObjectURL(
-    blob
-  );
-
 }
 
 
-/* =====================================================
-   SAVE PROJECTS
-===================================================== */
+function saveLocal(){
 
-function saveProjects(){
+  saveLocalStorage();
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(
-      projects
-    )
+  showToast(
+    "Project saved ✓"
   );
-
-}
-
-
-/* =====================================================
-   ID
-===================================================== */
-
-function createId(
-  prefix="id"
-){
-
-  return (
-    prefix +
-    "_" +
-    Date.now() +
-    "_" +
-    Math.random()
-      .toString(36)
-      .slice(2,9)
-  );
-
-}
-
-
-/* =====================================================
-   PLACEHOLDER IMAGE
-===================================================== */
-
-function placeholderImage(){
-
-  return `
-    <div
-      class="image-placeholder"
-    >
-      <span>
-        ATELIER
-      </span>
-    </div>
-  `;
 
 }
 
@@ -1923,11 +2093,9 @@ function navigate(
     )
     .forEach(
       element=>{
-
         element.classList.remove(
           "active"
         );
-
       }
     );
 
@@ -1956,11 +2124,12 @@ function navigate(
       ".nav-link"
     )
     .forEach(
-      link=>{
+      button=>{
 
-        link.classList.toggle(
+        button.classList.toggle(
           "active",
-          link.dataset.page === page
+          button.dataset.page ===
+            page
         );
 
       }
@@ -1968,7 +2137,8 @@ function navigate(
 
 
   if(
-    page === "portfolio"
+    page ===
+    "portfolio"
   ){
 
     renderPortfolio();
@@ -1977,7 +2147,8 @@ function navigate(
 
 
   if(
-    page === "projects"
+    page ===
+    "projects"
   ){
 
     renderProjects();
@@ -1985,15 +2156,14 @@ function navigate(
   }
 
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  window.scrollTo(
+    0,
+    0
+  );
 
 
   if(
-    typeof lucide !==
-    "undefined"
+    window.lucide
   ){
 
     lucide.createIcons();
@@ -2004,234 +2174,31 @@ function navigate(
 
 
 /* =====================================================
-   MOBILE NAVIGATION
+   MOBILE NAV
 ===================================================== */
 
 function toggleMobileNav(){
 
-  const nav =
-    document.getElementById(
+  document
+    .getElementById(
       "nav-links"
+    )
+    .classList.toggle(
+      "open"
     );
-
-
-  if(!nav){
-
-    return;
-
-  }
-
-
-  nav.classList.toggle(
-    "open"
-  );
 
 }
 
 
 function closeMobileNav(){
 
-  const nav =
-    document.getElementById(
-      "nav-links"
-    );
-
-
-  if(!nav){
-
-    return;
-
-  }
-
-
-  nav.classList.remove(
-    "open"
-  );
-
-}
-
-
-/* =====================================================
-   NAVIGATION EVENT LISTENERS
-   Compatibil desktop + mobile
-===================================================== */
-
-function setupNavigationButtons(){
-
-  const logo =
-    document.querySelector(
-      ".nav-logo"
-    );
-
-
-  if(logo){
-
-    logo.addEventListener(
-      "click",
-      function(){
-
-        navigate(
-          "home"
-        );
-
-      }
-    );
-
-  }
-
-
   document
-    .querySelectorAll(
-      ".nav-link"
+    .getElementById(
+      "nav-links"
     )
-    .forEach(
-      function(button){
-
-        button.addEventListener(
-          "click",
-          function(event){
-
-            event.preventDefault();
-
-            event.stopPropagation();
-
-
-            const page =
-              button.getAttribute(
-                "data-page"
-              );
-
-
-            if(page){
-
-              navigate(
-                page
-              );
-
-            }
-
-          }
-        );
-
-      }
+    .classList.remove(
+      "open"
     );
-
-}
-
-
-/* =====================================================
-   HOME ACTIONS
-===================================================== */
-
-function goHome(){
-
-  navigate(
-    "home"
-  );
-
-}
-
-
-/* =====================================================
-   PROJECT HELPERS
-===================================================== */
-
-function normalizeProject(
-  project
-){
-
-  if(!project){
-
-    return null;
-
-  }
-
-
-  if(!project.id){
-
-    project.id =
-      createId(
-        "project"
-      );
-
-  }
-
-
-  if(!project.name){
-
-    project.name =
-      "Untitled Project";
-
-  }
-
-
-  if(
-    !Array.isArray(
-      project.sections
-    )
-  ){
-
-    project.sections =
-      [];
-
-  }
-
-
-  if(
-    !Array.isArray(
-      project.images
-    )
-  ){
-
-    project.images =
-      [];
-
-  }
-
-
-  if(
-    typeof project.portfolio !==
-    "boolean"
-  ){
-
-    project.portfolio =
-      false;
-
-  }
-
-
-  if(
-    typeof project.description !==
-    "string"
-  ){
-
-    project.description =
-      "";
-
-  }
-
-
-  return project;
-
-}
-
-
-function normalizeProjects(){
-
-  projects =
-    projects
-      .map(
-        project =>
-          normalizeProject(
-            project
-          )
-      )
-      .filter(
-        Boolean
-      );
-
-
-  saveProjects();
 
 }
 
@@ -2248,70 +2215,63 @@ function createProject(){
     );
 
 
-  if(!input){
-
-    return;
-
-  }
-
-
   const name =
     input.value.trim();
 
 
   if(!name){
 
-    showToast(
-      "Introdu un nume pentru proiect."
-    );
-
-    input.focus();
-
     return;
 
   }
 
 
-  const project = {
-
-    id:
-      createId(
-        "project"
-      ),
-
-    name:
-      name,
-
-    description:
-      "",
-
-    cover:
-      "",
-
-    portfolio:
-      false,
-
-    sections:
-      [],
-
-    images:
-      [],
-
-    createdAt:
-      new Date().toISOString(),
-
-    updatedAt:
-      new Date().toISOString()
-
-  };
+  const sections =
+    {};
 
 
-  projects.unshift(
-    project
+  SECTION_TYPES.forEach(
+    section=>{
+
+      sections[
+        section
+      ] = [];
+
+    }
   );
 
 
-  saveProjects();
+  projects.push({
+
+    id:
+      Date.now(),
+
+    name,
+
+    client:"",
+
+    location:"",
+
+    area:"",
+
+    type:
+      "Interior Design",
+
+    status:
+      "Concept",
+
+    description:"",
+
+    cover:"",
+
+    portfolio:false,
+
+    sections
+
+  });
+
+
+  saveLocalStorage();
 
 
   input.value =
@@ -2324,170 +2284,101 @@ function createProject(){
   renderProjects();
 
 
-  openProject(
-    project.id
+  showToast(
+    "Project created ✓"
   );
 
 }
 
 
 /* =====================================================
-   ADD PROJECT FORM
+   ADD PROJECT UI
 ===================================================== */
 
 function showAddProject(){
 
-  const form =
-    document.getElementById(
+  document
+    .getElementById(
       "add-project-form"
+    )
+    .classList.remove(
+      "hidden"
     );
 
 
-  if(!form){
-
-    return;
-
-  }
-
-
-  form.classList.remove(
-    "hidden"
-  );
-
-
-  const input =
-    document.getElementById(
+  document
+    .getElementById(
       "new-project-name"
-    );
-
-
-  if(input){
-
-    setTimeout(
-      ()=>{
-        input.focus();
-      },
-      50
-    );
-
-  }
+    )
+    .focus();
 
 }
 
 
 function hideAddProject(){
 
-  const form =
-    document.getElementById(
+  document
+    .getElementById(
       "add-project-form"
-    );
-
-
-  if(form){
-
-    form.classList.add(
+    )
+    .classList.add(
       "hidden"
     );
-
-  }
 
 }
 
 
 /* =====================================================
-   RENDER PROJECTS
+   RENDER MY PROJECTS
 ===================================================== */
 
 function renderProjects(){
 
-  const container =
+  const grid =
     document.getElementById(
       "projects-grid"
     );
 
 
-  const count =
-    document.getElementById(
-      "projects-count"
+  if(!grid){
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "projects-count"
+  ).textContent =
+
+    projects.length +
+    (
+      projects.length === 1
+        ? " project"
+        : " projects"
     );
 
 
-  if(!container){
-
-    return;
-
-  }
+  grid.innerHTML =
+    "";
 
 
-  if(count){
+  projects.forEach(
+    (
+      project,
+      index
+    )=>{
 
-    count.textContent =
-      projects.length +
-      (
-        projects.length === 1
-          ? " project"
-          : " projects"
+      grid.appendChild(
+        buildProjectCard(
+          project,
+          index,
+          true
+        )
       );
 
-  }
-
-
-  if(
-    !projects.length
-  ){
-
-    container.innerHTML = `
-
-      <div class="empty-state">
-
-        <div class="empty-state-title">
-          No projects yet.
-        </div>
-
-        <p>
-          Create your first interior design project.
-        </p>
-
-        <button
-          class="action-button dark"
-          onclick="showAddProject()"
-        >
-          + New Project
-        </button>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  container.innerHTML =
-    projects
-      .map(
-        (
-          project,
-          index
-        ) =>
-          buildProjectCard(
-            project,
-            index,
-            false
-          )
-      )
-      .join("");
-
-
-  if(
-    typeof lucide !==
-    "undefined"
-  ){
-
-    lucide.createIcons();
-
-  }
+    }
+  );
 
 }
 
@@ -2498,86 +2389,90 @@ function renderProjects(){
 
 function renderPortfolio(){
 
-  const container =
+  const grid =
     document.getElementById(
       "portfolio-grid"
     );
 
 
-  if(!container){
+  if(!grid){
 
     return;
 
   }
 
 
-  const portfolioProjects =
-    projects.filter(
-      project =>
-        project.portfolio
-    );
+  const selected =
+    projects
+      .map(
+        (
+          project,
+          index
+        )=>({
+
+          project,
+
+          index
+
+        })
+      )
+      .filter(
+        item=>
+          item.project.portfolio
+      );
 
 
-  if(
-    !portfolioProjects.length
-  ){
+  grid.innerHTML =
+    "";
 
-    container.innerHTML = `
 
-      <div class="empty-state">
+  if(!selected.length){
 
-        <div class="empty-state-title">
-          Portfolio is empty.
-        </div>
+    grid.innerHTML = `
 
-        <p>
-          Select projects from My Projects
-          to display them here.
-        </p>
+      <div
+        class="portfolio-empty"
+        style="grid-column:1/-1"
+      >
 
-        <button
-          class="action-button dark"
-          onclick="navigate('projects')"
-        >
-          Go to My Projects
-        </button>
+        Nu ai adăugat încă proiecte
+        în portofoliu.
+
+        <br>
+
+        Intră în
+        <b>My Projects</b>
+        și apasă
+        <b>Add to Portfolio</b>.
 
       </div>
 
     `;
 
+
     return;
 
   }
 
 
-  container.innerHTML =
-    portfolioProjects
-      .map(
-        (
-          project,
-          index
-        ) =>
-          buildProjectCard(
-            project,
-            index,
-            true
-          )
-      )
-      .join("");
+  selected.forEach(
+    item=>{
 
+      grid.appendChild(
+        buildProjectCard(
+          item.project,
+          item.index,
+          false
+        )
+      );
 
-  if(
-    typeof lucide !==
-    "undefined"
-  ){
-
-    lucide.createIcons();
-
-  }
+    }
+  );
 
 }
-  /* =====================================================
+
+
+/* =====================================================
    BUILD PROJECT CARD
 ===================================================== */
 
@@ -3111,6 +3006,10 @@ function ensureProjectSections(
 
   }
 
+  if(!project.sectionDescriptions || typeof project.sectionDescriptions !== "object") {
+    project.sectionDescriptions = {};
+  }
+
 
   SECTION_TYPES.forEach(
     section=>{
@@ -3173,480 +3072,160 @@ function ensureProjectSections(
   );
 
 }
-  function renderSections(){
+
+
+
+/* =====================================================
+   RENDER SECTIONS
+===================================================== */
+
+function renderSections(){
 
   const container =
-    document.getElementById(
-      "sections-container"
-    );
+    document.getElementById("sections-container");
 
-
-  if(
-    !container ||
-    currentProject === null
-  ){
-
+  if(!container || currentProject === null){
     return;
-
   }
 
+  const project = projects[currentProject];
 
-  const project =
-    projects[
-      currentProject
-    ];
+  ensureProjectSections(project);
 
-
-  if(!project){
-
-    return;
-
-  }
-
-
-  ensureProjectSections(
-    project
-  );
-
-
-  if(
-    !project.sectionDescriptions
-  ){
-
+  if(!project.sectionDescriptions){
     project.sectionDescriptions = {};
-
   }
 
+  container.innerHTML = "";
 
-  container.innerHTML =
-    "";
+  SECTION_TYPES.forEach((section, index)=>{
 
+    const items = project.sections[section] || [];
 
-  SECTION_TYPES.forEach(
-    (
-      section,
-      index
-    )=>{
+    const element = document.createElement("section");
+    element.className = "project-section";
 
-      const items =
-        project.sections[
-          section
-        ] || [];
-
-
-      const element =
-        document.createElement(
-          "section"
-        );
-
-
-      element.className =
-        "project-section";
-
-
-      /* =================================================
-         SECTION HEADER
-      ================================================= */
-
-      element.innerHTML = `
-
-        <div class="section-header">
-
-          <div>
-
-            <div class="section-number">
-
-              ${
-                String(
-                  index + 1
-                ).padStart(
-                  2,
-                  "0"
-                )
-              }
-
-              /
-
-              ${escapeHTML(
-                section
-              )}
-
-            </div>
-
-
-            <h2 class="section-title">
-
-              ${escapeHTML(
-                section
-              )}
-
-            </h2>
-
+    element.innerHTML = `
+      <div class="section-header">
+        <div>
+          <div class="section-number">
+            ${String(index + 1).padStart(2,"0")} / ${escapeHTML(section)}
           </div>
-
-
-          <button
-
-            class="section-add-button"
-
-            onclick="
-              openAddContent(
-                ${index}
-              )
-            "
-
-            title="Add content"
-
-          >
-
-            +
-
-          </button>
-
+          <h2 class="section-title">${escapeHTML(section)}</h2>
         </div>
 
+        <button
+          class="section-add-button"
+          type="button"
+          title="Add content"
+          onclick="openAddContent(${index})"
+        >+</button>
+      </div>
 
-        <textarea
+      <textarea
+        class="section-description"
+        placeholder="Descriere pentru această secțiune..."
+      ></textarea>
 
-          class="section-description"
+      <div class="content-stack"></div>
+    `;
 
-          placeholder="Adaugă o descriere pentru această secțiune..."
+    container.appendChild(element);
 
-        ></textarea>
+    const sectionDescription =
+      element.querySelector(".section-description");
 
+    sectionDescription.value =
+      project.sectionDescriptions[section] || "";
 
-        <div
+    sectionDescription.addEventListener("input", function(){
+      project.sectionDescriptions[section] = this.value;
+      saveLocalStorage();
+    });
 
-          class="content-stack"
+    const stack =
+      element.querySelector(".content-stack");
 
-          id="content-stack-${index}"
-
-        ></div>
-
+    if(!items.length){
+      stack.innerHTML = `
+        <div class="empty-section">
+          Adaugă imagini sau conținut cu butonul +.
+        </div>
       `;
+      return;
+    }
 
+    items.forEach((item, itemIndex)=>{
 
-      container.appendChild(
-        element
-      );
+      const content = document.createElement("article");
+      content.className = "content-item";
 
+      let imageElement = null;
 
-      /* =================================================
-         SECTION DESCRIPTION
-      ================================================= */
+      if(item.image){
 
-      const sectionDescription =
-        element.querySelector(
-          ".section-description"
-        );
+        imageElement = document.createElement("img");
+        imageElement.className = "content-item-image";
+        imageElement.alt = section;
+        imageElement.src = placeholderImage();
 
+        imageElement.addEventListener("click", async event=>{
+          event.stopPropagation();
+          const resolved = await resolveImageSource(item.image);
+          if(resolved){
+            openImage(resolved);
+          }
+        });
 
-      sectionDescription.value =
-        project.sectionDescriptions[
-          section
-        ] || "";
+        content.appendChild(imageElement);
 
+        const textBox = document.createElement("textarea");
+        textBox.className = "content-item-description";
+        textBox.placeholder = "Scrie aici despre această imagine...";
+        textBox.value = item.text || "";
 
-      sectionDescription.addEventListener(
-        "input",
-        function(){
-
-          project.sectionDescriptions[
-            section
-          ] =
-            this.value;
-
-
+        textBox.addEventListener("input", function(){
+          item.text = this.value;
           saveLocalStorage();
+        });
 
-        }
-      );
+        content.appendChild(textBox);
 
+      }else if(item.text){
 
-      /* =================================================
-         CONTENT STACK
-      ================================================= */
+        content.classList.add("text-only");
 
-      const stack =
-        element.querySelector(
-          ".content-stack"
-        );
-
-
-      /* =================================================
-         EMPTY SECTION
-      ================================================= */
-
-      if(
-        !items.length
-      ){
-
-        stack.innerHTML = `
-
-          <div class="empty-section">
-
-            Adaugă imagini sau conținut
-            cu butonul +.
-
-          </div>
-
-        `;
-
-        return;
-
+        const text = document.createElement("div");
+        text.className = "content-item-text";
+        text.textContent = item.text;
+        content.appendChild(text);
       }
 
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "content-item-remove";
+      remove.textContent = "Remove";
+      remove.onclick = ()=>removeContent(index, itemIndex);
+      content.appendChild(remove);
 
-      /* =================================================
-         RENDER ITEMS
-      ================================================= */
+      stack.appendChild(content);
 
-      items.forEach(
-        (
-          item,
-          itemIndex
-        )=>{
-
-          const content =
-            document.createElement(
-              "article"
-            );
-
-
-          content.className =
-            "content-item";
-
-
-          let imageElement =
-            null;
-
-
-          /* =================================================
-             IMAGE CONTENT
-          ================================================= */
-
-          if(
-            item.image
-          ){
-
-            imageElement =
-              document.createElement(
-                "img"
-              );
-
-
-            imageElement.className =
-              "content-item-image";
-
-
-            imageElement.alt =
-              section;
-
-
-            content.appendChild(
-              imageElement
-            );
-
-
-            /* ===============================================
-               OPEN IMAGE
-            =============================================== */
-
-            imageElement.addEventListener(
-              "click",
-              async()=>{
-
-                const resolved =
-                  await resolveImageSource(
-                    item.image
-                  );
-
-
-                if(
-                  resolved
-                ){
-
-                  openImage(
-                    resolved
-                  );
-
-                }
-
-              }
-            );
-
-
-            /* ===============================================
-               TEXT BOX UNDER IMAGE
-            =============================================== */
-
-            const textBox =
-              document.createElement(
-                "textarea"
-              );
-
-
-            textBox.className =
-              "content-item-description";
-
-
-            textBox.placeholder =
-              "Scrie aici despre această imagine...";
-
-
-            textBox.value =
-              item.text || "";
-
-
-            textBox.addEventListener(
-              "input",
-              function(){
-
-                item.text =
-                  this.value;
-
-
-                saveLocalStorage();
-
-              }
-            );
-
-
-            content.appendChild(
-              textBox
-            );
-
+      if(item.image && item.image.startsWith("indexeddb://")){
+        resolveImageSource(item.image).then(src=>{
+          if(src && imageElement){
+            imageElement.src = src;
           }
+        }).catch(console.error);
+      }else if(item.image && imageElement){
+        imageElement.src = item.image;
+      }
 
+    });
 
-          /* =================================================
-             TEXT ONLY CONTENT
-          ================================================= */
+  });
 
-          else if(
-            item.text
-          ){
-
-            content.classList.add(
-              "text-only"
-            );
-
-
-            const text =
-              document.createElement(
-                "div"
-              );
-
-
-            text.className =
-              "content-item-text";
-
-
-            text.textContent =
-              item.text;
-
-
-            content.appendChild(
-              text
-            );
-
-          }
-
-
-          /* =================================================
-             REMOVE BUTTON
-          ================================================= */
-
-          const remove =
-            document.createElement(
-              "button"
-            );
-
-
-          remove.className =
-            "content-item-remove";
-
-
-          remove.textContent =
-            "Remove";
-
-
-          remove.onclick =
-            ()=>removeContent(
-              index,
-              itemIndex
-            );
-
-
-          content.appendChild(
-            remove
-          );
-
-
-          /* =================================================
-             ADD TO STACK
-          ================================================= */
-
-          stack.appendChild(
-            content
-          );
-
-
-          /* =================================================
-             RESOLVE INDEXEDDB IMAGE
-          ================================================= */
-
-          if(
-            item.image &&
-            item.image.startsWith(
-              "indexeddb://"
-            )
-          ){
-
-            resolveImageSource(
-              item.image
-            )
-            .then(
-              src=>{
-
-                if(
-                  src &&
-                  imageElement
-                ){
-
-                  imageElement.src =
-                    src;
-
-                }
-
-              }
-            );
-
-          }
-
-
-          /* =================================================
-             NORMAL IMAGE
-          ================================================= */
-
-          else if(
-            item.image &&
-            imageElement
-          ){
-
-            imageElement.src =
-              item.image;
-
-          }
-
-        }
-      );
-
-    }
-  );
-
+  saveLocalStorage();
 }
-
 
 /* =====================================================
    ADD CONTENT MODAL
@@ -3985,35 +3564,22 @@ function compressImage(
               );
 
 
-              canvas.toBlob(
-                blob=>{
-
-                  if(blob){
-
-                    resolve(
-                      blob
-                    );
-
-                  }else{
-
-                    reject(
-                      new Error(
-                        "Image compression failed"
-                      )
-                    );
-
-                  }
-
-                },
-                "image/jpeg",
-                0.88
+              resolve(
+                canvas.toDataURL(
+                  "image/jpeg",
+                  .86
+                )
               );
 
             };
 
 
           img.onerror =
-            reject;
+            ()=>reject(
+              new Error(
+                "Could not load image"
+              )
+            );
 
 
           img.src =
@@ -4023,7 +3589,11 @@ function compressImage(
 
 
       reader.onerror =
-        reject;
+        ()=>reject(
+          new Error(
+            "Could not read file"
+          )
+        );
 
 
       reader.readAsDataURL(
@@ -4034,9 +3604,14 @@ function compressImage(
   );
 
 }
-  function addContentToSection(
-  sectionIndex,
-  item
+
+
+/* =====================================================
+   ADD CONTENT
+===================================================== */
+
+async function addContent(
+  sectionIndex
 ){
 
   if(
@@ -4060,23 +3635,251 @@ function compressImage(
     ];
 
 
-  if(
-    !project.sections[
-      section
-    ]
-  ){
+  const text =
+    document
+      .getElementById(
+        "content-text"
+      )
+      .value
+      .trim();
 
-    project.sections[
+
+  const url =
+    document
+      .getElementById(
+        "content-url"
+      )
+      .value
+      .trim();
+
+
+  const files =
+    Array.from(
+      document
+        .getElementById(
+          "content-file"
+        )
+        .files ||
+        []
+    );
+
+
+  const button =
+    document.getElementById(
+      "confirm-add-content"
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    "Processing...";
+
+
+  try{
+
+    if(
+      files.length
+    ){
+
+      for(
+        const file of files
+      ){
+
+        if(
+          !file.type.startsWith(
+            "image/"
+          )
+        ){
+
+          continue;
+
+        }
+
+
+        const compressed =
+          await compressImage(
+            file
+          );
+
+
+        const dbId =
+          await saveImageToDB(
+            compressed
+          );
+
+
+        project
+          .sections[
+            section
+          ]
+          .push({
+
+            image:
+              dbId,
+
+            text:
+              text
+
+          });
+
+      }
+
+    }else if(
+      url
+    ){
+
+      project
+        .sections[
+          section
+        ]
+        .push({
+
+          image:
+            url,
+
+          text:
+            text
+
+        });
+
+    }else if(
+      text
+    ){
+
+      project
+        .sections[
+          section
+        ]
+        .push({
+
+          image:"",
+
+          text:
+            text
+
+        });
+
+    }else{
+
+      showToast(
+        "Add an image or text"
+      );
+
+
+      return;
+
+    }
+
+
+    saveLocalStorage();
+
+
+    closeModal();
+
+
+    renderSections();
+
+
+    showToast(
+      "Content added ✓"
+    );
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+
+    showToast(
+      "Could not save content"
+    );
+
+  }finally{
+
+    button.disabled =
+      false;
+
+
+    button.textContent =
+      "Add";
+
+  }
+
+}
+
+
+/* =====================================================
+   REMOVE CONTENT
+===================================================== */
+
+async function removeContent(
+  sectionIndex,
+  itemIndex
+){
+
+  const section =
+    SECTION_TYPES[
+      sectionIndex
+    ];
+
+
+  const item =
+    projects[
+      currentProject
+    ]?.sections?.[
       section
-    ] = [];
+    ]?.[
+      itemIndex
+    ];
+
+
+  if(!item){
+
+    return;
 
   }
 
 
-  project.sections[
+  if(
+    item.image &&
+    item.image.startsWith(
+      "indexeddb://"
+    )
+  ){
+
+    try{
+
+      await deleteImageFromDB(
+        item.image.replace(
+          "indexeddb://",
+          ""
+        )
+      );
+
+    }catch(error){
+
+      console.error(
+        error
+      );
+
+    }
+
+  }
+
+
+  projects[
+    currentProject
+  ]
+  .sections[
     section
-  ].push(
-    item
+  ]
+  .splice(
+    itemIndex,
+    1
   );
 
 
@@ -4085,894 +3888,341 @@ function compressImage(
 
   renderSections();
 
+
+  showToast(
+    "Content removed ✓"
+  );
+
 }
 
 
 /* =====================================================
-   SAVE IMAGE TO DATABASE
+   PROJECT EDIT
 ===================================================== */
 
-async function saveImageToDB(
-  dataURL
-){
+function openProjectEdit(){
 
-  const id =
-    createId(
-      "image"
+  const project =
+    projects[
+      currentProject
+    ];
+
+
+  const box =
+    document.getElementById(
+      "modal-box"
     );
 
 
-  const response =
-    await fetch(
-      dataURL
+  box.innerHTML = `
+
+    <div class="modal-title">
+
+      Edit Project
+
+    </div>
+
+
+    ${formField(
+      "Project name",
+      "edit-name",
+      project.name
+    )}
+
+
+    ${formField(
+      "Client",
+      "edit-client",
+      project.client
+    )}
+
+
+    ${formField(
+      "Location",
+      "edit-location",
+      project.location
+    )}
+
+
+    ${formField(
+      "Surface",
+      "edit-area",
+      project.area
+    )}
+
+
+    ${formField(
+      "Project type",
+      "edit-type",
+      project.type
+    )}
+
+
+    ${formField(
+      "Status",
+      "edit-status",
+      project.status
+    )}
+
+
+    <div class="form-group">
+
+      <label>
+
+        Cover Image URL
+
+      </label>
+
+
+      <input
+
+        id="edit-cover-url"
+
+        value="${
+          escapeAttribute(
+            project.cover &&
+            !project.cover.startsWith(
+              "indexeddb://"
+            )
+              ? project.cover
+              : ""
+          )
+        }"
+
+        placeholder="https://..."
+
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+
+        Or choose cover image
+
+      </label>
+
+
+      <input
+
+        id="edit-cover-file"
+
+        type="file"
+
+        accept="image/*"
+
+      >
+
+
+      <div
+
+        id="cover-preview"
+
+        style="
+          margin-top:10px;
+          width:100%;
+          height:180px;
+          border-radius:12px;
+          overflow:hidden;
+          background:#f5f4f1;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        "
+
+      >
+
+        ${
+          project.cover
+
+            ? `
+
+              <img
+
+                id="current-cover-preview"
+
+                src=""
+
+                style="
+                  width:100%;
+                  height:100%;
+                  object-fit:cover
+                "
+
+              >
+
+            `
+
+            : `
+
+              <span
+                style="
+                  font-size:12px;
+                  color:#999
+                "
+              >
+
+                No cover image
+
+              </span>
+
+            `
+        }
+
+      </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+
+        Description
+
+      </label>
+
+
+      <textarea
+        id="edit-description"
+      >${escapeHTML(
+        project.description ||
+        ""
+      )}</textarea>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+
+        class="action-button"
+
+        onclick="closeModal()"
+
+      >
+
+        Cancel
+
+      </button>
+
+
+      <button
+
+        id="save-edit-project"
+
+        class="action-button dark"
+
+      >
+
+        Save
+
+      </button>
+
+    </div>
+
+  `;
+
+
+  document
+    .getElementById(
+      "modal"
+    )
+    .classList.add(
+      "active"
     );
-
-
-  const blob =
-    await response.blob();
-
-
-  await saveImage(
-    id,
-    blob
-  );
-
-
-  return (
-    "indexeddb://" +
-    id
-  );
-
-}
-
-
-/* =====================================================
-   DELETE IMAGE FROM DATABASE
-===================================================== */
-
-async function deleteImageFromDB(
-  id
-){
-
-  if(!id){
-
-    return;
-
-  }
-
-
-  await deleteImage(
-    id
-  );
-
-}
-
-
-/* =====================================================
-   RESOLVE IMAGE SOURCE
-===================================================== */
-
-async function resolveImageSource(
-  source
-){
-
-  if(!source){
-
-    return "";
-
-  }
 
 
   if(
-    source.startsWith(
-      "indexeddb://"
-    )
+    project.cover
   ){
 
-    const id =
-      source.replace(
-        "indexeddb://",
-        ""
-      );
+    resolveImageSource(
+      project.cover
+    )
+    .then(
+      src=>{
+
+        const img =
+          document.getElementById(
+            "current-cover-preview"
+          );
 
 
-    const blob =
-      await getImage(
-        id
-      );
+        if(
+          img &&
+          src
+        ){
 
+          img.src =
+            src;
 
-    if(!blob){
+        }
 
-      return "";
-
-    }
-
-
-    return URL.createObjectURL(
-      blob
+      }
     );
 
   }
 
 
-  return source;
+  document
+    .getElementById(
+      "edit-cover-file"
+    )
+    .addEventListener(
+      "change",
+      previewCoverImage
+    );
+
+
+  document
+    .getElementById(
+      "save-edit-project"
+    )
+    .onclick =
+      saveProjectEdit;
 
 }
 
 
 /* =====================================================
-   CREATE CLIENT HTML
+   FORM FIELD
 ===================================================== */
 
-async function createClientHTML(
-  project
+function formField(
+  label,
+  id,
+  value
 ){
-
-  if(!project){
-
-    return "";
-
-  }
-
-
-  ensureProjectSections(
-    project
-  );
-
-
-  let sectionsHTML =
-    "";
-
-
-  for(
-    const section of SECTION_TYPES
-  ){
-
-    const items =
-      project.sections[
-        section
-      ] || [];
-
-
-    if(
-      !items.length &&
-      !(
-        project.sectionDescriptions &&
-        project.sectionDescriptions[
-          section
-        ]
-      )
-    ){
-
-      continue;
-
-    }
-
-
-    let itemsHTML =
-      "";
-
-
-    for(
-      const item of items
-    ){
-
-      const image =
-        await resolveImageSource(
-          item.image
-        );
-
-
-      itemsHTML += `
-
-        <article
-          class="content-item"
-        >
-
-          ${
-            image
-
-              ? `
-
-                <img
-
-                  src="${escapeAttribute(
-                    image
-                  )}"
-
-                  alt="${escapeAttribute(
-                    section
-                  )}"
-
-                >
-
-              `
-
-              : ""
-
-          }
-
-
-          ${
-            item.text
-
-              ? `
-
-                <div
-                  class="content-text"
-                >
-
-                  ${escapeHTML(
-                    item.text
-                  )}
-
-                </div>
-
-              `
-
-              : ""
-
-          }
-
-        </article>
-
-      `;
-
-    }
-
-
-    const description =
-      project.sectionDescriptions &&
-      project.sectionDescriptions[
-        section
-      ]
-        ? project.sectionDescriptions[
-            section
-          ]
-        : "";
-
-
-    sectionsHTML += `
-
-      <section
-        class="project-section"
-      >
-
-        <div class="section-heading">
-
-          <div class="section-number">
-
-            ${String(
-              SECTION_TYPES.indexOf(
-                section
-              ) + 1
-            ).padStart(
-              2,
-              "0"
-            )}
-
-          </div>
-
-
-          <h2>
-
-            ${escapeHTML(
-              section
-            )}
-
-          </h2>
-
-        </div>
-
-
-        ${
-          description
-
-            ? `
-
-              <p
-                class="section-description"
-              >
-
-                ${escapeHTML(
-                  description
-                )}
-
-              </p>
-
-            `
-
-            : ""
-
-        }
-
-
-        <div
-          class="content-grid"
-        >
-
-          ${itemsHTML}
-
-        </div>
-
-      </section>
-
-    `;
-
-  }
-
-
-  const cover =
-    await resolveImageSource(
-      project.cover
-    );
-
 
   return `
 
-<!DOCTYPE html>
+    <div class="form-group">
 
-<html
-  lang="en"
->
-
-<head>
-
-  <meta
-    charset="UTF-8"
-  >
-
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-
-  <title>
-
-    ${escapeHTML(
-      project.name
-    )}
-    — ATELIER
-
-  </title>
-
-
-  <style>
-
-    *{
-      box-sizing:border-box;
-    }
-
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-
-    body{
-
-      margin:0;
-
-      background:#f8f7f4;
-
-      color:#242220;
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    }
-
-
-    .client-page{
-
-      width:100%;
-
-      min-height:100vh;
-
-    }
-
-
-    .client-header{
-
-      max-width:1180px;
-
-      margin:0 auto;
-
-      padding:34px 24px 70px;
-
-    }
-
-
-    .brand{
-
-      font-size:11px;
-
-      letter-spacing:.28em;
-
-      text-transform:uppercase;
-
-      color:#77736d;
-
-      margin-bottom:80px;
-
-    }
-
-
-    .project-title{
-
-      max-width:850px;
-
-      font-family:
-        Georgia,
-        serif;
-
-      font-size:
-        clamp(
-          42px,
-          7vw,
-          92px
-        );
-
-      line-height:1.02;
-
-      font-weight:400;
-
-      margin:0;
-
-    }
-
-
-    .project-meta{
-
-      display:flex;
-
-      flex-wrap:wrap;
-
-      gap:10px 28px;
-
-      margin-top:30px;
-
-      color:#77736d;
-
-      font-size:12px;
-
-    }
-
-
-    .hero{
-
-      max-width:1180px;
-
-      margin:0 auto;
-
-      padding:0 24px 100px;
-
-    }
-
-
-    .hero img{
-
-      display:block;
-
-      width:100%;
-
-      max-height:720px;
-
-      object-fit:cover;
-
-      border-radius:18px;
-
-    }
-
-
-    .description{
-
-      max-width:760px;
-
-      margin:0 auto 100px;
-
-      padding:0 24px;
-
-      color:#66625d;
-
-      font-size:16px;
-
-      line-height:1.8;
-
-    }
-
-
-    .project-section{
-
-      max-width:1180px;
-
-      margin:0 auto;
-
-      padding:80px 24px;
-
-      border-top:1px solid #dedbd5;
-
-    }
-
-
-    .section-heading{
-
-      display:flex;
-
-      gap:22px;
-
-      align-items:flex-start;
-
-      margin-bottom:28px;
-
-    }
-
-
-    .section-number{
-
-      color:#aaa59d;
-
-      font-size:11px;
-
-      letter-spacing:.12em;
-
-      padding-top:10px;
-
-    }
-
-
-    .section-heading h2{
-
-      margin:0;
-
-      font-family:
-        Georgia,
-        serif;
-
-      font-size:
-        clamp(
-          30px,
-          4vw,
-          52px
-        );
-
-      font-weight:400;
-
-    }
-
-
-    .section-description{
-
-      max-width:700px;
-
-      color:#77736d;
-
-      line-height:1.8;
-
-      margin:0 0 40px 34px;
-
-    }
-
-
-    .content-grid{
-
-      display:grid;
-
-      grid-template-columns:
-        repeat(
-          2,
-          minmax(
-            0,
-            1fr
-          )
-        );
-
-      gap:24px;
-
-    }
-
-
-    .content-item{
-
-      background:#fff;
-
-      border-radius:16px;
-
-      overflow:hidden;
-
-    }
-
-
-    .content-item img{
-
-      display:block;
-
-      width:100%;
-
-      max-height:700px;
-
-      object-fit:cover;
-
-    }
-
-
-    .content-text{
-
-      padding:20px;
-
-      color:#77736d;
-
-      font-size:14px;
-
-      line-height:1.7;
-
-    }
-
-
-    .client-footer{
-
-      padding:80px 24px;
-
-      text-align:center;
-
-      color:#aaa59d;
-
-      font-size:10px;
-
-      letter-spacing:.22em;
-
-      text-transform:uppercase;
-
-    }
-
-
-    @media(
-      max-width:700px
-    ){
-
-      .client-header{
-
-        padding:
-          24px
-          24px
-          50px;
-
-      }
-
-
-      .brand{
-
-        margin-bottom:50px;
-
-      }
-
-
-      .hero{
-
-        padding:
-          0
-          16px
-          60px;
-
-      }
-
-
-      .hero img{
-
-        border-radius:12px;
-
-      }
-
-
-      .description{
-
-        margin-bottom:60px;
-
-      }
-
-
-      .project-section{
-
-        padding:
-          55px
-          16px;
-
-      }
-
-
-      .section-heading{
-
-        gap:14px;
-
-      }
-
-
-      .section-description{
-
-        margin-left:0;
-
-      }
-
-
-      .content-grid{
-
-        grid-template-columns:
-          1fr;
-
-      }
-
-    }
-
-  </style>
-
-</head>
-
-
-<body>
-
-  <main
-    class="client-page"
-  >
-
-    <header
-      class="client-header"
-    >
-
-      <div
-        class="brand"
-      >
-
-        ATELIER
-        — Interior Design Studio
-
-      </div>
-
-
-      <h1
-        class="project-title"
-      >
+      <label>
 
         ${escapeHTML(
-          project.name
+          label
         )}
 
-      </h1>
+      </label>
 
 
-      <div
-        class="project-meta"
+      <input
+
+        id="${id}"
+
+        value="${escapeAttribute(
+          value ||
+          ""
+        )}"
+
       >
 
-        ${
-          project.client
-            ? `
-              <span>
-                ${escapeHTML(
-                  project.client
-                )}
-              </span>
-            `
-            : ""
-        }
-
-
-        ${
-          project.location
-            ? `
-              <span>
-                ${escapeHTML(
-                  project.location
-                )}
-              </span>
-            `
-            : ""
-        }
-
-
-        ${
-          project.area
-            ? `
-              <span>
-                ${escapeHTML(
-                  project.area
-                )}
-              </span>
-            `
-            : ""
-        }
-
-
-        ${
-          project.type
-            ? `
-              <span>
-                ${escapeHTML(
-                  project.type
-                )}
-              </span>
-            `
-            : ""
-        }
-
-      </div>
-
-    </header>
-
-
-    ${
-      cover
-
-        ? `
-
-          <div
-            class="hero"
-          >
-
-            <img
-
-              src="${escapeAttribute(
-                cover
-              )}"
-
-              alt="${escapeAttribute(
-                project.name
-              )}"
-
-            >
-
-          </div>
-
-        `
-
-        : ""
-
-    }
-
-
-    ${
-      project.description
-
-        ? `
-
-          <div
-            class="description"
-          >
-
-            ${escapeHTML(
-              project.description
-            )}
-
-          </div>
-
-        `
-
-        : ""
-
-    }
-
-
-    ${sectionsHTML}
-
-
-    <footer
-      class="client-footer"
-    >
-
-      ATELIER
-      — Interior Design Studio
-
-    </footer>
-
-  </main>
-
-</body>
-
-</html>
+    </div>
 
   `;
 
@@ -4980,7 +4230,742 @@ async function createClientHTML(
 
 
 /* =====================================================
-   CREATE PORTFOLIO SHARE HTML
+   COVER PREVIEW
+===================================================== */
+
+function previewCoverImage(
+  event
+){
+
+  const file =
+    event.target.files[0];
+
+
+  if(!file){
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    event=>{
+
+      const preview =
+        document.getElementById(
+          "cover-preview"
+        );
+
+
+      preview.innerHTML = `
+
+        <img
+
+          src="${event.target.result}"
+
+          style="
+            width:100%;
+            height:100%;
+            object-fit:cover
+          "
+
+        >
+
+      `;
+
+
+      preview.dataset.image =
+        event.target.result;
+
+    };
+
+
+  reader.readAsDataURL(
+    file
+  );
+
+}
+
+
+/* =====================================================
+   SAVE PROJECT EDIT
+===================================================== */
+
+async function saveProjectEdit(){
+
+  const project =
+    projects[
+      currentProject
+    ];
+
+
+  project.name =
+    document
+      .getElementById(
+        "edit-name"
+      )
+      .value
+      .trim();
+
+
+  project.client =
+    document
+      .getElementById(
+        "edit-client"
+      )
+      .value
+      .trim();
+
+
+  project.location =
+    document
+      .getElementById(
+        "edit-location"
+      )
+      .value
+      .trim();
+
+
+  project.area =
+    document
+      .getElementById(
+        "edit-area"
+      )
+      .value
+      .trim();
+
+
+  project.type =
+    document
+      .getElementById(
+        "edit-type"
+      )
+      .value
+      .trim();
+
+
+  project.status =
+    document
+      .getElementById(
+        "edit-status"
+      )
+      .value
+      .trim();
+
+
+  project.description =
+    document
+      .getElementById(
+        "edit-description"
+      )
+      .value
+      .trim();
+
+
+  const coverPreview =
+    document.getElementById(
+      "cover-preview"
+    );
+
+
+  const coverFile =
+    document
+      .getElementById(
+        "edit-cover-file"
+      )
+      .files[0];
+
+
+  const coverURL =
+    document
+      .getElementById(
+        "edit-cover-url"
+      )
+      .value
+      .trim();
+
+
+  if(
+    coverFile
+  ){
+
+    if(
+      project.cover &&
+      project.cover.startsWith(
+        "indexeddb://"
+      )
+    ){
+
+      try{
+
+        await deleteImageFromDB(
+          project.cover.replace(
+            "indexeddb://",
+            ""
+          )
+        );
+
+      }catch(error){}
+
+    }
+
+
+    const compressed =
+      await compressImage(
+        coverFile
+      );
+
+
+    project.cover =
+      await saveImageToDB(
+        compressed
+      );
+
+  }else if(
+    coverURL
+  ){
+
+    if(
+      project.cover &&
+      project.cover.startsWith(
+        "indexeddb://"
+      )
+    ){
+
+      try{
+
+        await deleteImageFromDB(
+          project.cover.replace(
+            "indexeddb://",
+            ""
+          )
+        );
+
+      }catch(error){}
+
+    }
+
+
+    project.cover =
+      coverURL;
+
+  }else if(
+    coverPreview &&
+    coverPreview.dataset.image
+  ){
+
+    project.cover =
+      await saveImageToDB(
+        coverPreview.dataset.image
+      );
+
+  }
+
+
+  saveLocalStorage();
+
+
+  closeModal();
+
+
+  openProject(
+    currentProject,
+    previousPage
+  );
+
+
+  showToast(
+    "Project updated ✓"
+  );
+
+}
+
+
+/* =====================================================
+   CLIENT PREVIEW
+===================================================== */
+
+async function previewClient() {
+    const project = projects[currentProject];
+
+    if (!project) {
+        showToast("Open a project first");
+        return;
+    }
+
+    // Deschidem fereastra imediat, înainte de orice await,
+    // pentru a evita blocarea popup-ului în Safari/iPhone.
+    const previewWindow = window.open("", "_blank");
+
+    if (!previewWindow) {
+        showToast("Please allow pop-ups for ATELIER");
+        return;
+    }
+
+    try {
+        // Pagina temporară
+        previewWindow.document.open();
+
+        previewWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                >
+                <title>ATELIER — Preview</title>
+
+                <style>
+                    body {
+                        margin: 0;
+                        min-height: 100vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: #f7f5f1;
+                        color: #77736d;
+                        font-family: Arial, sans-serif;
+                        font-size: 13px;
+                        letter-spacing: .08em;
+                    }
+                </style>
+            </head>
+
+            <body>
+                Loading preview...
+            </body>
+            </html>
+        `);
+
+        previewWindow.document.close();
+
+        // Creează HTML-ul real pentru client
+        const clientHTML = await createClientHTML(project);
+
+        // Verificăm dacă fereastra încă există
+        if (previewWindow.closed) {
+            showToast("Preview window was closed");
+            return;
+        }
+
+        // Înlocuiește pagina de loading cu proiectul
+        previewWindow.document.open();
+        previewWindow.document.write(clientHTML);
+        previewWindow.document.close();
+
+        previewWindow.focus();
+
+    } catch (error) {
+
+        console.error("Preview Client error:", error);
+
+        try {
+            previewWindow.document.open();
+
+            previewWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1.0"
+                    >
+                    <title>ATELIER — Preview Error</title>
+                </head>
+
+                <body style="
+                    margin:0;
+                    padding:50px;
+                    font-family:Arial,sans-serif;
+                    color:#777;
+                    background:#f7f5f1;
+                ">
+
+                    <h2 style="
+                        font-family:Georgia,serif;
+                        font-weight:400;
+                        color:#242220;
+                    ">
+                        Preview could not be generated
+                    </h2>
+
+                    <p>
+                        Please try again.
+                    </p>
+
+                </body>
+                </html>
+            `);
+
+            previewWindow.document.close();
+
+        } catch (e) {}
+
+        showToast("Could not generate preview");
+    }
+}
+/* =====================================================
+   EXPORT HTML
+===================================================== */
+
+async function exportHTML(){
+
+  const project =
+    projects[
+      currentProject
+    ];
+
+
+  showToast(
+    "Preparing HTML..."
+  );
+
+
+  const html =
+    await createClientHTML(
+      project
+    );
+
+
+  const blob =
+    new Blob(
+      [html],
+      {
+        type:
+          "text/html;charset=utf-8"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    safeFilename(
+      project.name
+    ) +
+    ".html";
+
+
+  document.body.appendChild(
+    a
+  );
+
+
+  a.click();
+
+
+  a.remove();
+
+
+  setTimeout(
+    ()=>{
+      URL.revokeObjectURL(
+        url
+      );
+    },
+    1000
+  );
+
+
+  showToast(
+    "Interactive HTML exported ✓"
+  );
+
+}
+
+
+/* =====================================================
+   EXPORT JSON
+===================================================== */
+
+function exportJSON(){
+
+  const project =
+    projects[
+      currentProject
+    ];
+
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          project,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    safeFilename(
+      project.name
+    ) +
+    ".json";
+
+
+  document.body.appendChild(
+    a
+  );
+
+
+  a.click();
+
+
+  a.remove();
+
+
+  setTimeout(
+    ()=>{
+      URL.revokeObjectURL(
+        url
+      );
+    },
+    1000
+  );
+
+
+  showToast(
+    "JSON backup exported ✓"
+  );
+
+}
+
+
+/* =====================================================
+   SHARE PORTFOLIO
+===================================================== */
+
+/*
+  IMPORTANT:
+
+  Share Portfolio NU trimite întregul site.
+
+  Creează un HTML separat care conține
+  DOAR proiectele selectate pentru Portfolio.
+
+  Astfel clientul nu poate vedea:
+
+  - Home
+  - My Projects
+  - About
+  - Contact
+  - editarea proiectelor
+  - workspace-ul privat
+
+  Ci doar Portfolio.
+*/
+
+async function sharePortfolio(){
+
+  const selected =
+    projects.filter(
+      project =>
+        project.portfolio
+    );
+
+
+  if(
+    !selected.length
+  ){
+
+    showToast(
+      "Add at least one project to Portfolio"
+    );
+
+
+    return;
+
+  }
+
+
+  showToast(
+    "Preparing Portfolio..."
+  );
+
+
+  const html =
+    await createPortfolioShareHTML(
+      selected
+    );
+
+
+  const blob =
+    new Blob(
+      [html],
+      {
+        type:
+          "text/html;charset=utf-8"
+      }
+    );
+
+
+  const file =
+    new File(
+      [
+        blob
+      ],
+      "atelier-portfolio.html",
+      {
+        type:
+          "text/html"
+      }
+    );
+
+
+  /*
+    Pe iPhone / iPad și browsere compatibile
+    se deschide meniul nativ Share.
+
+    Fișierul distribuit conține DOAR
+    versiunea publică de Portfolio.
+  */
+
+  if(
+    navigator.share &&
+    (
+      !navigator.canShare ||
+      navigator.canShare({
+        files:[
+          file
+        ]
+      })
+    )
+  ){
+
+    try{
+
+      await navigator.share({
+
+        title:
+          "ATELIER — Portfolio",
+
+        text:
+          "ATELIER — Interior Design Portfolio",
+
+        files:[
+          file
+        ]
+
+      });
+
+
+      return;
+
+    }catch(error){
+
+      if(
+        error &&
+        error.name ===
+        "AbortError"
+      ){
+
+        return;
+
+      }
+
+    }
+
+  }
+
+
+  /*
+    Dacă browserul nu permite Share Files,
+    descarcă automat doar portfolio-ul.
+  */
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    "atelier-portfolio.html";
+
+
+  document.body.appendChild(
+    a
+  );
+
+
+  a.click();
+
+
+  a.remove();
+
+
+  setTimeout(
+    ()=>{
+      URL.revokeObjectURL(
+        url
+      );
+    },
+    1500
+  );
+
+
+  showToast(
+    "Private pages are not included ✓"
+  );
+
+}
+
+
+/* =====================================================
+   CREATE SHARED PORTFOLIO HTML
 ===================================================== */
 
 async function createPortfolioShareHTML(
@@ -5032,9 +5017,7 @@ async function createPortfolioShareHTML(
         }
 
 
-        <div
-          class="card-copy"
-        >
+        <div class="card-copy">
 
           <h2>
 
@@ -5045,9 +5028,7 @@ async function createPortfolioShareHTML(
           </h2>
 
 
-          <div
-            class="meta"
-          >
+          <div class="meta">
 
             ${
               project.client
@@ -5065,7 +5046,6 @@ async function createPortfolioShareHTML(
                 `
 
                 : ""
-
             }
 
 
@@ -5085,7 +5065,6 @@ async function createPortfolioShareHTML(
                 `
 
                 : ""
-
             }
 
 
@@ -5105,7 +5084,6 @@ async function createPortfolioShareHTML(
                 `
 
                 : ""
-
             }
 
 
@@ -5125,7 +5103,6 @@ async function createPortfolioShareHTML(
                 `
 
                 : ""
-
             }
 
           </div>
@@ -5147,7 +5124,6 @@ async function createPortfolioShareHTML(
               `
 
               : ""
-
           }
 
         </div>
@@ -5161,492 +5137,694 @@ async function createPortfolioShareHTML(
 
   return `
 
-<!DOCTYPE html>
+<!doctype html>
 
-<html
-  lang="en"
->
+<html lang="en">
 
 <head>
 
-  <meta
-    charset="UTF-8"
-  >
-
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-
-  <title>
-    ATELIER — Portfolio
-  </title>
-
-
-  <style>
-
-    *{
-      box-sizing:border-box;
-    }
-
-
-    body{
-
-      margin:0;
-
-      background:#f8f7f4;
-
-      color:#242220;
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    }
-
-
-    .portfolio{
-
-      max-width:1180px;
-
-      margin:0 auto;
-
-      padding:
-        40px 24px 80px;
-
-    }
-
-
-    .brand{
-
-      font-size:11px;
-
-      letter-spacing:.28em;
-
-      text-transform:uppercase;
-
-      color:#77736d;
-
-      margin-bottom:80px;
-
-    }
-
-
-    h1{
-
-      margin:0 0 60px;
-
-      font-family:
-        Georgia,
-        serif;
-
-      font-weight:400;
-
-      font-size:
-        clamp(
-          48px,
-          8vw,
-          100px
-        );
-
-      line-height:1;
-
-    }
-
-
-    .portfolio-grid{
-
-      display:grid;
-
-      grid-template-columns:
-        repeat(
-          2,
-          minmax(
-            0,
-            1fr
-          )
-        );
-
-      gap:30px;
-
-    }
-
-
-    .portfolio-card{
-
-      background:#fff;
-
-      border-radius:18px;
-
-      overflow:hidden;
-
-    }
-
-
-    .portfolio-card img{
-
-      display:block;
-
-      width:100%;
-
-      aspect-ratio:
-        4 / 3;
-
-      object-fit:cover;
-
-    }
-
-
-    .card-copy{
-
-      padding:26px;
-
-    }
-
-
-    .card-copy h2{
-
-      margin:0 0 14px;
-
-      font-family:
-        Georgia,
-        serif;
-
-      font-size:30px;
-
-      font-weight:400;
-
-    }
-
-
-    .meta{
-
-      display:flex;
-
-      flex-wrap:wrap;
-
-      gap:8px 20px;
-
-      color:#77736d;
-
-      font-size:11px;
-
-    }
-
-
-    .card-copy p{
-
-      color:#77736d;
-
-      line-height:1.7;
-
-      font-size:13px;
-
-      margin:
-        20px 0 0;
-
-    }
-
-
-    @media(
-      max-width:700px
-    ){
-
-      .portfolio{
-
-        padding:
-          24px
-          16px
-          60px;
-
-      }
-
-
-      .brand{
-
-        margin-bottom:50px;
-
-      }
-
-
-      .portfolio-grid{
-
-        grid-template-columns:
-          1fr;
-
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+ATELIER — Portfolio
+</title>
+
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap"
+  rel="stylesheet"
+>
+
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#fff;
+  color:#242220;
+  font-family:"DM Sans",sans-serif;
+}
+
+.container{
+  max-width:1120px;
+  margin:auto;
+  padding:0 24px;
+}
+
+header{
+  text-align:center;
+  padding:75px 0 60px;
+  border-bottom:1px solid #e9e7e3;
+}
+
+.logo{
+  font-size:10px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  margin-bottom:24px;
+}
+
+h1,
+h2{
+  font-family:"Cormorant Garamond",serif;
+  font-weight:500;
+}
+
+h1{
+  font-size:clamp(50px,8vw,82px);
+  line-height:.95;
+  margin:0;
+}
+
+.subtitle{
+  margin-top:14px;
+  color:#77736d;
+  font-size:13px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:25px;
+  padding:60px 0 100px;
+}
+
+.portfolio-card{
+  border:1px solid #e9e7e3;
+  border-radius:15px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.portfolio-card>img{
+  width:100%;
+  height:390px;
+  object-fit:cover;
+  display:block;
+}
+
+.card-copy{
+  padding:24px;
+}
+
+.card-copy h2{
+  font-size:34px;
+  margin:0 0 8px;
+}
+
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  color:#817d76;
+  font-size:11px;
+}
+
+.card-copy p{
+  color:#77736d;
+  font-size:13px;
+  line-height:1.8;
+  margin:18px 0 0;
+}
+
+.footer{
+  border-top:1px solid #e9e7e3;
+  padding:25px 0 40px;
+  text-align:center;
+  color:#aaa69f;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+@media(max-width:700px){
+
+  .grid{
+    grid-template-columns:1fr;
+    padding-top:40px;
+  }
+
+  .portfolio-card>img{
+    height:280px;
+  }
+
+  header{
+    padding-top:50px;
+  }
+
+}
+
+</style>
 
 </head>
 
 
 <body>
 
-  <main
-    class="portfolio"
-  >
+<div class="container">
 
-    <div
-      class="brand"
-    >
+<header>
 
-      ATELIER
-      — Interior Design Studio
+  <div class="logo">
+    ATELIER
+  </div>
 
-    </div>
+  <h1>
+    Portfolio
+  </h1>
+
+  <div class="subtitle">
+    Selected interior design projects.
+  </div>
+
+</header>
 
 
-    <h1>
-      Portfolio
-    </h1>
+<main class="grid">
+
+  ${cardsHTML}
+
+</main>
 
 
-    <div
-      class="portfolio-grid"
-    >
+<div class="footer">
 
-      ${cardsHTML}
+  ATELIER — Interior Design Studio
 
-    </div>
+</div>
 
-  </main>
+
+</div>
 
 </body>
 
 </html>
 
-  `;
+`;
 
 }
 
 
 /* =====================================================
-   ESCAPE HTML
+   CLIENT HTML
 ===================================================== */
 
-function escapeHTML(
-  value
+async function createClientHTML(
+  project
 ){
 
-  return String(
-    value ?? ""
-  )
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+  /*
+    Standalone client view.
 
-}
+    NU conține:
+
+    - Navigation
+    - My Projects
+    - About
+    - Contact
+
+    Clientul vede doar proiectul.
+  */
 
 
-/* =====================================================
-   ESCAPE ATTRIBUTE
-===================================================== */
-
-function escapeAttribute(
-  value
-){
-
-  return escapeHTML(
-    value
+  ensureProjectSections(
+    project
   );
 
-}
+
+  let sectionsHTML =
+    "";
 
 
-/* =====================================================
-   SAFE FILENAME
-===================================================== */
-
-function safeFilename(
-  value
-){
-
-  return String(
-    value ||
-    "atelier-project"
-  )
-    .trim()
-    .replace(
-      /[^a-z0-9ăâîșțĂÂÎȘȚ]+/gi,
-      "-"
-    )
-    .replace(
-      /^-+|-+$/g,
-      ""
-    )
-    .toLowerCase();
-
-}
-
-
-/* =====================================================
-   LOCAL STORAGE
-===================================================== */
-
-function saveLocalStorage(){
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(
-      projects
-    )
-  );
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-function closeModal(){
-
-  const modal =
-    document.getElementById(
-      "modal"
-    );
-
-
-  if(modal){
-
-    modal.classList.remove(
-      "active"
-    );
-
-  }
-
-}
-
-
-function openImage(
-  src
-){
-
-  const modal =
-    document.getElementById(
-      "image-modal"
-    );
-
-
-  const image =
-    document.getElementById(
-      "modal-image"
-    );
-
-
-  if(
-    !modal ||
-    !image ||
-    !src
+  for(
+    let index=0;
+    index<SECTION_TYPES.length;
+    index++
   ){
 
-    return;
+    const section =
+      SECTION_TYPES[
+        index
+      ];
+
+
+    const items =
+      project.sections[
+        section
+      ] || [];
+
+
+    const description =
+      project
+        .sectionDescriptions?.[
+          section
+        ] || "";
+
+
+    if(
+      !items.length &&
+      !description
+    ){
+
+      continue;
+
+    }
+
+
+    let itemsHTML =
+      "";
+
+
+    for(
+      const item of items
+    ){
+
+      const resolved =
+        item.image
+          ? await resolveImageSource(
+              item.image
+            )
+          : "";
+
+
+      if(
+        resolved
+      ){
+
+        itemsHTML += `
+
+          <article
+            class="content-item"
+          >
+
+            <img
+
+              class="content-image"
+
+              src="${escapeAttribute(
+                resolved
+              )}"
+
+              alt="${escapeAttribute(
+                section
+              )}"
+
+            >
+
+
+            ${
+              item.text
+
+                ? `
+
+                  <div class="content-text">
+
+                    ${escapeHTML(
+                      item.text
+                    )}
+
+                  </div>
+
+                `
+
+                : ""
+            }
+
+          </article>
+
+        `;
+
+      }else if(
+        item.text
+      ){
+
+        itemsHTML += `
+
+          <article
+            class="text-only"
+          >
+
+            ${escapeHTML(
+              item.text
+            )}
+
+          </article>
+
+        `;
+
+      }
+
+    }
+
+
+    sectionsHTML += `
+
+      <section
+        class="section"
+      >
+
+        <div class="number">
+
+          ${
+            String(
+              index+1
+            ).padStart(
+              2,
+              "0"
+            )
+          }
+
+          /
+
+          ${escapeHTML(
+            section
+          )}
+
+        </div>
+
+
+        <h2>
+
+          ${escapeHTML(
+            section
+          )}
+
+        </h2>
+
+
+        ${
+          description
+
+            ? `
+
+              <div
+                class="section-description"
+              >
+
+                ${escapeHTML(
+                  description
+                )}
+
+              </div>
+
+            `
+
+            : ""
+        }
+
+
+        <div class="stack">
+
+          ${
+            itemsHTML ||
+            '<div class="empty">No content.</div>'
+          }
+
+        </div>
+
+      </section>
+
+    `;
 
   }
 
 
-  image.src =
-    src;
+  return `
+
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+
+${escapeHTML(
+  project.name
+)}
+
+</title>
 
 
-  modal.classList.add(
-    "active"
-  );
+<link
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap"
+  rel="stylesheet"
+>
+
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#fff;
+  color:#242220;
+  font-family:"DM Sans",sans-serif;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:0 25px;
+}
+
+header{
+  text-align:center;
+  padding:75px 0 70px;
+  border-bottom:1px solid #e9e7e3;
+}
+
+.logo{
+  font-size:10px;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  margin-bottom:25px;
+}
+
+h1,
+h2{
+  font-family:"Cormorant Garamond",serif;
+  font-weight:500;
+}
+
+h1{
+  font-size:clamp(50px,8vw,82px);
+  line-height:.95;
+  margin:0;
+}
+
+.meta{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:20px;
+  color:#817d76;
+  font-size:12px;
+  margin-top:20px;
+}
+
+.description{
+  max-width:700px;
+  margin:28px auto 0;
+  color:#77736d;
+  font-size:14px;
+  line-height:1.8;
+}
+
+.section{
+  padding:72px 0;
+  border-bottom:1px solid #e9e7e3;
+}
+
+.number{
+  font-size:10px;
+  color:#99958e;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+h2{
+  font-size:42px;
+  margin:8px 0 24px;
+}
+
+.section-description{
+  max-width:900px;
+  color:#77736d;
+  font-size:13px;
+  line-height:1.8;
+  white-space:pre-wrap;
+  margin-bottom:30px;
+}
+
+.stack{
+  display:flex;
+  flex-direction:column;
+  gap:50px;
+}
+
+.content-item{
+  width:100%;
+}
+
+.content-image{
+  display:block;
+  width:94%;
+  max-width:1000px;
+  margin:auto;
+  border-radius:8px;
+}
+
+.content-text{
+  max-width:900px;
+  margin:15px auto 0;
+  color:#77736d;
+  font-size:13px;
+  line-height:1.8;
+  white-space:pre-wrap;
+}
+
+.text-only{
+  max-width:900px;
+  margin:auto;
+  border:1px solid #e9e7e3;
+  border-radius:12px;
+  padding:20px;
+  color:#77736d;
+  font-size:13px;
+  line-height:1.8;
+  white-space:pre-wrap;
+}
+
+.empty{
+  color:#99958e;
+  font-size:12px;
+}
+
+@media(max-width:700px){
+
+  .content-image{
+    width:100%;
+  }
+
+  header{
+    padding-top:50px;
+  }
 
 }
 
+</style>
 
-function closeImageModal(){
-
-  const modal =
-    document.getElementById(
-      "image-modal"
-    );
+</head>
 
 
-  if(modal){
+<body>
 
-    modal.classList.remove(
-      "active"
-    );
+<div class="container">
 
+<header>
+
+  <div class="logo">
+    ATELIER
+  </div>
+
+  <h1>
+
+    ${escapeHTML(
+      project.name
+    )}
+
+  </h1>
+
+
+  <div class="meta">
+
+    <span>
+      ${escapeHTML(
+        project.client ||
+        ""
+      )}
+    </span>
+
+    <span>
+      ${escapeHTML(
+        project.location ||
+        ""
+      )}
+    </span>
+
+    <span>
+      ${escapeHTML(
+        project.area ||
+        ""
+      )}
+    </span>
+
+    <span>
+      ${escapeHTML(
+        project.type ||
+        ""
+      )}
+    </span>
+
+  </div>
+
+
+  ${
+    project.description
+
+      ? `
+
+        <div class="description">
+
+          ${escapeHTML(
+            project.description
+          )}
+
+        </div>
+
+      `
+
+      : ""
   }
+
+</header>
+
+
+${sectionsHTML}
+
+
+</div>
+
+</body>
+
+</html>
+
+`;
 
 }
 
 
 /* =====================================================
-   TOAST
-===================================================== */
-
-function showToast(
-  message
-){
-
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-
-  if(!toast){
-
-    return;
-
-  }
-
-
-  toast.textContent =
-    message;
-
-
-  toast.classList.add(
-    "show"
-  );
-
-
-  clearTimeout(
-    window.__atelierToast
-  );
-
-
-  window.__atelierToast =
-    setTimeout(
-      ()=>{
-
-        toast.classList.remove(
-          "show"
-        );
-
-      },
-      2500
-    );
-
-}
-  /* =====================================================
    CONTACT
 ===================================================== */
 
@@ -6021,69 +6199,8 @@ function showToast(
 
 
 /* =====================================================
-   NAVIGATION EVENT LISTENERS
-   Compatibil și cu webview/mobile
-===================================================== */
-
-function setupNavigationButtons(){
-
-  const logo =
-    document.querySelector(".nav-logo");
-
-  if(logo){
-
-    logo.addEventListener(
-      "click",
-      function(){
-
-        navigate("home");
-
-      }
-    );
-
-  }
-
-
-  document
-    .querySelectorAll(".nav-link")
-    .forEach(
-      function(button){
-
-        button.addEventListener(
-          "click",
-          function(event){
-
-            event.preventDefault();
-
-            event.stopPropagation();
-
-
-            const page =
-              button.getAttribute(
-                "data-page"
-              );
-
-
-            if(page){
-
-              navigate(page);
-
-            }
-
-          }
-        );
-
-      }
-    );
-
-}
-
-
-/* =====================================================
    INITIALIZE
 ===================================================== */
-
-setupNavigationButtons();
 
 normalizeProjects();
 
