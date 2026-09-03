@@ -6137,187 +6137,24 @@ function exportJSON(){
    SHARE PORTFOLIO
 ===================================================== */
 
-/*
-  IMPORTANT:
-
-  Share Portfolio NU trimite întregul site.
-
-  Creează un HTML separat care conține
-  DOAR proiectele selectate pentru Portfolio.
-
-  Astfel clientul nu poate vedea:
-
-  - Home
-  - My Projects
-  - About
-  - Contact
-  - editarea proiectelor
-  - workspace-ul privat
-
-  Ci doar Portfolio.
-*/
-
-async function sharePortfolio(){
-
-  const selected =
-    projects.filter(
-      project =>
-        project.portfolio
-    );
-
-
-  if(
-    !selected.length
-  ){
-
-    showToast(
-      "Add at least one project to Portfolio"
-    );
-
-
-    return;
-
-  }
-
-
-  showToast(
-    "Preparing Portfolio..."
-  );
-
-
-  const html =
-    await createPortfolioShareHTML(
-      selected
-    );
-
-
-  const blob =
-    new Blob(
-      [html],
-      {
-        type:
-          "text/html;charset=utf-8"
-      }
-    );
-
-
-  const file =
-    new File(
-      [
-        blob
-      ],
-      "atelier-portfolio.html",
-      {
-        type:
-          "text/html"
-      }
-    );
-
+function sharePortfolio(){
 
   /*
-    Pe iPhone / iPad și browsere compatibile
-    se deschide meniul nativ Share.
+    În loc să creeze un Portfolio separat,
+    deschide direct CV-ul PDF.
 
-    Fișierul distribuit conține DOAR
-    versiunea publică de Portfolio.
+    IMPORTANT:
+    myresume.pdf trebuie să fie în același folder
+    cu fișierul index.html.
   */
 
-  if(
-    navigator.share &&
-    (
-      !navigator.canShare ||
-      navigator.canShare({
-        files:[
-          file
-        ]
-      })
-    )
-  ){
-
-    try{
-
-      await navigator.share({
-
-        title:
-          "ATELIER — Portfolio",
-
-        text:
-          "ATELIER — Interior Design Portfolio",
-
-        files:[
-          file
-        ]
-
-      });
+  const resumeUrl =
+    "myresume.pdf";
 
 
-      return;
-
-    }catch(error){
-
-      if(
-        error &&
-        error.name ===
-        "AbortError"
-      ){
-
-        return;
-
-      }
-
-    }
-
-  }
-
-
-  /*
-    Dacă browserul nu permite Share Files,
-    descarcă automat doar portfolio-ul.
-  */
-
-  const url =
-    URL.createObjectURL(
-      blob
-    );
-
-
-  const a =
-    document.createElement(
-      "a"
-    );
-
-
-  a.href =
-    url;
-
-
-  a.download =
-    "atelier-portfolio.html";
-
-
-  document.body.appendChild(
-    a
-  );
-
-
-  a.click();
-
-
-  a.remove();
-
-
-  setTimeout(
-    ()=>{
-      URL.revokeObjectURL(
-        url
-      );
-    },
-    1500
-  );
-
-
-  showToast(
-    "Private pages are not included ✓"
+  window.open(
+    resumeUrl,
+    "_blank"
   );
 
 }
