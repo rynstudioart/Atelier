@@ -3084,16 +3084,6 @@ function renderSections(){
   );
 
 
-  if(
-    !project.sectionDescriptions
-  ){
-
-    project.sectionDescriptions =
-      {};
-
-  }
-
-
   container.innerHTML =
     "";
 
@@ -3119,6 +3109,10 @@ function renderSections(){
       element.className =
         "project-section";
 
+
+      /* =================================================
+         SECTION HEADER
+      ================================================= */
 
       element.innerHTML = `
 
@@ -3178,26 +3172,6 @@ function renderSections(){
         </div>
 
 
-        <!-- DESCRIPTION FOR THE ENTIRE SECTION -->
-
-        <textarea
-
-          class="section-description"
-
-          placeholder="
-            Scrie aici descrierea / explicația secțiunii...
-          "
-
-          data-section-description="${index}"
-
-        >${escapeHTML(
-          project
-            .sectionDescriptions[
-              section
-            ] || ""
-        )}</textarea>
-
-
         <div
 
           class="content-stack"
@@ -3213,6 +3187,289 @@ function renderSections(){
         element
       );
 
+
+      /* =================================================
+         CONTENT STACK
+      ================================================= */
+
+      const stack =
+        element.querySelector(
+          ".content-stack"
+        );
+
+
+      /* =================================================
+         EMPTY SECTION
+      ================================================= */
+
+      if(
+        !items.length
+      ){
+
+        stack.innerHTML = `
+
+          <div class="empty-section">
+
+            Adaugă imagini sau conținut
+            cu butonul +.
+
+          </div>
+
+        `;
+
+      }else{
+
+
+        /* =================================================
+           RENDER ITEMS
+        ================================================= */
+
+        items.forEach(
+          (
+            item,
+            itemIndex
+          )=>{
+
+            const content =
+              document.createElement(
+                "article"
+              );
+
+
+            content.className =
+              "content-item";
+
+
+            let imageElement =
+              null;
+
+
+            /* =================================================
+               IMAGE CONTENT
+            ================================================= */
+
+            if(
+              item.image
+            ){
+
+              imageElement =
+                document.createElement(
+                  "img"
+                );
+
+
+              imageElement.className =
+                "content-item-image";
+
+
+              imageElement.alt =
+                section;
+
+
+              content.appendChild(
+                imageElement
+              );
+
+
+              /* =================================================
+                 OPEN IMAGE
+              ================================================= */
+
+              imageElement.addEventListener(
+                "click",
+                async()=>{
+
+                  const resolved =
+                    await resolveImageSource(
+                      item.image
+                    );
+
+
+                  if(
+                    resolved
+                  ){
+
+                    openImage(
+                      resolved
+                    );
+
+                  }
+
+                }
+              );
+
+
+              /* =================================================
+                 TEXT BOX UNDER IMAGE
+              ================================================= */
+
+              const textBox =
+                document.createElement(
+                  "textarea"
+                );
+
+
+              textBox.className =
+                "content-item-description";
+
+
+              textBox.placeholder =
+                "Scrie aici despre această imagine...";
+
+
+              textBox.value =
+                item.text || "";
+
+
+              textBox.addEventListener(
+                "input",
+                function(){
+
+                  item.text =
+                    this.value;
+
+
+                  saveLocalStorage();
+
+                }
+              );
+
+
+              content.appendChild(
+                textBox
+              );
+
+            }
+
+
+            /* =================================================
+               TEXT ONLY CONTENT
+            ================================================= */
+
+            else if(
+              item.text
+            ){
+
+              content.classList.add(
+                "text-only"
+              );
+
+
+              const text =
+                document.createElement(
+                  "div"
+                );
+
+
+              text.className =
+                "content-item-text";
+
+
+              text.textContent =
+                item.text;
+
+
+              content.appendChild(
+                text
+              );
+
+            }
+
+
+            /* =================================================
+               REMOVE BUTTON
+            ================================================= */
+
+            const remove =
+              document.createElement(
+                "button"
+              );
+
+
+            remove.className =
+              "content-item-remove";
+
+
+            remove.textContent =
+              "Remove";
+
+
+            remove.onclick =
+              ()=>removeContent(
+                index,
+                itemIndex
+              );
+
+
+            content.appendChild(
+              remove
+            );
+
+
+            /* =================================================
+               ADD TO STACK
+            ================================================= */
+
+            stack.appendChild(
+              content
+            );
+
+
+            /* =================================================
+               RESOLVE INDEXEDDB IMAGE
+            ================================================= */
+
+            if(
+              item.image &&
+              item.image.startsWith(
+                "indexeddb://"
+              )
+            ){
+
+              resolveImageSource(
+                item.image
+              )
+              .then(
+                src=>{
+
+                  if(
+                    src &&
+                    imageElement
+                  ){
+
+                    imageElement.src =
+                      src;
+
+                  }
+
+                }
+              );
+
+            }
+
+            /* =================================================
+               NORMAL IMAGE
+            ================================================= */
+
+            else if(
+              item.image &&
+              imageElement
+            ){
+
+              imageElement.src =
+                item.image;
+
+            }
+
+          }
+        );
+
+      }
+
+    }
+  );
+
+}
 
       /* =================================================
          SECTION DESCRIPTION
