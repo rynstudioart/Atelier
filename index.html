@@ -2172,16 +2172,41 @@ function saveLocalStorage(){
 
 }
 
+
 function saveLocal(){
 
   if(
     currentProject === null ||
     !projects[currentProject]
   ){
+
     showToast(
       "No project is open"
     );
+
     return;
+
+  }
+
+  const project =
+    projects[currentProject];
+
+  if(!project.sections){
+    project.sections = {};
+  }
+
+  if(typeof SECTION_TYPES !== "undefined"){
+
+    SECTION_TYPES.forEach(
+      section=>{
+
+        if(!Array.isArray(project.sections[section])){
+          project.sections[section] = [];
+        }
+
+      }
+    );
+
   }
 
   const saved =
@@ -2191,8 +2216,21 @@ function saveLocal(){
     return;
   }
 
-  renderProjects();
-  renderPortfolio();
+  if(typeof renderProjects === "function"){
+    renderProjects();
+  }
+
+  if(typeof renderPortfolio === "function"){
+    renderPortfolio();
+  }
+
+  if(typeof renderSections === "function"){
+    renderSections();
+  }
+
+  if(window.lucide){
+    lucide.createIcons();
+  }
 
   showToast(
     "Project saved ✓"
@@ -2205,7 +2243,9 @@ function saveLocal(){
    NAVIGATION
 ===================================================== */
 
-function navigate(page){
+function navigate(
+  page
+){
 
   closeMobileNav();
 
@@ -2214,7 +2254,9 @@ function navigate(page){
   }
 
   document
-    .querySelectorAll(".page")
+    .querySelectorAll(
+      ".page"
+    )
     .forEach(
       element=>{
         element.classList.remove(
@@ -2229,10 +2271,6 @@ function navigate(page){
     );
 
   if(!target){
-    console.error(
-      "Page not found:",
-      page
-    );
     return;
   }
 
@@ -2241,29 +2279,34 @@ function navigate(page){
   );
 
   document
-    .querySelectorAll(".nav-link")
+    .querySelectorAll(
+      ".nav-link"
+    )
     .forEach(
-      button=>{
-        button.classList.toggle(
+      link=>{
+        link.classList.toggle(
           "active",
-          button.dataset.page === page
+          link.dataset.page === page
         );
       }
     );
 
-  window.scrollTo(0,0);
-
-  if(page === "projects"){
+  if(page === "projects" && typeof renderProjects === "function"){
     renderProjects();
   }
 
-  if(page === "portfolio"){
+  if(page === "portfolio" && typeof renderPortfolio === "function"){
     renderPortfolio();
   }
 
   if(window.lucide){
     lucide.createIcons();
   }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
@@ -2274,26 +2317,36 @@ function navigate(page){
 
 function toggleMobileNav(){
 
-  document
-    .getElementById(
+  const nav =
+    document.getElementById(
       "nav-links"
-    )
-    .classList.toggle(
-      "open"
     );
+
+  if(!nav){
+    return;
+  }
+
+  nav.classList.toggle(
+    "open"
+  );
 
 }
 
 
 function closeMobileNav(){
 
-  document
-    .getElementById(
+  const nav =
+    document.getElementById(
       "nav-links"
-    )
-    .classList.remove(
-      "open"
     );
+
+  if(!nav){
+    return;
+  }
+
+  nav.classList.remove(
+    "open"
+  );
 
 }
 
