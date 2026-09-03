@@ -2141,26 +2141,20 @@ function normalizeProjects(){
    STORAGE
 ===================================================== */
 
-
-
 function saveLocalStorage(){
 
   try{
 
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify(
-        projects
-      )
+      JSON.stringify(projects)
     );
 
     return true;
 
   }catch(error){
 
-    console.error(
-      error
-    );
+    console.error(error);
 
     showToast(
       "Could not save project"
@@ -2172,6 +2166,7 @@ function saveLocalStorage(){
 
 }
 
+
 function saveLocal(){
 
   if(
@@ -2187,26 +2182,25 @@ function saveLocal(){
 
   }
 
+
   const saved =
     saveLocalStorage();
 
-  if(
-    !saved
-  ){
+
+  if(!saved){
 
     return;
 
   }
 
+
   renderProjects();
 
   renderPortfolio();
 
+
   showToast(
     "Project saved ✓"
-  );
-
-}saved ✓"
   );
 
 }
@@ -2216,41 +2210,86 @@ function saveLocal(){
    NAVIGATION
 ===================================================== */
 
-function saveLocal(){
+function navigate(page){
 
-  if(
-    currentProject === null ||
-    !projects[currentProject]
-  ){
+  closeMobileNav();
 
-    showToast(
-      "No project is open"
+  closeImageModal();
+
+
+  document
+    .querySelectorAll(".page")
+    .forEach(
+      element=>{
+
+        element.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  const target =
+    document.getElementById(
+      page + "-page"
+    );
+
+
+  if(!target){
+
+    console.error(
+      "Page not found:",
+      page
     );
 
     return;
 
   }
 
-  const saved =
-    saveLocalStorage();
 
-  if(
-    !saved
-  ){
+  target.classList.add(
+    "active"
+  );
 
-    return;
+
+  document
+    .querySelectorAll(".nav-link")
+    .forEach(
+      button=>{
+
+        button.classList.toggle(
+          "active",
+          button.dataset.page === page
+        );
+
+      }
+    );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+
+  if(page === "projects"){
+
+    renderProjects();
 
   }
 
-  renderProjects();
 
-  renderPortfolio();
+  if(page === "portfolio"){
 
-  showToast(
-    "Project saved ✓"
-  );
+    renderPortfolio();
 
-}lucide.createIcons();
+  }
+
+
+  if(window.lucide){
+
+    lucide.createIcons();
 
   }
 
@@ -2263,26 +2302,44 @@ function saveLocal(){
 
 function toggleMobileNav(){
 
-  document
-    .getElementById(
+  const nav =
+    document.getElementById(
       "nav-links"
-    )
-    .classList.toggle(
-      "open"
     );
+
+
+  if(!nav){
+
+    return;
+
+  }
+
+
+  nav.classList.toggle(
+    "open"
+  );
 
 }
 
 
 function closeMobileNav(){
 
-  document
-    .getElementById(
+  const nav =
+    document.getElementById(
       "nav-links"
-    )
-    .classList.remove(
-      "open"
     );
+
+
+  if(!nav){
+
+    return;
+
+  }
+
+
+  nav.classList.remove(
+    "open"
+  );
 
 }
 
