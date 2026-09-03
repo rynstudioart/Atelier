@@ -1231,7 +1231,7 @@ h3,
       <b>My Projects</b>.
 
       Butonul
-      <b>Share Portfolio</b>
+      <b>My Resume</b>
       creează o versiune separată,
       fără paginile private ale studioului.
 
@@ -1244,7 +1244,7 @@ h3,
         class="action-button dark"
         onclick="openResume()"
       >
-        Share Portfolio
+        My Resume
       </button>
 
     </div>
@@ -6150,7 +6150,7 @@ function exportJSON(){
 /*
   IMPORTANT:
 
-  Share Portfolio NU trimite întregul site.
+  My Resume NU trimite întregul site.
 
   Creează un HTML separat care conține
   DOAR proiectele selectate pentru Portfolio.
@@ -7457,7 +7457,7 @@ async function openPublicWebsite(){
           .detail{padding:35px 0 100px}.back{border:0;background:none;cursor:pointer;color:#77736d;font-size:12px;margin-bottom:30px}
           .detail h1{font-size:clamp(50px,7vw,80px);line-height:.92;margin:0}.meta{display:flex;gap:25px;flex-wrap:wrap;color:#817d76;font-size:12px;margin-top:18px}.desc{max-width:700px;color:#77736d;font-size:14px;line-height:1.8;margin-top:22px}
           .section{padding:65px 0;border-bottom:1px solid #e9e7e3}.section h2{font-size:40px;margin:0 0 12px}.section-desc{color:#77736d;font-size:13px;line-height:1.8;margin-bottom:30px;white-space:pre-wrap}.item{margin:0 auto 45px;max-width:1000px}.item img{width:100%;display:block;border-radius:10px;object-fit:contain;background:#f5f4f1}.item p{color:#77736d;font-size:13px;line-height:1.8;white-space:pre-wrap;margin:14px auto 0;max-width:900px}
-          .simple{max-width:760px;margin:auto;padding-bottom:110px}.simple h2{font-size:40px}.simple p{font-size:14px;color:#77736d;line-height:1.9}
+          .simple{max-width:760px;margin:auto;padding-bottom:110px}.simple h2{font-size:40px}.simple p{font-size:14px;color:#77736d;line-height:1.9}.contact-public{display:grid;grid-template-columns:1fr 1fr;gap:50px;border:1px solid #e9e7e3;border-radius:15px;padding:30px}.contact-public form{display:flex;flex-direction:column;gap:8px}.contact-public label{font-size:11px;color:#77736d;margin-top:5px}.contact-public input,.contact-public textarea{width:100%;border:1px solid #e9e7e3;border-radius:8px;padding:11px;background:white;font:inherit}.contact-public textarea{min-height:120px;resize:vertical}.contact-public .btn{align-self:flex-start;margin:8px 0 0}@media(max-width:760px){.contact-public{grid-template-columns:1fr}}
           .empty{text-align:center;color:#99958e;padding:60px 0 120px;font-size:13px}
           @media(max-width:760px){.links{gap:12px}.grid{grid-template-columns:1fr}.hero img{min-height:280px}.hero{padding-top:30px}.section{padding:50px 0}}
         </style>
@@ -7500,6 +7500,8 @@ async function openPublicWebsite(){
                   <div class="logo">ATELIER</div>
                   <h1>Interior Design Studio</h1>
                   <p>Spaces with character, material &amp; atmosphere.</p>
+                  <h2>Designed to feel like home.</h2>
+                  <p>ATELIER este spațiul meu pentru concepte de interior design, moodboard-uri, materiale, mobilier, lumină și proiecte finale.</p>
                   <div><button class="btn dark" onclick="go('portfolio')">View Portfolio</button><button class="btn" onclick="go('contact')">Contact</button></div>
                 </div>
               </div>\`;
@@ -7508,9 +7510,18 @@ async function openPublicWebsite(){
             const grid=PUBLIC_PROJECTS.map((p,i)=>\`<article class="card" onclick="openProject(\${i})"><img class="card-img" src="\${p.cover||''}" alt=""><div class="card-body"><h2>\${esc(p.name||'Untitled Project')}</h2><p>\${esc(p.location||'')} \${p.year?'· '+esc(p.year):''}</p></div></article>\`).join('');
             document.getElementById('portfolio').innerHTML=\`<div class="wrap"><div class="heading"><div class="logo">ATELIER</div><h1>Portfolio</h1><p>Selected interior design projects.</p></div>\${grid?\`<div class="grid">\${grid}</div>\`:\`<div class="empty">No projects have been added to the portfolio yet.</div>\`}</div>\`;
           }
+          function sendPublicContact(event){
+            event.preventDefault();
+            const name=document.getElementById('public-contact-name').value.trim();
+            const email=document.getElementById('public-contact-email').value.trim();
+            const message=document.getElementById('public-contact-message').value.trim();
+            const subject=encodeURIComponent('ATELIER — Project inquiry');
+            const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+message);
+            window.location.href='mailto:hello@atelier-studio.com?subject='+subject+'&body='+body;
+          }
           function renderSimple(){
-            document.getElementById('about').innerHTML=\`<div class="wrap"><div class="heading"><div class="logo">ATELIER</div><h1>About</h1></div><div class="simple"><h2>Designed to feel like home.</h2><p>Thoughtful interiors shaped around character, material and atmosphere.</p></div></div>\`;
-            document.getElementById('contact').innerHTML=\`<div class="wrap"><div class="heading"><div class="logo">ATELIER</div><h1>Contact</h1></div><div class="simple"><h2>Let's create a space together.</h2><p>For enquiries and interior design projects, please get in touch.</p><p><a href="mailto:" style="color:inherit">Email Atelier</a></p></div></div>\`;
+            document.getElementById('about').innerHTML=\`<div class="wrap"><div class="heading"><div class="logo">ATELIER</div><h1>About</h1><p>The studio behind the projects.</p></div><div class="simple"><h2>Interior design, thoughtfully composed.</h2><p>ATELIER este un spațiu digital pentru dezvoltarea proiectelor de interior: de la primele referințe și schițe până la materiale, mobilier, iluminat și randări.</p><p>Păstrez fiecare proiect într-un format vizual, astfel încât procesul de design să fie ușor de urmărit și prezentat clientului.</p></div></div>\`;
+            document.getElementById('contact').innerHTML=\`<div class="wrap"><div class="heading"><div class="logo">ATELIER</div><h1>Contact</h1><p>Let's create something beautiful.</p></div><div class="simple"><div class="contact-public"><div><h2>Get in touch.</h2><p>Pentru colaborări, proiecte de interior design sau întrebări, completează formularul.</p></div><form onsubmit="sendPublicContact(event)"><label>Nume</label><input id="public-contact-name" required><label>Email</label><input id="public-contact-email" type="email" required><label>Mesaj</label><textarea id="public-contact-message" required></textarea><button class="btn dark" type="submit">Send Message</button></form></div></div></div>\`;
           }
           function renderDetail(i){
             const p=PUBLIC_PROJECTS[i]; if(!p)return;
