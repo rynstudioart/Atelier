@@ -2189,95 +2189,41 @@ function saveLocal(){
    NAVIGATION
 ===================================================== */
 
-function navigate(
-  page
-){
+function saveLocal(){
 
-  closeMobileNav();
+  if(
+    currentProject === null ||
+    !projects[currentProject]
+  ){
 
-  closeImageModal();
-
-
-  document
-    .querySelectorAll(
-      ".page"
-    )
-    .forEach(
-      element=>{
-        element.classList.remove(
-          "active"
-        );
-      }
+    showToast(
+      "No project is open"
     );
-
-
-  const target =
-    document.getElementById(
-      page +
-      "-page"
-    );
-
-
-  if(!target){
 
     return;
 
   }
 
-
-  target.classList.add(
-    "active"
-  );
-
-
-  document
-    .querySelectorAll(
-      ".nav-link"
-    )
-    .forEach(
-      button=>{
-
-        button.classList.toggle(
-          "active",
-          button.dataset.page ===
-            page
-        );
-
-      }
-    );
-
+  const saved =
+    saveLocalStorage();
 
   if(
-    page ===
-    "portfolio"
+    !saved
   ){
 
-    renderPortfolio();
+    return;
 
   }
 
+  renderProjects();
 
-  if(
-    page ===
-    "projects"
-  ){
+  renderPortfolio();
 
-    renderProjects();
-
-  }
-
-
-  window.scrollTo(
-    0,
-    0
+  showToast(
+    "Project saved ✓"
   );
 
-
-  if(
-    window.lucide
-  ){
-
-    lucide.createIcons();
+}lucide.createIcons();
 
   }
 
