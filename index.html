@@ -3354,161 +3354,504 @@ function renderSections(){
   const container =
     document.getElementById("sections-container");
 
-  if(!container || currentProject === null){
+
+  if(
+    !container ||
+    currentProject === null
+  ){
     return;
   }
 
-  const project = projects[currentProject];
 
-  ensureProjectSections(project);
+  const project =
+    projects[currentProject];
 
-  if(!project.sectionDescriptions){
+
+  ensureProjectSections(
+    project
+  );
+
+
+  if(
+    !project.sectionDescriptions
+  ){
     project.sectionDescriptions = {};
   }
 
+
   container.innerHTML = "";
 
-  SECTION_TYPES.forEach((section, index)=>{
 
-    const items = project.sections[section] || [];
+  SECTION_TYPES.forEach(
+    (
+      section,
+      index
+    )=>{
 
-    const element = document.createElement("section");
-    element.className = "project-section";
+      const items =
+        project.sections[section] || [];
 
-    element.innerHTML = `
-      <div class="section-header">
-        <div>
-          <div class="section-number">
-            ${String(index + 1).padStart(2,"0")} / ${escapeHTML(section)}
+
+      const element =
+        document.createElement(
+          "section"
+        );
+
+
+      element.className =
+        "project-section";
+
+
+      element.innerHTML = `
+
+        <div class="section-header">
+
+          <div>
+
+            <div class="section-number">
+
+              ${String(index + 1).padStart(2,"0")}
+              /
+              ${escapeHTML(section)}
+
+            </div>
+
+
+            <h2 class="section-title">
+
+              ${escapeHTML(section)}
+
+            </h2>
+
           </div>
-          <h2 class="section-title">${escapeHTML(section)}</h2>
+
+
+          <button
+
+            class="section-add-button"
+
+            type="button"
+
+            title="Add content"
+
+            onclick="openAddContent(${index})"
+
+          >
+
+            +
+
+          </button>
+
         </div>
 
-        <button
-          class="section-add-button"
-          type="button"
-          title="Add content"
-          onclick="openAddContent(${index})"
-        >+</button>
-      </div>
 
-      <textarea
-        class="section-description"
-        placeholder="Descriere pentru această secțiune..."
-      ></textarea>
+        <textarea
 
-      <div class="content-stack"></div>
-    `;
+          class="section-description"
 
-    container.appendChild(element);
+          placeholder="Descriere pentru această secțiune..."
 
-    const sectionDescription =
-      element.querySelector(".section-description");
+        ></textarea>
 
-    sectionDescription.value =
-      project.sectionDescriptions[section] || "";
 
-    sectionDescription.addEventListener("input", function(){
-      project.sectionDescriptions[section] = this.value;
-      saveLocalStorage();
-    });
+        <div class="content-stack"></div>
 
-    const stack =
-      element.querySelector(".content-stack");
-
-    if(!items.length){
-      stack.innerHTML = `
-        <div class="empty-section">
-          Adaugă imagini sau conținut cu butonul +.
-        </div>
       `;
-      return;
-    }
 
-    items.forEach((item, itemIndex)=>{
 
-      const content = document.createElement("article");
-      content.className = "content-item";
+      container.appendChild(
+        element
+      );
 
-      let imageElement = null;
 
-      if(item.image){
+      const sectionDescription =
+        element.querySelector(
+          ".section-description"
+        );
 
-        imageElement = document.createElement("img");
-        imageElement.className = "content-item-image";
-        imageElement.alt = section;
-        imageElement.src = placeholderImage();
 
-        imageElement.addEventListener("click", async event=>{
-          event.stopPropagation();
-          const resolved = await resolveImageSource(item.image);
-          if(resolved){
-            openImage(resolved);
-          }
-        });
+      sectionDescription.value =
+        project.sectionDescriptions[
+          section
+        ] || "";
 
-        content.appendChild(imageElement);
 
-        const textBox = document.createElement("textarea");
-        textBox.className = "content-item-description";
-        textBox.placeholder = "Scrie aici despre această imagine...";
-        textBox.value = item.text || "";
+      sectionDescription.addEventListener(
+        "input",
+        function(){
 
-        textBox.addEventListener("input", function(){
-          item.text = this.value;
+          project.sectionDescriptions[
+            section
+          ] = this.value;
+
+
           saveLocalStorage();
-        });
 
-        content.appendChild(textBox);
+        }
+      );
 
-      }else if(item.text){
 
-        content.classList.add("text-only");
+      const stack =
+        element.querySelector(
+          ".content-stack"
+        );
 
-        const text = document.createElement("div");
-        text.className = "content-item-text";
-        text.textContent = item.text;
-        content.appendChild(text);
+
+      if(!items.length){
+
+        stack.innerHTML = `
+
+          <div class="empty-section">
+
+            Adaugă imagini sau conținut
+            cu butonul +.
+
+          </div>
+
+        `;
+
+        return;
+
       }
 
-      const remove = document.createElement("button");
-      remove.type = "button";
-      remove.className = "content-item-remove";
-      remove.textContent = "Remove";
-      remove.onclick = ()=>removeContent(index, itemIndex);
-      content.appendChild(remove);
 
-      stack.appendChild(content);
+      items.forEach(
+        (
+          item,
+          itemIndex
+        )=>{
 
-      if(item.image && item.image.startsWith("indexeddb://")){
-        resolveImageSource(item.image).then(src=>{
-          if(src && imageElement){
-            imageElement.src = src;
+          const content =
+            document.createElement(
+              "article"
+            );
+
+
+          content.className =
+            "content-item";
+
+
+          let imageElement =
+            null;
+
+
+          /* =================================================
+             IMAGE CONTENT
+          ================================================= */
+
+          if(item.image){
+
+            imageElement =
+              document.createElement(
+                "img"
+              );
+
+
+            imageElement.className =
+              "content-item-image";
+
+
+            imageElement.alt =
+              section;
+
+
+            imageElement.src =
+              placeholderImage();
+
+
+            imageElement.addEventListener(
+              "click",
+              async event=>{
+
+                event.stopPropagation();
+
+
+                const resolved =
+                  await resolveImageSource(
+                    item.image
+                  );
+
+
+                if(resolved){
+
+                  openImage(
+                    resolved
+                  );
+
+                }
+
+              }
+            );
+
+
+            content.appendChild(
+              imageElement
+            );
+
+
+            const textBox =
+              document.createElement(
+                "textarea"
+              );
+
+
+            textBox.className =
+              "content-item-description";
+
+
+            textBox.placeholder =
+              "Scrie aici despre această imagine...";
+
+
+            textBox.value =
+              item.text || "";
+
+
+            textBox.addEventListener(
+              "input",
+              function(){
+
+                item.text =
+                  this.value;
+
+
+                saveLocalStorage();
+
+              }
+            );
+
+
+            content.appendChild(
+              textBox
+            );
+
+
           }
-        }).catch(console.error);
-      }else if(item.image && imageElement){
-        imageElement.src = item.image;
-      }
 
-    });
 
-  });
+          /* =================================================
+             TEXT ONLY CONTENT
+          ================================================= */
+
+          else if(item.text){
+
+            content.classList.add(
+              "text-only"
+            );
+
+
+            const text =
+              document.createElement(
+                "div"
+              );
+
+
+            text.className =
+              "content-item-text";
+
+
+            text.textContent =
+              item.text;
+
+
+            content.appendChild(
+              text
+            );
+
+          }
+
+
+          /* =================================================
+             ACTION BUTTONS
+          ================================================= */
+
+          const actions =
+            document.createElement(
+              "div"
+            );
+
+
+          actions.className =
+            "content-item-actions";
+
+
+          /* EDIT */
+
+          const edit =
+            document.createElement(
+              "button"
+            );
+
+
+          edit.type =
+            "button";
+
+
+          edit.className =
+            "content-item-edit";
+
+
+          edit.textContent =
+            "Edit";
+
+
+          edit.title =
+            "Edit content";
+
+
+          edit.onclick =
+            ()=>editContent(
+              index,
+              itemIndex
+            );
+
+
+          /* REMOVE */
+
+          const remove =
+            document.createElement(
+              "button"
+            );
+
+
+          remove.type =
+            "button";
+
+
+          remove.className =
+            "content-item-remove";
+
+
+          remove.textContent =
+            "Remove";
+
+
+          remove.title =
+            "Remove content";
+
+
+          remove.onclick =
+            ()=>removeContent(
+              index,
+              itemIndex
+            );
+
+
+          actions.appendChild(
+            edit
+          );
+
+
+          actions.appendChild(
+            remove
+          );
+
+
+          content.appendChild(
+            actions
+          );
+
+
+          stack.appendChild(
+            content
+          );
+
+
+          /* =================================================
+             RESOLVE IMAGE
+          ================================================= */
+
+          if(
+            item.image &&
+            item.image.startsWith(
+              "indexeddb://"
+            )
+          ){
+
+            resolveImageSource(
+              item.image
+            )
+            .then(
+              src=>{
+
+                if(
+                  src &&
+                  imageElement
+                ){
+
+                  imageElement.src =
+                    src;
+
+                }
+
+              }
+            )
+            .catch(
+              console.error
+            );
+
+          }
+
+          else if(
+            item.image &&
+            imageElement
+          ){
+
+            imageElement.src =
+              item.image;
+
+          }
+
+        }
+      );
+
+    }
+  );
+
 
   saveLocalStorage();
+
 }
 
+
 /* =====================================================
-   ADD CONTENT MODAL
+   ADD / EDIT CONTENT MODAL
 ===================================================== */
 
 function openAddContent(
-  sectionIndex
+  sectionIndex,
+  editIndex = null
 ){
 
   const section =
     SECTION_TYPES[
       sectionIndex
     ];
+
+
+  const isEdit =
+    editIndex !== null;
+
+
+  let item =
+    null;
+
+
+  if(
+    isEdit &&
+    currentProject !== null
+  ){
+
+    const project =
+      projects[currentProject];
+
+
+    item =
+      project.sections[
+        section
+      ][editIndex];
+
+  }
 
 
   const box =
@@ -3521,10 +3864,9 @@ function openAddContent(
 
     <div class="modal-title">
 
-      Add to
-      ${escapeHTML(
-        section
-      )}
+      ${isEdit ? "Edit" : "Add to"}
+
+      ${escapeHTML(section)}
 
     </div>
 
@@ -3542,11 +3884,9 @@ function openAddContent(
 
         id="content-text"
 
-        placeholder="
-          Scrie o descriere pentru această imagine...
-        "
+        placeholder="Scrie o descriere pentru această imagine..."
 
-      ></textarea>
+      >${isEdit ? escapeHTML(item?.text || "") : ""}</textarea>
 
     </div>
 
@@ -3567,6 +3907,8 @@ function openAddContent(
         type="text"
 
         placeholder="https://..."
+
+        value="${isEdit && item?.image && !item.image.startsWith("indexeddb://") ? escapeHTML(item.image) : ""}"
 
       >
 
@@ -3612,6 +3954,8 @@ function openAddContent(
 
         class="action-button"
 
+        type="button"
+
         onclick="closeModal()"
 
       >
@@ -3627,9 +3971,11 @@ function openAddContent(
 
         class="action-button dark"
 
+        type="button"
+
       >
 
-        Add
+        ${isEdit ? "Save" : "Add"}
 
       </button>
 
@@ -3639,18 +3985,12 @@ function openAddContent(
 
 
   document
-    .getElementById(
-      "modal"
-    )
-    .classList.add(
-      "active"
-    );
+    .getElementById("modal")
+    .classList.add("active");
 
 
   document
-    .getElementById(
-      "content-file"
-    )
+    .getElementById("content-file")
     .addEventListener(
       "change",
       function(){
@@ -3667,8 +4007,7 @@ function openAddContent(
 
         Array
           .from(
-            this.files ||
-            []
+            this.files || []
           )
           .slice(
             0,
@@ -3717,9 +4056,24 @@ function openAddContent(
       "confirm-add-content"
     )
     .onclick =
-      ()=>addContent(
-        sectionIndex
-      );
+      ()=>{
+
+        if(isEdit){
+
+          saveEditedContent(
+            sectionIndex,
+            editIndex
+          );
+
+        }else{
+
+          addContent(
+            sectionIndex
+          );
+
+        }
+
+      };
 
 
   document
@@ -3730,6 +4084,22 @@ function openAddContent(
 
 }
 
+
+/* =====================================================
+   EDIT CONTENT
+===================================================== */
+
+function editContent(
+  sectionIndex,
+  itemIndex
+){
+
+  openAddContent(
+    sectionIndex,
+    itemIndex
+  );
+
+}
 
 /* =====================================================
    COMPRESS IMAGE
