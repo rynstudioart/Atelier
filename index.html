@@ -749,18 +749,53 @@ h3,
   white-space:pre-wrap;
 }
 
-.content-item-remove{
-  display:block;
-  margin:10px auto 0;
-  border:0;
-  background:transparent;
-  color:#99958e;
-  font-size:10px;
-  cursor:pointer;
+/* =====================================================
+   CONTENT ITEM ACTIONS
+===================================================== */
+
+.content-item-actions{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px;
 }
 
+
+/* EDIT + REMOVE */
+
+.content-item-edit,
+.content-item-remove{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  height:32px;
+  padding:0 12px;
+
+  border:1px solid #d8d5cf;
+  border-radius:7px;
+
+  background:white;
+  color:#77736d;
+
+  font-family:inherit;
+  font-size:10px;
+  line-height:1;
+
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+
+/* HOVER */
+
+.content-item-edit:hover,
 .content-item-remove:hover{
+  background:#f7f6f3;
   color:#242220;
+  border-color:#c8c4bd;
 }
 
 .content-item.text-only{
