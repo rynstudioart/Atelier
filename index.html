@@ -1482,12 +1482,9 @@ h3,
         </button>
 
 
-        <button
-          onclick="exportHTML()"
-          class="action-button dark"
-        >
-          Export Interactive HTML
-        </button>
+    <button onclick="exportPDF()">
+  Export PDF
+</button>
 
 
         <button
@@ -3073,7 +3070,277 @@ function ensureProjectSections(
 
 }
 
+/* =====================================================
+   EXPORT PDF
+===================================================== */
 
+function exportPDF(){
+
+  if(currentProject === null){
+    return;
+  }
+
+
+  const project =
+    projects[currentProject];
+
+
+  if(!project){
+    return;
+  }
+
+
+  const printWindow =
+    window.open(
+      "",
+      "_blank"
+    );
+
+
+  if(!printWindow){
+
+    alert(
+      "Permite ferestrele pop-up pentru a exporta PDF-ul."
+    );
+
+    return;
+
+  }
+
+
+  printWindow.document.write(`
+
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+
+      <title>
+        ${project.name || "ATELIER Project"}
+      </title>
+
+
+      <style>
+
+        @page{
+          size:A4;
+          margin:18mm;
+        }
+
+
+        *{
+          box-sizing:border-box;
+        }
+
+
+        body{
+          margin:0;
+          font-family:Arial,sans-serif;
+          color:#222;
+          background:#fff;
+        }
+
+
+        h1{
+          font-family:Georgia,serif;
+          font-size:32px;
+          margin:0 0 8px;
+        }
+
+
+        h2{
+          font-family:Georgia,serif;
+          font-size:22px;
+          margin:30px 0 12px;
+          border-bottom:1px solid #ddd;
+          padding-bottom:8px;
+        }
+
+
+        p{
+          font-size:13px;
+          line-height:1.6;
+        }
+
+
+        .cover{
+          min-height:250mm;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          align-items:center;
+          text-align:center;
+          page-break-after:always;
+        }
+
+
+        .cover h1{
+          font-size:42px;
+        }
+
+
+        .brand{
+          font-size:12px;
+          letter-spacing:4px;
+          margin-bottom:30px;
+        }
+
+
+        .section{
+          page-break-inside:avoid;
+          margin-bottom:25px;
+        }
+
+
+        .items{
+          display:grid;
+          grid-template-columns:repeat(2,1fr);
+          gap:14px;
+        }
+
+
+        .item{
+          border:1px solid #ddd;
+          padding:10px;
+          page-break-inside:avoid;
+        }
+
+
+        .item img{
+          width:100%;
+          max-height:180px;
+          object-fit:cover;
+          display:block;
+          margin-bottom:8px;
+        }
+
+
+        .description{
+          color:#666;
+          font-size:12px;
+          line-height:1.5;
+          margin-bottom:12px;
+        }
+
+
+        @media print{
+
+          .no-print{
+            display:none!important;
+          }
+
+        }
+
+      </style>
+
+    </head>
+
+
+    <body>
+
+
+      <div class="cover">
+
+        <div class="brand">
+          ATELIER
+        </div>
+
+
+        <h1>
+          ${project.name || "Interior Design Project"}
+        </h1>
+
+
+        <p>
+          ${project.description || "Interior Design Studio"}
+        </p>
+
+      </div>
+
+
+      <div id="content"></div>
+
+
+    </body>
+
+    </html>
+
+  `);
+
+
+  const content =
+    printWindow.document.getElementById(
+      "content"
+    );
+
+
+  if(project.sectionDescriptions){
+
+    Object.keys(
+      project.sectionDescriptions
+    ).forEach(
+      section => {
+
+        const description =
+          project.sectionDescriptions[
+            section
+          ];
+
+
+        if(!description){
+          return;
+        }
+
+
+        const sectionElement =
+          printWindow.document.createElement(
+            "div"
+          );
+
+
+        sectionElement.className =
+          "section";
+
+
+        sectionElement.innerHTML = `
+
+          <h2>
+            ${section}
+          </h2>
+
+          <div class="description">
+            ${description}
+          </div>
+
+        `;
+
+
+        content.appendChild(
+          sectionElement
+        );
+
+      }
+    );
+
+  }
+
+
+  printWindow.document.close();
+
+
+  setTimeout(
+    () => {
+
+      printWindow.focus();
+
+      printWindow.print();
+
+    },
+    700
+  );
+
+}
 
 /* =====================================================
    RENDER SECTIONS
