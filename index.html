@@ -7350,6 +7350,244 @@ function escapeAttribute(
 
 
 /* =====================================================
+   PUBLIC WEBSITE
+===================================================== */
+
+function publicEscape(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function getPublicHomeImage(){
+
+  const image =
+    document.querySelector(".home-hero-image");
+
+  if(!image || !image.complete || !image.naturalWidth){
+    return "";
+  }
+
+  try{
+
+    const canvas =
+      document.createElement("canvas");
+
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(image,0,0);
+
+    return canvas.toDataURL("image/jpeg",.92);
+
+  }catch(error){
+
+    console.warn("Could not copy Home image",error);
+    return image.src || "";
+
+  }
+
+}
+
+
+async function openPublicWebsite(){
+
+  try{
+
+    const selected =
+      projects.filter(project => project.portfolio);
+
+    const publicWindow =
+      window.open("about:blank","_blank");
+
+    if(!publicWindow){
+
+      showToast("Allow pop-ups to open the website");
+      return;
+
+    }
+
+    publicWindow.document.open();
+    publicWindow.document.write(`
+      <!doctype html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>ATELIER — Interior Design Studio</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+        <style>
+          *{box-sizing:border-box}
+          html{scroll-behavior:smooth}
+          body{margin:0;background:#fff;color:#242220;font-family:"DM Sans",sans-serif}
+          h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500}
+          button{font:inherit}
+          .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid #e9e7e3}
+          .nav-inner{max-width:1180px;margin:auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+          .brand{border:0;background:none;cursor:pointer;font-size:10px;letter-spacing:.32em;text-transform:uppercase}
+          .links{display:flex;gap:24px;flex-wrap:wrap}
+          .links button{border:0;background:none;cursor:pointer;color:#77736d;font-size:11px}
+          .links button:hover{color:#242220}
+          .page{display:none}.page.active{display:block}
+          .wrap{max-width:1120px;margin:auto;padding:0 24px}
+          .hero{padding:55px 0 95px;text-align:center}
+          .hero img{width:100%;height:min(67vh,650px);min-height:360px;object-fit:cover;border-radius:16px;display:block}
+          .hero-copy{padding:45px 20px 0}
+          .logo{font-size:10px;letter-spacing:.32em;text-transform:uppercase;margin-bottom:20px}
+          .hero h1{font-size:clamp(52px,8vw,82px);line-height:.9;margin:0}
+          .hero p{max-width:600px;margin:20px auto;color:#77736d;font-size:14px;line-height:1.8}
+          .btn{display:inline-flex;border:1px solid #e9e7e3;background:white;border-radius:999px;padding:10px 16px;cursor:pointer;font-size:12px;margin:5px}
+          .btn.dark{background:#242220;color:white;border-color:#242220}
+          .heading{text-align:center;padding:75px 0 50px}
+          .heading h1{font-size:clamp(48px,7vw,72px);line-height:.95;margin:0}
+          .heading p{color:#77736d;font-size:13px}
+          .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-bottom:100px}
+          .card{border:1px solid #e9e7e3;border-radius:15px;overflow:hidden;background:white;cursor:pointer}
+          .card-img{width:100%;height:245px;background:#f3f2ef;object-fit:cover;display:block}
+          .card-body{padding:20px}.card h2{font-size:28px;margin:0 0 5px}.card p{font-size:11px;color:#88847d;line-height:1.7;margin:0}
+          .detail{padding:35px 0 100px}.back{border:0;background:none;cursor:pointer;color:#77736d;font-size:12px;margin-bottom:30px}
+          .detail h1{font-size:clamp(50px,7vw,80px);line-height:.92;margin:0}.meta{display:flex;gap:25px;flex-wrap:wrap;color:#817d76;font-size:12px;margin-top:18px}.desc{max-width:700px;color:#77736d;font-size:14px;line-height:1.8;margin-top:22px}
+          .section{padding:65px 0;border-bottom:1px solid #e9e7e3}.section h2{font-size:40px;margin:0 0 12px}.section-desc{color:#77736d;font-size:13px;line-height:1.8;margin-bottom:30px;white-space:pre-wrap}.item{margin:0 auto 45px;max-width:1000px}.item img{width:100%;display:block;border-radius:10px;object-fit:contain;background:#f5f4f1}.item p{color:#77736d;font-size:13px;line-height:1.8;white-space:pre-wrap;margin:14px auto 0;max-width:900px}
+          .simple{max-width:760px;margin:auto;padding-bottom:110px}.simple h2{font-size:40px}.simple p{font-size:14px;color:#77736d;line-height:1.9}
+          .empty{text-align:center;color:#99958e;padding:60px 0 120px;font-size:13px}
+          @media(max-width:760px){.links{gap:12px}.grid{grid-template-columns:1fr}.hero img{min-height:280px}.hero{padding-top:30px}.section{padding:50px 0}}
+        </style>
+      </head>
+      <body>
+        <nav class="nav"><div class="nav-inner">
+          <button class="brand" onclick="go('home')">ATELIER</button>
+          <div class="links">
+            <button onclick="go('home')">Home</button>
+            <button onclick="go('portfolio')">Portfolio</button>
+            <button onclick="go('about')">About</button>
+            <button onclick="go('contact')">Contact</button>
+          </div>
+        </div></nav>
+
+        <main>
+          <section id="home" class="page active"></section>
+          <section id="portfolio" class="page"></section>
+          <section id="about" class="page"></section>
+          <section id="contact" class="page"></section>
+          <section id="project-detail" class="page"></section>
+        </main>
+
+        <script>
+          window.PUBLIC_PROJECTS = ${JSON.stringify([])};
+          const HOME_IMAGE = ${JSON.stringify(getPublicHomeImage())};
+
+          function esc(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;')}
+          function go(id){
+            document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+          }
+          function openProject(i){renderDetail(i);go('project-detail')}
+          function renderHome(){
+            document.getElementById('home').innerHTML=\`
+              <div class="wrap hero">
+                \${HOME_IMAGE ? \`<img src="\${HOME_IMAGE}" alt="ATELIER Interior Design">\` : ''}
+                <div class="hero-copy">
+                  <div class="logo">ATELIER</div>
+                  <h1>Interior Design Studio</h1>
+                  <p>Spaces with character, material &amp; atmosphere.</p>
+                  <div><button class="btn dark" onclick="go('portfolio')">View Portfolio</button><button class="btn" onclick="go('contact')">Contact</button></div>
+                </div>
+              </div>\`;
+          }
+          function renderPortfolio(){
+            const grid=PUBLIC_PROJECTS.map((p,i)=>\`<article class="card" onclick="openProject(\${i})"><img class="card-img" src="\${p.cover||''}" alt=""><div class="card-body"><h2>\${esc(p.name||'Untitled Project')}</h2><p>\${esc(p.location||'')} \${p.year?'· '+esc(p.year):''}</p></div></article>\`).join('');
+            document.getElementById('portfolio').innerHTML=\`<div class="wrap"><div class="heading"><div class="logo">ATELIER</div><h1>Portfolio</h1><p>Selected interior design projects.</p></div>\${grid?\`<div class="grid">\${grid}</div>\`:\`<div class="empty">No projects have been added to the portfolio yet.</div>\`}</div>\`;
+          }
+          function renderSimple(){
+            document.getElementById('about').innerHTML=\`<div class="wrap"><div class="heading"><div class="logo">ATELIER</div><h1>About</h1></div><div class="simple"><h2>Designed to feel like home.</h2><p>Thoughtful interiors shaped around character, material and atmosphere.</p></div></div>\`;
+            document.getElementById('contact').innerHTML=\`<div class="wrap"><div class="heading"><div class="logo">ATELIER</div><h1>Contact</h1></div><div class="simple"><h2>Let's create a space together.</h2><p>For enquiries and interior design projects, please get in touch.</p><p><a href="mailto:" style="color:inherit">Email Atelier</a></p></div></div>\`;
+          }
+          function renderDetail(i){
+            const p=PUBLIC_PROJECTS[i]; if(!p)return;
+            const sections=(p.sections||[]).map((s,n)=>\`<section class="section"><div class="wrap"><div style="font-size:10px;color:#99958e;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px">\${String(n+1).padStart(2,'0')} / \${esc(s.name)}</div><h2>\${esc(s.name)}</h2>\${s.description?\`<div class="section-desc">\${esc(s.description)}</div>\`:''}\${(s.items||[]).map(item=>\`<div class="item">\${item.image?\`<img src="\${item.image}" alt="">\`:''}\${item.text?\`<p>\${esc(item.text)}</p>\`:''}</div>\`).join('')}</div></section>\`).join('');
+            document.getElementById('project-detail').innerHTML=\`<div class="wrap detail"><button class="back" onclick="go('portfolio')">← Back to Portfolio</button><h1>\${esc(p.name)}</h1><div class="meta">\${p.location?\`<span>\${esc(p.location)}</span>\`:''}\${p.year?\`<span>\${esc(p.year)}</span>\`:''}</div>\${p.description?\`<div class="desc">\${esc(p.description)}</div>\`:''}</div>\${sections}\`;
+          }
+          renderHome();renderPortfolio();renderSimple();
+        <\/script>
+      </body>
+      </html>
+    `);
+    publicWindow.document.close();
+
+    const publicProjects=[];
+
+    for(const project of selected){
+
+      ensureProjectSections(project);
+
+      let cover = await resolveImageSource(project.cover || "");
+
+      const publicSections=[];
+
+      for(const sectionName of SECTION_TYPES){
+
+        const sourceItems = project.sections[sectionName] || [];
+        const items=[];
+
+        for(const item of sourceItems){
+
+          const image = await resolveImageSource(
+            typeof item === "string" ? item : item.image
+          );
+
+          items.push({
+            image:image || "",
+            text:typeof item === "string" ? "" : (item.text || "")
+          });
+
+        }
+
+        publicSections.push({
+          name:sectionName,
+          description:(project.sectionDescriptions && project.sectionDescriptions[sectionName]) || "",
+          items
+        });
+
+      }
+
+      publicProjects.push({
+        name:project.name || "Untitled Project",
+        location:project.location || "",
+        year:project.year || "",
+        description:project.description || "",
+        cover:cover || "",
+        sections:publicSections
+      });
+
+    }
+
+    publicWindow.PUBLIC_PROJECTS = publicProjects;
+
+    publicWindow.renderHome();
+    publicWindow.renderPortfolio();
+    publicWindow.renderSimple();
+
+  }catch(error){
+
+    console.error(error);
+    showToast("Could not open website");
+
+  }
+
+}
+
+
+/* =====================================================
    SAFE FILENAME
 ===================================================== */
 
