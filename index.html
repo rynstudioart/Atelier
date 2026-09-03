@@ -3077,9 +3077,25 @@ function renderSections(){
     ];
 
 
+  if(!project){
+
+    return;
+
+  }
+
+
   ensureProjectSections(
     project
   );
+
+
+  if(
+    !project.sectionDescriptions
+  ){
+
+    project.sectionDescriptions = {};
+
+  }
 
 
   container.innerHTML =
@@ -3095,7 +3111,7 @@ function renderSections(){
       const items =
         project.sections[
           section
-        ];
+        ] || [];
 
 
       const element =
@@ -3170,6 +3186,15 @@ function renderSections(){
         </div>
 
 
+        <textarea
+
+          class="section-description"
+
+          placeholder="Adaugă o descriere pentru această secțiune..."
+
+        ></textarea>
+
+
         <div
 
           class="content-stack"
@@ -3183,6 +3208,38 @@ function renderSections(){
 
       container.appendChild(
         element
+      );
+
+
+      /* =================================================
+         SECTION DESCRIPTION
+      ================================================= */
+
+      const sectionDescription =
+        element.querySelector(
+          ".section-description"
+        );
+
+
+      sectionDescription.value =
+        project.sectionDescriptions[
+          section
+        ] || "";
+
+
+      sectionDescription.addEventListener(
+        "input",
+        function(){
+
+          project.sectionDescriptions[
+            section
+          ] =
+            this.value;
+
+
+          saveLocalStorage();
+
+        }
       );
 
 
@@ -3215,256 +3272,257 @@ function renderSections(){
 
         `;
 
-      }else{
-
-
-        /* =================================================
-           RENDER ITEMS
-        ================================================= */
-
-        items.forEach(
-          (
-            item,
-            itemIndex
-          )=>{
-
-            const content =
-              document.createElement(
-                "article"
-              );
-
-
-            content.className =
-              "content-item";
-
-
-            let imageElement =
-              null;
-
-
-            /* =================================================
-               IMAGE CONTENT
-            ================================================= */
-
-            if(
-              item.image
-            ){
-
-              imageElement =
-                document.createElement(
-                  "img"
-                );
-
-
-              imageElement.className =
-                "content-item-image";
-
-
-              imageElement.alt =
-                section;
-
-
-              content.appendChild(
-                imageElement
-              );
-
-
-              /* =================================================
-                 OPEN IMAGE
-              ================================================= */
-
-              imageElement.addEventListener(
-                "click",
-                async()=>{
-
-                  const resolved =
-                    await resolveImageSource(
-                      item.image
-                    );
-
-
-                  if(
-                    resolved
-                  ){
-
-                    openImage(
-                      resolved
-                    );
-
-                  }
-
-                }
-              );
-
-
-              /* =================================================
-                 TEXT BOX UNDER IMAGE
-              ================================================= */
-
-              const textBox =
-                document.createElement(
-                  "textarea"
-                );
-
-
-              textBox.className =
-                "content-item-description";
-
-
-              textBox.placeholder =
-                "Scrie aici despre această imagine...";
-
-
-              textBox.value =
-                item.text || "";
-
-
-              textBox.addEventListener(
-                "input",
-                function(){
-
-                  item.text =
-                    this.value;
-
-
-                  saveLocalStorage();
-
-                }
-              );
-
-
-              content.appendChild(
-                textBox
-              );
-
-            }
-
-
-            /* =================================================
-               TEXT ONLY CONTENT
-            ================================================= */
-
-            else if(
-              item.text
-            ){
-
-              content.classList.add(
-                "text-only"
-              );
-
-
-              const text =
-                document.createElement(
-                  "div"
-                );
-
-
-              text.className =
-                "content-item-text";
-
-
-              text.textContent =
-                item.text;
-
-
-              content.appendChild(
-                text
-              );
-
-            }
-
-
-            /* =================================================
-               REMOVE BUTTON
-            ================================================= */
-
-            const remove =
-              document.createElement(
-                "button"
-              );
-
-
-            remove.className =
-              "content-item-remove";
-
-
-            remove.textContent =
-              "Remove";
-
-
-            remove.onclick =
-              ()=>removeContent(
-                index,
-                itemIndex
-              );
-
-
-            content.appendChild(
-              remove
-            );
-
-
-            /* =================================================
-               ADD TO STACK
-            ================================================= */
-
-            stack.appendChild(
-              content
-            );
-
-
-            /* =================================================
-               RESOLVE INDEXEDDB IMAGE
-            ================================================= */
-
-            if(
-              item.image &&
-              item.image.startsWith(
-                "indexeddb://"
-              )
-            ){
-
-              resolveImageSource(
-                item.image
-              )
-              .then(
-                src=>{
-
-                  if(
-                    src &&
-                    imageElement
-                  ){
-
-                    imageElement.src =
-                      src;
-
-                  }
-
-                }
-              );
-
-            }
-
-            /* =================================================
-               NORMAL IMAGE
-            ================================================= */
-
-            else if(
-              item.image &&
-              imageElement
-            ){
-
-              imageElement.src =
-                item.image;
-
-            }
-
-          }
-        );
+        return;
 
       }
 
-    
+
+      /* =================================================
+         RENDER ITEMS
+      ================================================= */
+
+      items.forEach(
+        (
+          item,
+          itemIndex
+        )=>{
+
+          const content =
+            document.createElement(
+              "article"
+            );
+
+
+          content.className =
+            "content-item";
+
+
+          let imageElement =
+            null;
+
+
+          /* =================================================
+             IMAGE CONTENT
+          ================================================= */
+
+          if(
+            item.image
+          ){
+
+            imageElement =
+              document.createElement(
+                "img"
+              );
+
+
+            imageElement.className =
+              "content-item-image";
+
+
+            imageElement.alt =
+              section;
+
+
+            content.appendChild(
+              imageElement
+            );
+
+
+            /* ===============================================
+               OPEN IMAGE
+            =============================================== */
+
+            imageElement.addEventListener(
+              "click",
+              async()=>{
+
+                const resolved =
+                  await resolveImageSource(
+                    item.image
+                  );
+
+
+                if(
+                  resolved
+                ){
+
+                  openImage(
+                    resolved
+                  );
+
+                }
+
+              }
+            );
+
+
+            /* ===============================================
+               TEXT BOX UNDER IMAGE
+            =============================================== */
+
+            const textBox =
+              document.createElement(
+                "textarea"
+              );
+
+
+            textBox.className =
+              "content-item-description";
+
+
+            textBox.placeholder =
+              "Scrie aici despre această imagine...";
+
+
+            textBox.value =
+              item.text || "";
+
+
+            textBox.addEventListener(
+              "input",
+              function(){
+
+                item.text =
+                  this.value;
+
+
+                saveLocalStorage();
+
+              }
+            );
+
+
+            content.appendChild(
+              textBox
+            );
+
+          }
+
+
+          /* =================================================
+             TEXT ONLY CONTENT
+          ================================================= */
+
+          else if(
+            item.text
+          ){
+
+            content.classList.add(
+              "text-only"
+            );
+
+
+            const text =
+              document.createElement(
+                "div"
+              );
+
+
+            text.className =
+              "content-item-text";
+
+
+            text.textContent =
+              item.text;
+
+
+            content.appendChild(
+              text
+            );
+
+          }
+
+
+          /* =================================================
+             REMOVE BUTTON
+          ================================================= */
+
+          const remove =
+            document.createElement(
+              "button"
+            );
+
+
+          remove.className =
+            "content-item-remove";
+
+
+          remove.textContent =
+            "Remove";
+
+
+          remove.onclick =
+            ()=>removeContent(
+              index,
+              itemIndex
+            );
+
+
+          content.appendChild(
+            remove
+          );
+
+
+          /* =================================================
+             ADD TO STACK
+          ================================================= */
+
+          stack.appendChild(
+            content
+          );
+
+
+          /* =================================================
+             RESOLVE INDEXEDDB IMAGE
+          ================================================= */
+
+          if(
+            item.image &&
+            item.image.startsWith(
+              "indexeddb://"
+            )
+          ){
+
+            resolveImageSource(
+              item.image
+            )
+            .then(
+              src=>{
+
+                if(
+                  src &&
+                  imageElement
+                ){
+
+                  imageElement.src =
+                    src;
+
+                }
+
+              }
+            );
+
+          }
+
+
+          /* =================================================
+             NORMAL IMAGE
+          ================================================= */
+
+          else if(
+            item.image &&
+            imageElement
+          ){
+
+            imageElement.src =
+              item.image;
+
+          }
+
+        }
+      );
+
+    }
   );
 
 }
