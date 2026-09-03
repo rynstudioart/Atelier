@@ -3939,30 +3939,22 @@ function openAddContent(
       sectionIndex
     ];
 
-
-  const isEdit =
+  const isEditing =
     editIndex !== null;
 
+  const project =
+    projects[
+      currentProject
+    ];
 
-  let item =
-    null;
-
-
-  if(
-    isEdit &&
-    currentProject !== null
-  ){
-
-    const project =
-      projects[currentProject];
-
-
-    item =
-      project.sections[
-        section
-      ][editIndex];
-
-  }
+  const existingItem =
+    isEditing &&
+    project &&
+    project.sections &&
+    project.sections[section] &&
+    project.sections[section][editIndex]
+      ? project.sections[section][editIndex]
+      : null;
 
 
   const box =
@@ -3975,9 +3967,15 @@ function openAddContent(
 
     <div class="modal-title">
 
-      ${isEdit ? "Edit" : "Add to"}
+      ${
+        isEditing
+          ? "Edit"
+          : "Add to"
+      }
 
-      ${escapeHTML(section)}
+      ${escapeHTML(
+        section
+      )}
 
     </div>
 
@@ -3985,19 +3983,19 @@ function openAddContent(
     <div class="form-group">
 
       <label>
-
         Text / description
-
       </label>
-
 
       <textarea
-
         id="content-text"
-
         placeholder="Scrie o descriere pentru această imagine..."
-
-      >${isEdit ? escapeHTML(item?.text || "") : ""}</textarea>
+      >${
+        existingItem?.text
+          ? escapeHTML(
+              existingItem.text
+            )
+          : ""
+      }</textarea>
 
     </div>
 
@@ -4005,22 +4003,21 @@ function openAddContent(
     <div class="form-group">
 
       <label>
-
         Image URL
-
       </label>
 
-
       <input
-
         id="content-url"
-
         type="text"
-
         placeholder="https://..."
-
-        value="${isEdit && item?.image && !item.image.startsWith("indexeddb://") ? escapeHTML(item.image) : ""}"
-
+        value="${
+          existingItem?.image &&
+          !existingItem.image.startsWith(
+            "indexeddb://"
+          )
+            ? existingItem.image
+            : ""
+        }"
       >
 
     </div>
@@ -4029,31 +4026,23 @@ function openAddContent(
     <div class="form-group">
 
       <label>
-
-        Or choose image(s)
-
+        ${
+          isEditing
+            ? "Replace image"
+            : "Choose image(s)"
+        }
       </label>
 
-
       <input
-
         id="content-file"
-
         type="file"
-
         accept="image/*"
-
-        multiple
-
+        ${isEditing ? "" : "multiple"}
       >
-
 
       <div
-
         id="image-upload-preview"
-
         class="preview-grid"
-
       ></div>
 
     </div>
@@ -4062,31 +4051,23 @@ function openAddContent(
     <div class="modal-actions">
 
       <button
-
         class="action-button"
-
-        type="button"
-
         onclick="closeModal()"
-
       >
-
         Cancel
-
       </button>
 
 
       <button
-
         id="confirm-add-content"
-
         class="action-button dark"
-
-        type="button"
-
       >
 
-        ${isEdit ? "Save" : "Add"}
+        ${
+          isEditing
+            ? "Save"
+            : "Add"
+        }
 
       </button>
 
@@ -4096,12 +4077,18 @@ function openAddContent(
 
 
   document
-    .getElementById("modal")
-    .classList.add("active");
+    .getElementById(
+      "modal"
+    )
+    .classList.add(
+      "active"
+    );
 
 
   document
-    .getElementById("content-file")
+    .getElementById(
+      "content-file"
+    )
     .addEventListener(
       "change",
       function(){
@@ -4111,14 +4098,14 @@ function openAddContent(
             "image-upload-preview"
           );
 
-
         preview.innerHTML =
           "";
 
 
         Array
           .from(
-            this.files || []
+            this.files ||
+            []
           )
           .slice(
             0,
@@ -4167,24 +4154,20 @@ function openAddContent(
       "confirm-add-content"
     )
     .onclick =
-      ()=>{
+      isEditing
 
-        if(isEdit){
+        ? ()=>{
+            saveEditedContent(
+              sectionIndex,
+              editIndex
+            );
+          }
 
-          saveEditedContent(
-            sectionIndex,
-            editIndex
-          );
-
-        }else{
-
-          addContent(
-            sectionIndex
-          );
-
-        }
-
-      };
+        : ()=>{
+            addContent(
+              sectionIndex
+            );
+          };
 
 
   document
@@ -4194,8 +4177,6 @@ function openAddContent(
     .focus();
 
 }
-
-
 /* =====================================================
    EDIT CONTENT
 ===================================================== */
@@ -4208,6 +4189,201 @@ function editContent(
   openAddContent(
     sectionIndex,
     itemIndex
+  );
+
+}
+  /* =====================================================
+   SAVE EDITED CONTENT
+===================================================== */
+
+async function saveEditedContent(
+  sectionIndex,
+  editIndex
+){
+
+  if(
+    currentProject === null
+  ){
+
+    return;
+
+  }
+
+
+  const project =
+    projects[
+      currentProject
+    ];
+
+
+  const section =
+    SECTION_TYPES[
+      sectionIndex
+    ];
+
+
+  if(
+    !project ||
+    !project.sections ||
+    !project.sections[section] ||
+    !project.sections[section][editIndex]
+  ){
+
+    showToast(
+      "Could not save changes"
+    );
+
+    return;
+
+  }
+
+
+  const item =
+    project.sections[
+      section
+    ][
+      editIndex
+    ];
+
+
+  const textInput =
+    document.getElementById(
+      "content-text"
+    );
+
+
+  const urlInput =
+    document.getElementById(
+      "content-url"
+    );
+
+
+  const fileInput =
+    document.getElementById(
+      "content-file"
+    );
+
+
+  /* SAVE TEXT */
+
+  item.text =
+    textInput
+      ? textInput.value.trim()
+      : "";
+
+
+  /* SAVE URL */
+
+  if(
+    urlInput &&
+    urlInput.value.trim()
+  ){
+
+    item.image =
+      urlInput.value.trim();
+
+  }
+
+
+  /* REPLACE IMAGE */
+
+  if(
+    fileInput &&
+    fileInput.files &&
+    fileInput.files.length
+  ){
+
+    try{
+
+      const file =
+        fileInput.files[0];
+
+
+      const compressed =
+        await compressImage(
+          file
+        );
+
+
+      const newImage =
+        await saveImageToDB(
+          compressed
+        );
+
+
+      /* Delete old IndexedDB image */
+
+      if(
+        item.image &&
+        item.image.startsWith(
+          "indexeddb://"
+        )
+      ){
+
+        try{
+
+          await deleteImageFromDB(
+            item.image.replace(
+              "indexeddb://",
+              ""
+            )
+          );
+
+        }catch(error){
+
+          console.error(
+            error
+          );
+
+        }
+
+      }
+
+
+      item.image =
+        newImage;
+
+
+    }catch(error){
+
+      console.error(
+        error
+      );
+
+      showToast(
+        "Could not save image"
+      );
+
+      return;
+
+    }
+
+  }
+
+
+  /* SAVE PROJECT */
+
+  const saved =
+    saveLocalStorage();
+
+
+  if(
+    !saved
+  ){
+
+    return;
+
+  }
+
+
+  closeModal();
+
+
+  renderSections();
+
+
+  showToast(
+    "Changes saved ✓"
   );
 
 }
