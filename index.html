@@ -3626,65 +3626,46 @@ function ensureProjectSections(
    EXPORT PDF
 ===================================================== */
 
-function exportPDF(){
+async function exportPDF(){
 
   if(currentProject === null){
     return;
   }
 
-
-  const project =
-    projects[currentProject];
-
+  const project = projects[currentProject];
 
   if(!project){
     return;
   }
 
-
-  const printWindow =
-    window.open(
-      "",
-      "_blank"
-    );
-
+  const printWindow = window.open("", "_blank");
 
   if(!printWindow){
-
-    alert(
-      "Permite ferestrele pop-up pentru a exporta PDF-ul."
-    );
-
+    alert("Permite ferestrele pop-up pentru a exporta PDF-ul.");
     return;
-
   }
 
-
   printWindow.document.write(`
-
     <!DOCTYPE html>
-
     <html>
-
     <head>
+
+      <meta charset="UTF-8">
 
       <title>
         ${project.name || "ATELIER Project"}
       </title>
 
-
       <style>
 
         @page{
           size:A4;
-          margin:18mm;
+          margin:16mm;
         }
-
 
         *{
           box-sizing:border-box;
         }
-
 
         body{
           margin:0;
@@ -3693,31 +3674,8 @@ function exportPDF(){
           background:#fff;
         }
 
-
-        h1{
-          font-family:Georgia,serif;
-          font-size:32px;
-          margin:0 0 8px;
-        }
-
-
-        h2{
-          font-family:Georgia,serif;
-          font-size:22px;
-          margin:30px 0 12px;
-          border-bottom:1px solid #ddd;
-          padding-bottom:8px;
-        }
-
-
-        p{
-          font-size:13px;
-          line-height:1.6;
-        }
-
-
         .cover{
-          min-height:250mm;
+          min-height:265mm;
           display:flex;
           flex-direction:column;
           justify-content:center;
@@ -3726,60 +3684,85 @@ function exportPDF(){
           page-break-after:always;
         }
 
+        .brand{
+          font-size:11px;
+          letter-spacing:4px;
+          margin-bottom:28px;
+        }
 
         .cover h1{
-          font-size:42px;
+          font-family:Georgia,serif;
+          font-size:38px;
+          margin:0 0 18px;
         }
 
-
-        .brand{
+        .cover p{
+          max-width:650px;
           font-size:12px;
-          letter-spacing:4px;
-          margin-bottom:30px;
+          line-height:1.7;
+          color:#666;
         }
-
 
         .section{
-          page-break-inside:avoid;
-          margin-bottom:25px;
+          margin-bottom:35px;
+          page-break-inside:auto;
         }
 
-
-        .items{
-          display:grid;
-          grid-template-columns:repeat(2,1fr);
-          gap:14px;
+        .section-title{
+          font-family:Georgia,serif;
+          font-size:24px;
+          margin:0 0 14px;
+          padding-bottom:8px;
+          border-bottom:1px solid #ddd;
         }
-
-
-        .item{
-          border:1px solid #ddd;
-          padding:10px;
-          page-break-inside:avoid;
-        }
-
-
-        .item img{
-          width:100%;
-          max-height:180px;
-          object-fit:cover;
-          display:block;
-          margin-bottom:8px;
-        }
-
 
         .description{
           color:#666;
           font-size:12px;
-          line-height:1.5;
-          margin-bottom:12px;
+          line-height:1.6;
+          margin-bottom:18px;
+          white-space:pre-wrap;
         }
 
+        .item{
+          margin-bottom:28px;
+          page-break-inside:avoid;
+        }
+
+        .item img{
+          width:100%;
+          max-width:100%;
+          height:auto;
+          display:block;
+          margin:0 auto 10px;
+          border-radius:6px;
+          object-fit:contain;
+        }
+
+        .item-text{
+          color:#666;
+          font-size:12px;
+          line-height:1.6;
+          white-space:pre-wrap;
+          margin-top:8px;
+        }
+
+        .page-break{
+          page-break-before:always;
+        }
 
         @media print{
 
-          .no-print{
-            display:none!important;
+          .section{
+            page-break-inside:auto;
+          }
+
+          .item{
+            page-break-inside:avoid;
+          }
+
+          img{
+            break-inside:avoid;
           }
 
         }
@@ -3788,9 +3771,7 @@ function exportPDF(){
 
     </head>
 
-
     <body>
-
 
       <div class="cover">
 
@@ -3798,11 +3779,9 @@ function exportPDF(){
           ATELIER
         </div>
 
-
         <h1>
           ${project.name || "Interior Design Project"}
         </h1>
-
 
         <p>
           ${project.description || "Interior Design Studio"}
@@ -3810,69 +3789,163 @@ function exportPDF(){
 
       </div>
 
-
       <div id="content"></div>
 
-
     </body>
-
     </html>
-
   `);
 
-
   const content =
-    printWindow.document.getElementById(
-      "content"
-    );
+    printWindow.document.getElementById("content");
 
 
-  if(project.sectionDescriptions){
+  /*
+    PARCURGEM TOATE SECȚIUNILE
+  */
 
-    Object.keys(
-      project.sectionDescriptions
-    ).forEach(
-      section => {
+  for(const section of SECTION_TYPES){
 
-        const description =
-          project.sectionDescriptions[
-            section
-          ];
+    const items =
+      project.sections?.[section] || [];
 
+    const description =
+      project.sectionDescriptions?.[section] || "";
 
-        if(!description){
-          return;
-        }
+    /*
+      Dacă secțiunea nu are nici text,
+      nici imagini, o sărim.
+    */
 
-
-        const sectionElement =
-          printWindow.document.createElement(
-            "div"
-          );
+    if(!items.length && !description){
+      continue;
+    }
 
 
-        sectionElement.className =
-          "section";
+    const sectionElement =
+      printWindow.document.createElement("section");
+
+    sectionElement.className = "section";
 
 
-        sectionElement.innerHTML = `
+    /*
+      TITLUL SECȚIUNII
+    */
 
-          <h2>
-            ${section}
-          </h2>
+    const title =
+      printWindow.document.createElement("h2");
 
-          <div class="description">
-            ${description}
-          </div>
+    title.className = "section-title";
 
-        `;
+    title.textContent = section;
+
+    sectionElement.appendChild(title);
 
 
-        content.appendChild(
-          sectionElement
+    /*
+      DESCRIEREA SECȚIUNII
+    */
+
+    if(description){
+
+      const desc =
+        printWindow.document.createElement("div");
+
+      desc.className = "description";
+
+      desc.textContent = description;
+
+      sectionElement.appendChild(desc);
+
+    }
+
+
+    /*
+      TOATE IMAGINILE DIN SECȚIUNE
+    */
+
+    for(const item of items){
+
+      const normalized =
+        typeof item === "string"
+          ? {
+              image:item,
+              text:""
+            }
+          : item;
+
+
+      const imageSource =
+        normalized?.image
+          ? await resolveImageSource(
+              normalized.image
+            )
+          : "";
+
+
+      /*
+        CONTAINER PENTRU FIECARE ITEM
+      */
+
+      const itemElement =
+        printWindow.document.createElement("div");
+
+      itemElement.className = "item";
+
+
+      /*
+        IMAGINE
+      */
+
+      if(imageSource){
+
+        const img =
+          printWindow.document.createElement("img");
+
+        img.src = imageSource;
+
+        img.alt = section;
+
+
+        itemElement.appendChild(img);
+
+      }
+
+
+      /*
+        TEXTUL DE SUB IMAGINE
+      */
+
+      if(normalized?.text){
+
+        const text =
+          printWindow.document.createElement("div");
+
+        text.className = "item-text";
+
+        text.textContent =
+          normalized.text;
+
+        itemElement.appendChild(text);
+
+      }
+
+
+      if(
+        imageSource ||
+        normalized?.text
+      ){
+
+        sectionElement.appendChild(
+          itemElement
         );
 
       }
+
+    }
+
+
+    content.appendChild(
+      sectionElement
     );
 
   }
@@ -3880,6 +3953,39 @@ function exportPDF(){
 
   printWindow.document.close();
 
+
+  /*
+    AȘTEPTĂM CA TOATE IMAGINILE
+    SĂ FIE ÎNCĂRCATE
+  */
+
+  const images =
+    Array.from(
+      printWindow.document.images
+    );
+
+
+  await Promise.all(
+    images.map(
+      img =>
+        new Promise(resolve => {
+
+          if(img.complete){
+            resolve();
+            return;
+          }
+
+          img.onload = resolve;
+          img.onerror = resolve;
+
+        })
+    )
+  );
+
+
+  /*
+    MICĂ PAUZĂ PENTRU RANDARE
+  */
 
   setTimeout(
     () => {
@@ -3889,7 +3995,7 @@ function exportPDF(){
       printWindow.print();
 
     },
-    700
+    1000
   );
 
 }
