@@ -3730,12 +3730,13 @@ async function exportPDF(){
         }
 
         .item img{
-          width:100%;
-          max-width:100%;
-          height:auto;
-          display:block;
-          margin:0 auto 10px;
-          border-radius:6px;
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+  page-break-inside:avoid;
+  break-inside:avoid;
+
           object-fit:contain;
         }
 
