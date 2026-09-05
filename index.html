@@ -2734,24 +2734,30 @@ function buildProjectCard(
 
   card.innerHTML = `
 
-    <button
+  <button
+  class="portfolio-star"
+  title="${
+    showPortfolioAction
+      ? "Delete project"
+      : "Remove from Portfolio"
+  }"
+  aria-label="${
+    showPortfolioAction
+      ? "Delete project"
+      : "Remove from Portfolio"
+  }"
+  onclick="
+    event.stopPropagation();
 
-      class="portfolio-star"
-
-      title="Delete project"
-
-      aria-label="Delete project"
-
-      onclick="
-        event.stopPropagation();
-        deleteProject(${index});
-      "
-
-    >
-
-      ×
-
-    </button>
+    ${
+      showPortfolioAction
+        ? `deleteProject(${index});`
+        : `removeFromPortfolio(${index});`
+    }
+  "
+>
+  ×
+</button>
 
 
     <div class="project-cover">
